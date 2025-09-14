@@ -10,47 +10,38 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class TDD {
 
     private RepositorioInsigniaBase repositorioInsignia;
-    private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
     private RepositorioUsuario repositorioUsuario;
+    private List<UsuarioInsignia> usuarioInsigniasGuardadas; 
     private ServicioInsigniaImpl servicioInsignia;
-
-    private List<UsuarioInsignia> guardados;
 
     @BeforeEach
     public void init() {
         repositorioInsignia = mock(RepositorioInsigniaBase.class);
         repositorioUsuario = mock(RepositorioUsuario.class);
 
-        guardados = new ArrayList<>();
-        repositorioUsuarioInsignia = new RepositorioUsuarioInsignia() {
-            @Override
+        usuarioInsigniasGuardadas = new ArrayList<>();
+        RepositorioUsuarioInsignia repositorioUsuarioInsignia = new RepositorioUsuarioInsignia() {
             public void guardar(UsuarioInsignia usuarioInsignia) {
-                guardados.add(usuarioInsignia);
+                usuarioInsigniasGuardadas.add(usuarioInsignia);
             }
 
-            @Override
-            public void modificar(UsuarioInsignia usuarioInsignia) {
-                
-            }
-
-            @Override
+            public void modificar(UsuarioInsignia usuarioInsignia) {}
             public UsuarioInsignia buscar(Long id) { return null; }
 
-            @Override
             public List<UsuarioInsignia> listarPorUsuario(Long usuarioId) {
-                List<UsuarioInsignia> resultado = new ArrayList<>();
-                for (UsuarioInsignia ui : guardados) {
-                    if (ui.getUsuario() != null && ui.getUsuario().getId() != null
-                            && ui.getUsuario().getId().equals(usuarioId)) {
-                        resultado.add(ui);
+                List<UsuarioInsignia> result = new ArrayList<>();
+                for (UsuarioInsignia ui : usuarioInsigniasGuardadas) {
+                    if (ui.getUsuario().getId().equals(usuarioId)) {
+                        result.add(ui);
                     }
                 }
-                return resultado;
+                return result;
             }
         };
 
@@ -58,7 +49,7 @@ public class TDD {
     }
 
     @Test
-    public void queSeAsigneInsigniaSiUsuarioNoLaTiene() throws Exception {
+    public void dadoQueElUsuarioNoTieneInsigniaCuandoSeAsignaSeGuarda() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
 
@@ -70,13 +61,13 @@ public class TDD {
 
         servicioInsignia.asignarInsignia(1L, 10L);
 
-        assertThat(guardados, hasSize(1));
-        assertThat(guardados.get(0).getUsuario().getId(), is(1L));
-        assertThat(guardados.get(0).getInsignia().getId(), is(10L));
+        assertThat(usuarioInsigniasGuardadas.size(), is(1));
+        assertThat(usuarioInsigniasGuardadas.get(0).getUsuario().getId(), is(1L));
+        assertThat(usuarioInsigniasGuardadas.get(0).getInsignia().getId(), is(10L));
     }
 
     @Test
-    public void queNoSeAsigneInsigniaSiUsuarioYaLaTiene() throws Exception {
+    public void dadoQueElUsuarioYaTieneInsigniaNoSeAsignaOtra() throws Exception {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
 
@@ -87,14 +78,14 @@ public class TDD {
         usuarioInsignia.setUsuario(usuario);
         usuarioInsignia.setInsignia(insignia);
         usuarioInsignia.setFechaObtenida(LocalDate.now());
-        guardados.add(usuarioInsignia);
+        usuarioInsigniasGuardadas.add(usuarioInsignia);
 
         when(repositorioUsuario.buscar("1")).thenReturn(usuario);
         when(repositorioInsignia.buscar(10L)).thenReturn(insignia);
 
         servicioInsignia.asignarInsignia(1L, 10L);
 
-        assertThat(guardados, hasSize(1));
-        assertThat(guardados.get(0).getInsignia().getId(), is(10L));
+        assertThat(usuarioInsigniasGuardadas.size(), is(1));
+        assertThat(usuarioInsigniasGuardadas.get(0).getInsignia().getId(), is(10L));
     }
 }

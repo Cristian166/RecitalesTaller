@@ -1,51 +1,68 @@
 package com.tallerwebi.TDD;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+
+import com.tallerwebi.dominio.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 public class TDDTest {
 
-    @Test
-    public void debeDevolverInvalidaCuandoTieneMenosDe8Caracteres() {
+    private RepositorioInsigniaBase repositorioInsignia;
+    private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
+    private RepositorioUsuario repositorioUsuario;
+    private ServicioInsigniaImpl servicioInsignia;
 
-        String contrasena = "abc";
-
-        String fortaleza = TDD.validarFortalezaContrasena(contrasena);
-        assertThat(fortaleza, equalToIgnoringCase("INVALIDA"));
+    @BeforeEach
+    public void init() {
+        repositorioInsignia = mock(RepositorioInsigniaBase.class);
+        repositorioUsuarioInsignia = mock(RepositorioUsuarioInsignia.class);
+        repositorioUsuario = mock(RepositorioUsuario.class);
+        servicioInsignia = new ServicioInsigniaImpl(repositorioInsignia, repositorioUsuarioInsignia, repositorioUsuario);
     }
 
     @Test
-    public void debeDevolverDebilCuandoTieneAlMenos8Caracteres() {
+    public void queSeAsigneInsigniaSiUsuarioNoLaTiene() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
 
-        String contrasena = "abcdefgh";
+        Insignia insignia = new Insignia();
+        insignia.setId(10L);
 
-        String fortaleza = TDD.validarFortalezaContrasena(contrasena);
-        assertThat(fortaleza, equalToIgnoringCase("DEBIL"));
+        when(repositorioUsuario.buscar("1")).thenReturn(usuario);
+        when(repositorioInsignia.buscar(10L)).thenReturn(insignia);
+        when(repositorioUsuarioInsignia.listarPorUsuario(1L)).thenReturn(new ArrayList<>());
+
+        servicioInsignia.asignarInsignia(1L, 10L);
+
+        verify(repositorioUsuarioInsignia, times(1)).guardar(any(UsuarioInsignia.class));
     }
 
     @Test
-    public void debeDevolverMedianaCuandoTiene8CaracteresY1CaracterEspecial() {
+    public void queNoSeAsigneInsigniaSiUsuarioYaLaTiene() throws Exception {
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
 
-        String contrasena = "abcdefgh@";
+        Insignia insignia = new Insignia();
+        insignia.setId(10L);
 
-        String fortaleza = TDD.validarFortalezaContrasena(contrasena);
-        assertThat(fortaleza, equalToIgnoringCase("MEDIANA"));
-    }
+        UsuarioInsignia usuarioInsignia = new UsuarioInsignia();
+        usuarioInsignia.setUsuario(usuario);
+        usuarioInsignia.setInsignia(insignia);
+        usuarioInsignia.setFechaObtenida(LocalDate.now());
 
-    @Test
-    public void debeDevolverFuerteCuandoTiene8Caracteres1CaracterEspecialY4Numeros() {
+        List<UsuarioInsignia> existentes = List.of(usuarioInsignia);
 
-        String contrasena = "1234@abc@";
+        when(repositorioUsuario.buscar("1")).thenReturn(usuario);
+        when(repositorioInsignia.buscar(10L)).thenReturn(insignia);
+        when(repositorioUsuarioInsignia.listarPorUsuario(1L)).thenReturn(existentes);
 
-        String fortaleza = TDD.validarFortalezaContrasena(contrasena);
-        assertThat(fortaleza, equalToIgnoringCase("FUERTE"));
-    }
+        servicioInsignia.asignarInsignia(1L, 10L);
 
-    @Test
-    public void debeDevolverCongelanteSiEsIgualOMenorA0Grados(){
-        Integer temperatura = -3;
-        String temperaturaCalificada = TDD.clasificarTemperatura(temperatura);
-
-        assertThat(temperaturaCalificada, equalToIgnoringCase("CONGELANTE"));
+        verify(repositorioUsuarioInsignia, never()).guardar(any(UsuarioInsignia.class));
     }
 }

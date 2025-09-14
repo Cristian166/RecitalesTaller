@@ -15,20 +15,17 @@ import static org.mockito.Mockito.*;
 public class TDD {
 
     private RepositorioInsigniaBase repositorioInsignia;
-    private RepositorioUsuarioInsignia repositorioUsuarioInsignia; // NO mockeado, impl en memoria
+    private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
     private RepositorioUsuario repositorioUsuario;
     private ServicioInsigniaImpl servicioInsignia;
 
-    // lista en memoria para ver qué se guardó
     private List<UsuarioInsignia> guardados;
 
     @BeforeEach
     public void init() {
-        // mockeamos solo estos dos (usando ONLY when().thenReturn())
         repositorioInsignia = mock(RepositorioInsigniaBase.class);
         repositorioUsuario = mock(RepositorioUsuario.class);
 
-        // implementación simple en memoria para RepositorioUsuarioInsignia
         guardados = new ArrayList<>();
         repositorioUsuarioInsignia = new RepositorioUsuarioInsignia() {
             @Override
@@ -37,7 +34,9 @@ public class TDD {
             }
 
             @Override
-            public void modificar(UsuarioInsignia usuarioInsignia) { /* no usado en tests */ }
+            public void modificar(UsuarioInsignia usuarioInsignia) {
+                
+            }
 
             @Override
             public UsuarioInsignia buscar(Long id) { return null; }
@@ -66,14 +65,11 @@ public class TDD {
         Insignia insignia = new Insignia();
         insignia.setId(10L);
 
-        // usamos only when().thenReturn() sobre los mocks
         when(repositorioUsuario.buscar("1")).thenReturn(usuario);
         when(repositorioInsignia.buscar(10L)).thenReturn(insignia);
 
-        // inicialmente guardados está vacío, entonces listarPorUsuario(1L) devuelve vacío
         servicioInsignia.asignarInsignia(1L, 10L);
 
-        // ahora comprobamos con assertThat
         assertThat(guardados, hasSize(1));
         assertThat(guardados.get(0).getUsuario().getId(), is(1L));
         assertThat(guardados.get(0).getInsignia().getId(), is(10L));
@@ -87,19 +83,17 @@ public class TDD {
         Insignia insignia = new Insignia();
         insignia.setId(10L);
 
-        // pre-populamos la lista como si el usuario ya tuviera la insignia
         UsuarioInsignia usuarioInsignia = new UsuarioInsignia();
         usuarioInsignia.setUsuario(usuario);
         usuarioInsignia.setInsignia(insignia);
         usuarioInsignia.setFechaObtenida(LocalDate.now());
-        guardados.add(usuarioInsignia); // ahora listarPorUsuario(1L) devolverá esta entrada
+        guardados.add(usuarioInsignia);
 
         when(repositorioUsuario.buscar("1")).thenReturn(usuario);
         when(repositorioInsignia.buscar(10L)).thenReturn(insignia);
 
         servicioInsignia.asignarInsignia(1L, 10L);
 
-        // como ya la tenía, no se agregó nada nuevo (sigue 1)
         assertThat(guardados, hasSize(1));
         assertThat(guardados.get(0).getInsignia().getId(), is(10L));
     }

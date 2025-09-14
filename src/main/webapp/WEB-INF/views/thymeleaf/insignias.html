@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <title>Insignias</title>
+
+  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <a class="navbar-brand" href="/">UNLAM</a>
+</nav>
+
+<main role="main" class="container mt-5">
+  <div class="container">
+    <h1 class="mb-4">Tus Insignias</h1>
+
+    <ul class="list-group mb-4">
+      <li class="list-group-item" th:each="insignia : ${insignias}">
+        <span th:text="${insignia.nombre}">Nombre de la insignia</span> - 
+        <span th:text="${insignia.descripcion}">Descripción de la insignia</span>
+      </li>
+    </ul>
+
+  </div>
+</main>
+
+<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

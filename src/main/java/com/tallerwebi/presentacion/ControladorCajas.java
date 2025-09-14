@@ -13,10 +13,6 @@ public class ControladorCajas {
     private List<CajaDTO> cajas;
     private ServicioCaja servicioCaja;
     
-    //public ControladorCajas() {
-     //   this.cajas = new ArrayList<>();
-   // }
-
     public ControladorCajas(ServicioCaja servicioCaja) {
         this.cajas = servicioCaja.obtener();
         this.servicioCaja = servicioCaja;

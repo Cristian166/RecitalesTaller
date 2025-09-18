@@ -1,21 +1,30 @@
-package com.tallerwebi.dominio;
+/*
+DESPUES LO ARREGLO XD
+
+package com.tallerwebi.infraestructura;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.tallerwebi.dominio.Insignia;
+import com.tallerwebi.dominio.ServicioInsignia;
+import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.UsuarioInsignia;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Service
-public class ServicioInsigniaImpl implements ServicioInsignia {
+
+@Service("repositorioInsignia")
+public class RepositorioInsigniaBaseImpl implements ServicioInsignia {
 
     private RepositorioInsigniaBase repositorioInsignia;
     private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
     private RepositorioUsuario repositorioUsuario;
 
     @Autowired
-    public ServicioInsigniaImpl(RepositorioInsigniaBase repositorioInsignia,
+    public RepositorioInsigniaBaseImpl(RepositorioInsigniaBase repositorioInsignia,
                                 RepositorioUsuarioInsignia repositorioUsuarioInsignia,
                                 RepositorioUsuario repositorioUsuario) {
         this.repositorioInsignia = repositorioInsignia;
@@ -59,3 +68,4 @@ public class ServicioInsigniaImpl implements ServicioInsignia {
     }
 
 }
+*/

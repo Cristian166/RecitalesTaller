@@ -12,6 +12,7 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
+
 public class HibernateConfig {
 
     @Bean

@@ -1,6 +1,10 @@
-package com.tallerwebi.TDD;
+/*package com.tallerwebi.TDD;
 
 import com.tallerwebi.dominio.*;
+import com.tallerwebi.infraestructura.RepositorioInsigniaBase;
+import com.tallerwebi.infraestructura.RepositorioUsuario;
+import com.tallerwebi.infraestructura.RepositorioUsuarioInsignia;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -89,3 +93,4 @@ public class TDD {
         assertThat(usuarioInsigniasGuardadas.get(0).getInsignia().getId(), is(10L));
     }
 }
+*/

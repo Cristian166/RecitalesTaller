@@ -1,6 +1,8 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.infraestructura;
 
 import java.util.List;
+
+import com.tallerwebi.dominio.UsuarioInsignia;
 
 public interface RepositorioUsuarioInsignia {
 

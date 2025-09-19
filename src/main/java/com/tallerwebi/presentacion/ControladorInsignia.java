@@ -19,7 +19,7 @@ public class ControladorInsignia {
 
         Usuario usuario = new Usuario();
         usuario.setId(1L);
-        usuario.setEmail("cris@test.com");
+        usuario.setEmail("prueba@test.com");
 
         Insignia i1 = new Insignia();
         i1.setId(1L);

@@ -25,13 +25,13 @@ public class ControladorInsignia {
         i1.setId(1L);
         i1.setNombre("Participante");
         i1.setDescripcion("Participaste en tu primer recital");
-        i1.setImagen("/images/participante.png");
+        i1.setImagen("/");
 
         Insignia i2 = new Insignia();
         i2.setId(2L);
         i2.setNombre("Activo");
-        i2.setDescripcion("Publicaste varias reseñas");
-        i2.setImagen("/images/activo.png");
+        i2.setDescripcion("Publicaste 10 reseñas");
+        i2.setImagen("/");
 
         servicio.asignarInsignia(usuario, i1);
         servicio.asignarInsignia(usuario, i2);

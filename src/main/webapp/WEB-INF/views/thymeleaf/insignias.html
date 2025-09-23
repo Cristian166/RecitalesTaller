@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <title>Insignias</title>
+  <title>Mis Insignias</title>
 
   <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
 
@@ -13,21 +13,27 @@
 
 <body>
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-  <a class="navbar-brand" href="/">UNLAM</a>
+<nav class="navbar navbar-expand-md navbar-dark bg-primary fixed-top">
+  <a class="navbar-brand" href="home.html">UNLAM</a>
 </nav>
 
-<main role="main" class="container mt-5">
+<main role="main" class="container">
   <div class="container">
-    <h1 class="mb-4">Tus Insignias</h1>
+    <h1>Mis Insignias</h1>
 
-    <ul class="list-group mb-4">
-      <li class="list-group-item" th:each="insignia : ${insignias}">
-        <span th:text="${insignia.nombre}">Nombre de la insignia</span> - 
-        <span th:text="${insignia.descripcion}">Descripción de la insignia</span>
-      </li>
-    </ul>
+    <div class="row">
+      <div class="col-md-4" th:each="insignia : ${insignias}">
+        <div class="card mb-4 shadow-sm">
+          <img th:src="@{${insignia.imagen}}" class="card-img-top" alt="Insignia">
+          <div class="card-body">
+            <h5 class="card-title" th:text="${insignia.nombre}">Nombre Insignia</h5>
+            <p class="card-text" th:text="${insignia.descripcion}">Descripción de la insignia</p>
+          </div>
+        </div>
+      </div>
+    </div>
 
+    <a href="home.html" class="btn btn-primary mt-3">Volver al inicio</a>
   </div>
 </main>
 

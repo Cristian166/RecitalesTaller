@@ -4,10 +4,7 @@ import java.util.List;
 
 public interface ServicioInsignia {
 
-    List<Insignia> obtenerInsigniasDeUsuario(Long usuarioId);
-
-    void asignarInsignia(Long usuarioId, Long insigniaId) throws Exception;
-
-
+    void asignarInsignia(Usuario usuario, Insignia insignia);
+    List<Insignia> obtenerInsigniasDeUsuario(Usuario usuario);
 
 }

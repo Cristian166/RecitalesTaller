@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Entradas</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .ticket {
+            border: 2px solid #6c757d;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .ticket-left {
+            flex: 2;
+            padding-right: 15px;
+        }
+        .ticket-right {
+            flex: 1;
+            padding-left: 15px;
+            border-left: 2px dashed #6c757d;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+<!-- HEADER -->
+<header class="bg-secondary text-white p-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-4 text-start">
+                <button class="btn btn-light">MENU</button>
+            </div>
+            <div class="col-4 text-center">
+                <button class="btn btn-light">Logo</button>
+            </div>
+            <div class="col-4 text-end">
+                <button class="btn btn-light">Perfil</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- MAIN -->
+<main class="container my-4">
+    <h4>Mis Entradas</h4>
+
+    <!-- Botones superiores -->
+    <div class="mb-3">
+        <a href="crear-entrada.html" class="btn btn-lg btn-primary btn-block">Agregar</a>
+        <button class="btn btn-primary">Ordenar Por</button>
+    </div>
+
+    <!-- PRIMERA ENTRADA HARDCODEADA -->
+    <div class="row align-items-start">
+        <div class="col-md-10">
+            <div class="ticket">
+                <div class="ticket-left">
+                    <h5>Nombre Artista</h5>
+                    <p><em>Lugar:</em> Estadio Ejemplo</p>
+                </div>
+                <div class="ticket-right">
+                    <p>Fecha: 01/01/2025</p>
+                    <p>Horario: 20:00</p>
+                    <p>"Campo"</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex flex-column gap-2">
+            <button class="btn btn-outline-secondary btn-sm">Editar</button>
+            <button class="btn btn-outline-secondary btn-sm">Eliminar</button>
+            <button class="btn btn-outline-secondary btn-sm">Descargar</button>
+        </div>
+    </div>
+
+    <div class="row align-items-start" th:each=" entrada: ${entradas}">
+        <div class="col-md-10" >
+            <div class="ticket">
+                <div class="ticket-left">
+                    <h5 th:text="${entrada.nombreRecital}">Nombre Artista</h5>
+                    <p><em>Lugar:</em> <span th:text="${entrada.lugar}">rellenar</span></p>
+                </div>
+                <div class="ticket-right">
+                    <p>Fecha: <span th:text="${entrada.fecha}">rellenar</span></p>
+                    <p>Horario: <span th:text="${entrada.horario}">rellenar</span></p>
+                    <p th:text="${entrada.seccion}">Campo/Platea</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2 d-flex flex-column gap-2">
+            <button class="btn btn-outline-secondary btn-sm">Editar</button>
+            <button class="btn btn-outline-secondary btn-sm">Eliminar</button>
+            <button class="btn btn-outline-secondary btn-sm">Descargar</button>
+        </div>
+    </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-secondary text-white text-center py-3">
+    <p>&copy; 2025 Diario Digital de Recitales</p>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

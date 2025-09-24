@@ -20,11 +20,11 @@ public class ControladorVisitasResitales {
         this.recitalService =  recitalService;
     }
 
-    @GetMapping("/mapa")
+    @GetMapping("/resitalsesAsistidos")
     public String verRecitalesEnMapa(Model model) {
         List<Recital> recitales = recitalService.obtenerRecitales();
         model.addAttribute("recitales", recitales);
-        return "mapaRecitales";
+        return "resitalesAsistidos";
     }
 
 }

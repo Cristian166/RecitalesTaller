@@ -95,7 +95,10 @@
         </div>
         <div class="col-md-2 d-flex flex-column gap-2">
             <button class="btn btn-outline-secondary btn-sm">Editar</button>
-            <button class="btn btn-outline-secondary btn-sm">Eliminar</button>
+            <form th:action="@{/eliminar-entrada}" method="post">
+                <input type="hidden" th:name="id" th:value="${entrada.id}"/>
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Eliminar</button>
+            </form>
             <button class="btn btn-outline-secondary btn-sm">Descargar</button>
         </div>
     </div>

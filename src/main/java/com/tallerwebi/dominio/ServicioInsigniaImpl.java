@@ -6,7 +6,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-@Service("servicioInsignia")
+@Service
 public class ServicioInsigniaImpl implements ServicioInsignia {
 
     private List<UsuarioInsignia> usuarioInsignias = new ArrayList<>();

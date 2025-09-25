@@ -51,16 +51,16 @@
 
 <!-- SIDEBAR MENU -->
 <div id="sidebarMenu">
-    <h5 class="mb-3">Navegación</h5>
+    <button class="btn btn-light" id="menuCerrar">=</button>
+    <h5 class="mb-3">NavegaciOn</h5>
     <ul class="list-unstyled">
         <li><a href="vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
-        <li><a href="#" class="d-block mb-2">Redireccionamiento 2</a></li>
-        <li><a href="#" class="d-block mb-2">Redireccionamiento 3</a></li>
-        <li><a href="#" class="d-block mb-2">Redireccionamiento 4</a></li>
-
+        <li><a href="#" class="d-block mb-2">Comunidades</a></li>
+        <li><a href="resitalesAsistidos.html" class="d-block mb-2">Recitales Asistidos</a></li>
+        <li><a href="perfil.html" class="d-block mb-2">Mi perfil</a></li>
     </ul>
     <hr>
-    <p><strong>Tipo de plan:</strong> <!-- th:text="${usuario.plan}" --> Premium</p>
+    <p><strong>Tipo de plan:</strong> Premium</p>
     <button class="btn btn-danger w-100 mt-3">Cerrar sesión</button>
 </div>
 
@@ -137,6 +137,9 @@
     // Toggle sidebar
     document.getElementById("menuToggle").addEventListener("click", function() {
         document.getElementById("sidebarMenu").classList.toggle("active");
+    });
+    document.getElementById("menuCerrar").addEventListener("click", function() {
+        document.getElementById("sidebarMenu").classList.remove("active");
     });
 </script>
 </body>

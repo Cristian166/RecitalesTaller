@@ -1,0 +1,69 @@
+/* Preferencias: grid para alinear perfectamente cuadros por filas/columnas */
+.pref-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);      /* 4 columnas */
+    grid-template-rows: auto repeat(3, 80px);    /* fila de títulos + 3 filas iguales (80px) */
+    gap: 12px 24px;                              /* espacio entre filas y columnas */
+    align-items: center;
+}
+.mb-4{
+    margin: 1.5rem !important;
+}
+/* Título de cada columna (encima de los cuadrados) */
+.pref-title {
+    text-align: center;
+    font-weight: 600;
+    margin-bottom: 6px;
+}
+
+/* Cada celda con el cuadro + etiqueta a la derecha */
+.pref-item {
+    display: flex;
+    align-items: center;     /* centra verticalmente el cuadro y la etiqueta */
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 6px 8px;
+}
+
+/* Etiqueta junto al cuadro */
+.pref-label {
+    font-size: 14px;
+}
+.info-card {
+    border: 2px solid #6c757d;
+    border-radius: 8px;
+    padding: 15px;
+    background: #f8f9fa;
+}
+/* Cuadrado */
+.square-box {
+    width: 64px;
+    height: 64px;
+    border: 2px solid #6c757d;
+    border-radius: 8px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+/*Insignias*/
+
+.circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #dee2e6; /* gris claro tipo placeholder */
+    border: 2px solid #6c757d; /* gris oscuro */
+}
+
+/* Responsive: en pantallas chicas pasar a 2 columnas */
+@media (max-width: 576px) {
+    .pref-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto repeat(6, 80px); /* títulos + 6 filas (porque 4 columnas -> 2 por fila) */
+    }
+}
+
+

@@ -6,8 +6,6 @@
 
   <title>Mis Insignias</title>
 
-  <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
-
   <link rel="stylesheet" th:href="@{/css/main.css}"/>
 
       <!-- Bootstrap -->
@@ -34,6 +32,22 @@
             border-radius: 8px;
             height: 120px;
         }
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0%;
+        }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+            margin: 0;
+        }
+        main {
+            flex: 1;
+        }
+        
     </style>
 
 </head>
@@ -58,22 +72,22 @@
 
 <!-- SIDEBAR MENU -->
 <div id="sidebarMenu">
-    <h5 class="mb-3">Navegación</h5>
+    <button class="btn btn-light" id="menuCerrar">=</button>
+    <h5 class="mb-3">NavegaciOn</h5>
     <ul class="list-unstyled">
         <li><a href="vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
-        <li><a href="#" class="d-block mb-2">Redireccionamiento 2</a></li>
-        <li><a href="#" class="d-block mb-2">Redireccionamiento 3</a></li>
-        <li><a href="#" class="d-block mb-2">Redireccionamiento 4</a></li>
-
+        <li><a href="#" class="d-block mb-2">Comunidades</a></li>
+        <li><a href="resitalesAsistidos.html" class="d-block mb-2">Recitales Asistidos</a></li>
+        <li><a href="perfil.html" class="d-block mb-2">Mi perfil</a></li>
     </ul>
     <hr>
-    <p><strong>Tipo de plan:</strong> <!-- th:text="${usuario.plan}" --> Premium</p>
+    <p><strong>Tipo de plan:</strong> Premium</p>
     <button class="btn btn-danger w-100 mt-3">Cerrar sesión</button>
 </div>
 <!-- MAIN CONTENT -->
 
 
-<main role="main" class="container">
+<main class="container my-4">
   <div class="container">
     <h1>Mis Insignias</h1>
 
@@ -105,9 +119,9 @@
     document.getElementById("menuToggle").addEventListener("click", function() {
         document.getElementById("sidebarMenu").classList.toggle("active");
     });
+    document.getElementById("menuCerrar").addEventListener("click", function() {
+        document.getElementById("sidebarMenu").classList.remove("active");
+    });
 </script>
-
-
-<script type="text/javascript" th:src="@{webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
 </html>

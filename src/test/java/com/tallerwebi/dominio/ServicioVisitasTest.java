@@ -1,4 +1,4 @@
-package com.tallerwebi.TDD;
+package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.Recital;
 import com.tallerwebi.dominio.ServicioVisitasImp;

@@ -12,14 +12,14 @@ public class ServicioInsigniaImpl implements ServicioInsignia {
     private List<UsuarioInsignia> usuarioInsignias = new ArrayList<>();
 
     @Override
-    public void asignarInsignia(Usuario usuario, Insignia insignia) {
+    public boolean asignarInsignia(Usuario usuario, Insignia insignia) {
         UsuarioInsignia usuarioInsignia = new UsuarioInsignia();
         usuarioInsignia.setId(usuarioInsignias.size() + 1);
         usuarioInsignia.setUsuario(usuario);
         usuarioInsignia.setInsignia(insignia);
         usuarioInsignia.setFechaObtenida(LocalDate.now());
 
-        usuarioInsignias.add(usuarioInsignia);
+        return usuarioInsignias.add(usuarioInsignia);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
-import com.tallerwebi.dominio.ServicioInsigniaImpl;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +11,7 @@ import java.util.List;
 @Controller
 public class ControladorInsignia {
 
-    private ServicioInsigniaImpl servicio;
+    protected ServicioInsignia servicio;
 
     public ControladorInsignia() {
         this.servicio = new ServicioInsigniaImpl();
@@ -35,6 +34,12 @@ public class ControladorInsignia {
         servicio.asignarInsignia(usuario, i1);
         servicio.asignarInsignia(usuario, i2);
     }
+
+
+    public ControladorInsignia(ServicioInsignia servicioMock) {
+        this.servicio = servicioMock;
+    }
+
 
     @GetMapping("/insignias")
     public String mostrarInsignias(Model model) {

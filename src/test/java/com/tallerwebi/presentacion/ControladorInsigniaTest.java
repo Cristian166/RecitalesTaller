@@ -2,6 +2,7 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.Insignia;
 import com.tallerwebi.dominio.ServicioInsignia;
+import com.tallerwebi.dominio.ServicioInsigniaImpl;
 import com.tallerwebi.dominio.Usuario;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
@@ -11,14 +12,15 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class ControladorInsigniaTest {
 
     @Test
-    public void mostrarInsigniasDeberiaAgregarLasInsigniasAlModelo() {
+    public void mostrarInsigniasDeberiaUsarElServicioYDevolverLaVistaCorrecta() {
 
-        ServicioInsignia servicioMock = mock(ServicioInsignia.class);
+        ServicioInsignia servicioMock = mock(ServicioInsigniaImpl.class);
 
         ControladorInsignia controller = new ControladorInsignia(servicioMock);
 
@@ -35,7 +37,13 @@ public class ControladorInsigniaTest {
         listaSimulada.add(i1);
         listaSimulada.add(i2);
 
-        when(servicioMock.obtenerInsigniasDeUsuario(usuario)).thenReturn(listaSimulada);
+        when(servicioMock.obtenerInsigniasDeUsuario(any(Usuario.class))).thenReturn(listaSimulada);
+
+        List<Insignia> resultadoDelServicio = servicioMock.obtenerInsigniasDeUsuario(usuario);
+
+        assertThat(resultadoDelServicio.size(), equalTo(2));
+        assertThat(resultadoDelServicio.get(0).getNombre(), equalTo("Participante"));
+        assertThat(resultadoDelServicio.get(1).getNombre(), equalTo("Activo"));
 
         Model modelMock = mock(Model.class);
 

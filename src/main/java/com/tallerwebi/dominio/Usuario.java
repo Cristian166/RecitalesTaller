@@ -17,6 +17,7 @@ public class Usuario {
     private String password;
     private String rol;
     private Boolean activo = false;
+    private Boolean esPremium = false;
 
     public Long getId() {
         return id;
@@ -36,6 +37,14 @@ public class Usuario {
 
     public String getEmail() {
         return email;
+    }
+
+    public Boolean esPremium() {
+        return esPremium;
+    }
+    
+    public void setPremium(Boolean esPremium) {
+        this.esPremium = esPremium;
     }
 
     public void setEmail(String email) {

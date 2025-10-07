@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -11,12 +12,18 @@ import java.util.List;
 
 public class ServicioInsigniaTest {
 
+    Usuario usuario;
+
+    @BeforeEach
+    public void init(){
+
+        usuario = new Usuario();
+        usuario.setId(1L);
+    }
+
     @Test
     public void dadoQueExisteUnUsuarioSeLePuedeAsignarUnaInsignia() {
         ServicioInsignia servicio = mock(ServicioInsignia.class);
-
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
 
         Insignia insignia = new Insignia();
         insignia.setId(1L);
@@ -32,8 +39,6 @@ public class ServicioInsigniaTest {
     @Test
     public void dadoQueExisteUnUsuarioSePuedeObtenerSusInsignias() {
         ServicioInsignia servicio = mock(ServicioInsignia.class);
-        Usuario usuario = new Usuario();
-        usuario.setId(2L);
 
         Insignia i1 = new Insignia();
         i1.setId(1L);
@@ -54,5 +59,39 @@ public class ServicioInsigniaTest {
         assertThat(resultado.size(), equalTo(2));
         assertThat(resultado.get(0).getNombre(), equalTo("Participante"));
         assertThat(resultado.get(1).getNombre(), equalTo("Activo"));
+    }
+
+    @Test
+    public void dadoQueExisteUnUsuarioSeLePuedeAsignarUnaInsigniaPremium(){
+        ServicioInsignia servicio = mock(ServicioInsignia.class);
+
+        usuario.setPremium(true);
+
+        String efecto = "Holografica";
+        Insignia insignia = new InsigniaPremium(efecto);
+        insignia.setId(2L);
+
+        when(servicio.asignarInsignia(usuario, insignia)).thenReturn(true);
+
+        boolean seAsigno = servicio.asignarInsignia(usuario, insignia);
+
+        assertThat(seAsigno, equalTo(true));
+    }
+
+    @Test
+    public void dadoQueExisteUnUsuarioNoPremiumNoSeLePuedeAsignarUnaInsigniaPremium(){
+        ServicioInsignia servicio = mock(ServicioInsignia.class);
+
+        usuario.setPremium(false);
+
+        String efecto = "Holografica";
+        Insignia insignia = new InsigniaPremium(efecto);
+        insignia.setId(2L);
+
+        when(servicio.asignarInsignia(usuario, insignia)).thenReturn(false);
+
+        boolean seAsigno = servicio.asignarInsignia(usuario, insignia);
+
+        assertThat(seAsigno, equalTo(false));
     }
 }

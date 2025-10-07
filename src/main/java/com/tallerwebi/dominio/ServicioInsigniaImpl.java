@@ -13,6 +13,11 @@ public class ServicioInsigniaImpl implements ServicioInsignia {
 
     @Override
     public boolean asignarInsignia(Usuario usuario, Insignia insignia) {
+
+        if(!usuario.esPremium() && insignia instanceof InsigniaPremium) {
+            return false;
+        }
+
         UsuarioInsignia usuarioInsignia = new UsuarioInsignia();
         usuarioInsignia.setId(usuarioInsignias.size() + 1);
         usuarioInsignia.setUsuario(usuario);

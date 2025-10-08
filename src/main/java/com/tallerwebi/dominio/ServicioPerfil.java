@@ -4,4 +4,5 @@ import java.util.List;
 
 public interface ServicioPerfil {
     void editarPreferencias();
+    void guardarPreferencias();
 }

@@ -13,6 +13,11 @@ import javax.transaction.Transactional;
 public class ServicioPerfilImpl implements ServicioPerfil {
     @Override
     public void editarPreferencias() {
+    }
+
+    @Override
+    public void guardarPreferencias() {
 
     }
+
 }

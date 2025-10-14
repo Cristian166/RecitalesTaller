@@ -16,5 +16,4 @@ public class InsigniaPremium extends Insignia {
         this.efectoVisual = efectoVisual;
     }
 
-
 }

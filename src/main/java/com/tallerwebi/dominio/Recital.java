@@ -1,17 +1,49 @@
 package com.tallerwebi.dominio;
 
-public class Recital {
-    private String nombre;
-    private double latitud;
-    private double longitud;
+import javax.persistence.*;
 
-    public Recital(String nombre, double latitud, double longitud) {
-        this.nombre = nombre;
-        this.latitud = latitud;
-        this.longitud = longitud;
+@Entity
+public class Recital {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long recitalId;
+
+    private String nombreRecital;
+    private String localidad;
+
+    // mappeo
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Usuario usuario;
+
+    //se necesita el contructor vacio
+    public Recital() {}
+
+
+    // Get
+
+    public String getNombreRecital() {
+        return nombreRecital;
     }
 
-    public String getNombre() { return nombre; }
-    public double getLatitud() { return latitud; }
-    public double getLongitud() { return longitud; }
+    public String getLocalidad() {
+        return localidad;
+    }
+
+    public Long getRecitalId() { return this.recitalId; }
+    // set
+
+    public void setLocalidad(String localidad) {
+        this.localidad = localidad;
+    }
+
+    public void setNombreRecital(String nombre) {
+        this.nombreRecital = nombre;
+    }
+
+    public void guardar(Recital recital) {    }
+
+    public void setUsuario(Usuario usuario) {  this.usuario = usuario;    }
+
 }

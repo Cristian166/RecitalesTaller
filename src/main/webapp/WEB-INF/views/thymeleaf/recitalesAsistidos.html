@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Mis Recitales Asistidos</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">UNLAM</a>
+</nav>
+
+<main role="main" class="container">
+    <div class="container" style="margin-top:50px;">
+        <h1>Mis Recitales Asistidos</h1>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Usuario ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="recital : ${recitales}">
+                <td th:text="${recital.usuarioId}"></td>
+                <td th:text="${recital.nombre}"></td>
+                <td th:text="${recital.apellido}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script type="text/javascript" th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+</body>
+</html>

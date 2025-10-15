@@ -16,7 +16,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 @ExtendWith(SpringExtension.class)
@@ -37,22 +36,77 @@ public class RepositorioInsigniaTest {
     @Rollback
     public void deberiaGuardarUnaInsignia(){
 
+        Insignia insignia = crearInsignia();
+
+        Boolean seGuardo = repositorio.guardar(insignia);
+
+        /*String hql = "FROM Insignia WHERE id = :id";
+        Query query = this.sessionfactory.getCurrentSession().createQuery(hql);
+        query.setParameter("id", 1L);
+
+        Insignia insigniaObtenida = (Insignia)query.getSingleResult();*/
+
+        assertThat(seGuardo, is(equalTo(true)));
+    }
+
+    
+    @Test
+    @Transactional
+    @Rollback
+    public void deberiaEliminarUnaInsignia(){
+
+        Insignia insignia = crearInsignia();
+
+        repositorio.guardar(insignia);
+
+        repositorio.eliminar(insignia);
+
+        Insignia insigniaObtenida = repositorio.obtenerPorId(1L);
+
+        assertThat(insigniaObtenida, is(equalTo(null)));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deberiaObtenerUnaInsigniaPorId(){
+
+        Insignia insignia = crearInsignia();
+
+        repositorio.guardar(insignia);
+
+        Insignia insigniaObtenida = repositorio.obtenerPorId(1L);
+
+        assertThat(insigniaObtenida.getId(), is(equalTo(1L)));
+        assertThat(insigniaObtenida.getNombre(), is(equalTo("Insignia")));
+        assertThat(insigniaObtenida.getDescripcion(), is(equalTo("descripcion")));
+        assertThat(insigniaObtenida.getImagen(), is(equalTo("imagen")));
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void deberiaObtenerTodasLasInsignias(){
+
+        Insignia insignia = crearInsignia();
+        Insignia insignia2 = crearInsignia();
+        insignia2.setId(2L);
+        insignia2.setNombre("Insignia2");
+
+        repositorio.guardar(insignia);
+        repositorio.guardar(insignia2);
+
+        assertThat(repositorio.obtenerTodas().size(), is(equalTo(2)));
+    }
+
+    private Insignia crearInsignia() {
         Insignia insignia = new Insignia();
         insignia.setId(1L);
         insignia.setNombre("Insignia");
         insignia.setDescripcion("descripcion");
         insignia.setImagen("imagen");
-
-        repositorio.guardar(insignia);
-
-        String hql = "FROM Insignia WHERE id = :id";
-        Query query = this.sessionfactory.getCurrentSession().createQuery(hql);
-        query.setParameter("id", 1L);
-
-        Insignia insigniaObtenida = (Insignia)query.getSingleResult();
-
-        assertThat(insigniaObtenida, is(equalTo(insignia)));
+        return insignia;
     }
 
-    
+
 }

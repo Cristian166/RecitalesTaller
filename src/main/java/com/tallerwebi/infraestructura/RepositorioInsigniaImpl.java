@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tallerwebi.dominio.Insignia;
 
-@Repository
+@Repository("repositorioInsignia")
 public class RepositorioInsigniaImpl implements RepositorioInsignia {
 
     private SessionFactory sessionfactory;
@@ -19,8 +19,8 @@ public class RepositorioInsigniaImpl implements RepositorioInsignia {
     }
 
     @Override
-    public void guardar(Insignia insignia) {
-        this.sessionfactory.getCurrentSession().save(insignia);
+    public Boolean guardar(Insignia insignia) {
+        return this.sessionfactory.getCurrentSession().save(insignia) != null;
     }
 
     @Override

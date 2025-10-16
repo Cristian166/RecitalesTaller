@@ -16,6 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.transaction.Transactional;
 
@@ -79,7 +80,7 @@ public class RepositorioInsigniaTest {
         Insignia insigniaObtenida = repositorio.obtenerPorId(1L);
 
         assertThat(insigniaObtenida.getId(), is(equalTo(1L)));
-        assertThat(insigniaObtenida, is(notNullValue()));
+        assertNotNull(insigniaObtenida);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.tallerwebi.dominio;
 
-import com.tallerwebi.infraestructura.RepositorioBanda;
+import com.tallerwebi.infraestructura.RepositorioBandaslmple;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,7 +8,7 @@ import java.util.List;
 
 @Service
 public class ServicioBanda implements ServicioBandaInterface{
-    RepositorioBanda repositoBanda;
+    RepositorioBandaslmple repositoBanda;
 
     public List<Banda>  obtenerTodasLasBandas() {
         return repositoBanda.obtenerTodasLasBandas();

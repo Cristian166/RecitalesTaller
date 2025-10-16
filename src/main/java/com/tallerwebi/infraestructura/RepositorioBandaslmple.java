@@ -28,7 +28,6 @@ public class RepositorioBandaslmple implements RepositorioBandaInterface {
                 createQuery("FROM Banda", Banda.class).list();
     }
 
-    @Override
     public Banda buscarPorId(Long bandaId) {
         return this.sessionFactory.getCurrentSession().get(Banda.class, bandaId);
     }

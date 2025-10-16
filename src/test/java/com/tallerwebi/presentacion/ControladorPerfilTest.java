@@ -27,7 +27,7 @@ public class ControladorPerfilTest {
     }
 
     @Test
-    public void irAPerfil_SinUsuarioEnSesion_DeberiaRedirigirALogin() {
+    public void irAPerfilSinUsuarioEnSesionDeberiaRedirigirALogin() {
         // no hay usuario en la sesión
         when(sessionMock.getAttribute("usuario")).thenReturn(null);
 
@@ -37,23 +37,23 @@ public class ControladorPerfilTest {
     }
 
     @Test
-    public void irAPerfil_ConUsuarioEnSesion_DeberiaDevolverVistaPerfil() {
+    public void irAPerfilConUsuarioEnSesionDeberiaDevolverVistaPerfil() {
         Usuario usuario = new Usuario();
-        usuario.setNombre("Alan");
+        usuario.setNombre("Nicolas");
         usuario.setApellido("Oliverio");
-        usuario.setEmail("alan@mail.com");
+        usuario.setEmail("nico@mail.com");
 
         when(sessionMock.getAttribute("usuario")).thenReturn(usuario);
 
         ModelAndView modelAndView = controladorPerfil.irAPerfil(sessionMock);
 
         assertEquals("perfil", modelAndView.getViewName());
-        assertEquals("Alan", modelAndView.getModel().get("nombre"));
-        assertEquals("alan@mail.com", modelAndView.getModel().get("email"));
+        assertEquals("Nicolas", modelAndView.getModel().get("nombre"));
+        assertEquals("nico@mail.com", modelAndView.getModel().get("email"));
     }
 
     @Test
-    public void irAEditar_DeberiaDevolverVistaEditarPreferencias() {
+    public void irAEditarDeberiaDevolverVistaEditarPreferencias() {
         Usuario usuario = new Usuario();
         when(sessionMock.getAttribute("usuario")).thenReturn(usuario);
 
@@ -67,7 +67,7 @@ public class ControladorPerfilTest {
     }
 
     @Test
-    public void guardarPreferencias_DeberiaGuardarYRedirigirAPerfil() {
+    public void guardarPreferenciasDeberiaGuardarYRedirigirAPerfil() {
         Usuario usuario = new Usuario();
         usuario.setId(1L);
         when(sessionMock.getAttribute("usuario")).thenReturn(usuario);

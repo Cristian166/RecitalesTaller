@@ -22,6 +22,7 @@ public class PreferenciaUsuario {
     @OneToOne
     private Usuario usuario;
 
+    
     @ElementCollection
     @CollectionTable(name = "preferencia_usuario_generos", joinColumns = @JoinColumn(name = "preferencia_usuario_id"))
     @Column(name = "genero")
@@ -64,7 +65,8 @@ public class PreferenciaUsuario {
     public void setRegionesSeleccionadas(List<String> regionesSeleccionadas) {this.regionesSeleccionadas = regionesSeleccionadas;}
     public List<String> getEpocasSeleccionadas() { return epocasSeleccionadas; }
     public void setEpocasSeleccionadas(List<String> epocasSeleccionadas) { this.epocasSeleccionadas = epocasSeleccionadas;}
-
+    public Usuario getUsuario() {return usuario;}
+    public void setUsuario(Usuario usuario) {this.usuario = usuario;}
 
 
 }

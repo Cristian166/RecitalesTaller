@@ -25,7 +25,7 @@ public class ControladorPerfil {
     }
 
     @GetMapping("/perfil")
-    public ModelAndView mostrarPerfil(HttpSession session) {
+    public ModelAndView irAPerfil(HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             return new ModelAndView("redirect:/login");
@@ -76,7 +76,7 @@ public class ControladorPerfil {
         model.addAttribute("regionesSeleccionadas", preferenciasUsuario.getRegionesSeleccionadas());
         model.addAttribute("epocasSeleccionadas", preferenciasUsuario.getEpocasSeleccionadas());
     } else {
-        // 👇 Evita null pointer en Thymeleaf
+
         model.addAttribute("generosSeleccionados", List.of());
         model.addAttribute("artistasSeleccionados", List.of());
         model.addAttribute("regionesSeleccionadas", List.of());

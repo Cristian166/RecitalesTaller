@@ -35,7 +35,7 @@ public class ServicioPerfilImpl implements ServicioPerfil {
 
     @Override
     public List<String> obtenerArtistas() {
-        List<String> artistas = repositorioPerfil.obtenerNombresDePreferenciasPorTipo("artistaa");
+        List<String> artistas = repositorioPerfil.obtenerNombresDePreferenciasPorTipo("artista");
         artistas = List.of("Duki", "Emilia", "Bad bunny", "Gustavo Ceratti", "Lali");
         return artistas;
     }

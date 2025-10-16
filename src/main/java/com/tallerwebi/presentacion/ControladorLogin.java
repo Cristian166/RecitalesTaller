@@ -80,8 +80,7 @@ public class ControladorLogin {
     public ModelAndView irARecitalesProyecto() { return new ModelAndView( "resitalesAsistidos"); }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public ModelAndView inicio() {
-        return new ModelAndView("redirect:/login");
+    public ModelAndView inicio() { return new ModelAndView("redirect:/login");
     }
 }
 

@@ -110,4 +110,9 @@ public class ControladorPerfil {
 
             return new ModelAndView("redirect:/perfil");
        }
+
+    @RequestMapping(path = "elegir-tipo-plan", method = RequestMethod.GET)
+    public ModelAndView irAElegirTipoPlano(HttpSession session) {
+        return new ModelAndView("elegir-tipo-plan");
+    }
 }

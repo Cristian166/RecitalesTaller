@@ -30,6 +30,10 @@ public class ControladorPerfil {
     public ModelAndView irAEditar() {
         return new ModelAndView("editar-preferencias");
     }
+
+    @RequestMapping(path = "/elegir-tipo-plan", method = RequestMethod.GET)
+    public ModelAndView irAElegirPlan() { return new ModelAndView( "elegir-tipo-plan"); }
+
     @PostMapping("/guardar-preferencias")
     public ModelAndView guardarPreferencias(@RequestParam("generos") List<String> generosSeleccionados, @RequestParam("artistas") List<String> artistasSeleccionados){
         ModelMap model = new ModelMap();

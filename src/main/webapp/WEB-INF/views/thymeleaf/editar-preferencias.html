@@ -1,251 +1,129 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Editar Preferencias - Diario Digital de Recitales</title>
-        <!-- Bootstrap -->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            /* Sidebar */
-            #sidebarMenu {
-                position: fixed;
-                top: 0;
-                left: -250px;
-                width: 250px;
-                height: 100%;
-                background: #f8f9fa;
-                border-right: 2px solid #6c757d;
-                transition: left 0.3s ease;
-                padding: 20px;
-                z-index: 1050;
-            }
-            #sidebarMenu.active {
-                left: 0;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Preferencias - Diario Digital de Recitales</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Cuadros de preferencias */
+        .preference-box {
+            border: 2px solid #6c757d;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            background-color: #fff;
+        }
+        .square {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border: 2px solid #6c757d;
+        }
+        .option-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .option-row span {
+            margin-left: 10px;
+        }
+        input[type="checkbox"] {
+            display: none;
+        }
+        input[type="checkbox"]:checked + .square {
+            background-color: #28a745;
+            border-color: #28a745;
+        }
+        input[type="checkbox"]:checked ~ span {
+            color: #28a745;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body class="bg-white">
 
-            /* Cuadros de preferencias */
-            .preference-box {
-                border: 2px solid #6c757d;
-                border-radius: 8px;
-                padding: 20px;
-                margin-bottom: 30px;
-                background-color: #fff;
-            }
-            .square {
-                width: 40px;
-                height: 40px;
-                background-color: #6c757d; /* gris */
-                border-radius: 6px;
-                cursor: pointer;
-                transition: background-color 0.2s;
-            }
-            .option-row {
-                display: flex;
-                align-items: center;
-                margin-bottom: 12px;
-            }
-            .option-row span {
-                margin-left: 10px;
-            }
-            .option-row input[type="checkbox"]:checked + .square {
-                background-color: #28a745;
-                border-color: #28a745;
-            }
-            .option-row input[type="checkbox"]:checked ~ span {
-                color: #28a745;
-                font-weight: bold;
-            }
-            .option-row input[type="checkbox"] {
-                display: none;
-            }
-        </style>
-    </head>
-    <body class="bg-white">
+<main class="container my-4">
+    <h3 class="mb-4">Editar Preferencias</h3>
 
-        <!-- HEADER -->
-        <header class="bg-secondary text-white p-3">
-            <div class="container">
-                <div class="row align-items-center">
-                    <div class="col-4 text-start">
-                        <button class="btn btn-light" id="menuToggle">MENU</button>
-                    </div>
-                    <div class="col-4 text-center">
-                    <a class="btn btn-light" style="text-decoration: none; color: black;" href="home.html">Logo</a>
-                    </div>
-                    <div class="col-4 text-end">
-                    <a class="btn btn-light" style="text-decoration: none; color: black;" href="perfil.html">Perfil</a>
-                    </div>
+    <form th:action="@{/guardar-preferencias}" method="post" accept-charset="UTF-8">
+
+
+        <!-- Generos -->
+        <div class="preference-box">
+            <h5 class="mb-3">Generos</h5>
+            <div class="row">
+                <div class="col-md-4" th:each="genero : ${generos}">
+                    <label class="option-row">
+                        <input type="checkbox" name="generos" th:value="${genero}"
+                            th:checked="${generosSeleccionados.contains(genero)}">
+                        <div class="square"></div>
+                        <span th:text="${genero}">Genero</span>
+                    </label>
                 </div>
             </div>
-        </header>
-
-        <!-- SIDEBAR MENU -->
-        <div id="sidebarMenu">
-            <button class="btn btn-light" id="menuCerrar">=</button>
-            <h5 class="mb-3">Navegacion</h5>
-            <ul class="list-unstyled">
-                <li><a href="vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
-                <li><a href="#" class="d-block mb-2">Preferencias</a></li>
-                <li><a href="#" class="d-block mb-2">Comunidades</a></li>
-                <li><a href="#" class="d-block mb-2">Sobre nosotros</a></li>
-            </ul>
-            <hr>
-            <p><strong>Tipo de plan:</strong> Premium</p>
-            <button class="btn btn-danger w-100 mt-3">Cerrar sesion</button>
         </div>
 
-        <main class="container my-4">
-            <h3 class="mb-4">Editar Preferencias</h3>
-
-            <form action="/spring/guardar-preferencias" method="post">
-                <div class="preference-box">
-                    <h5 class="mb-3">Generos</h5>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="rap" hidden>
-                                <div class="square"></div><span>Rap</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="rock-nacional" hidden>
-                                <div class="square"></div><span>Rock Nacional</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="rock-and-roll" hidden>
-                                <div class="square"></div><span>Rock&Roll</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="pop" hidden>
-                                <div class="square"></div><span>Pop</span>
-                            </label>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="metal" hidden>
-                                <div class="square"></div><span>Metal</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="cumbia" hidden>
-                                <div class="square"></div><span>Cumbia</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="tango" hidden>
-                                <div class="square"></div><span>Tango</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="trap" hidden>
-                                <div class="square"></div><span>Trap</span>
-                            </label>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="regueton" hidden>
-                                <div class="square"></div><span>Regueton</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="reggae" hidden>
-                                <div class="square"></div><span>Reggae</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="electronica" hidden>
-                                <div class="square"></div><span>Electronica</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="generos" value="clasica" hidden>
-                                <div class="square"></div><span>Clásica</span>
-                            </label>
-                        </div>
-                    </div>
+        <!-- Artistas -->
+        <div class="preference-box">
+            <h5 class="mb-3">Artistas</h5>
+            <div class="row">
+                <div class="col-md-4" th:each="artista : ${artistas}">
+                    <label class="option-row">
+                        <input type="checkbox" name="artistas" th:value="${artista}"
+                             th:checked="${artistasSeleccionados.contains(artista)}">
+                        <div class="square"></div>
+                        <span th:text="${artista}">Artista</span>
+                    </label>
                 </div>
+            </div>
+        </div>
 
-                <div class="preference-box">
-                    <h5 class="mb-3">Artistas</h5>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="duki" hidden>
-                                <div class="square"></div><span>Duki</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="emilia" hidden>
-                                <div class="square"></div><span>Emilia</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="viejas-locas" hidden>
-                                <div class="square"></div><span>Viejas Locas</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="bad-bunny" hidden>
-                                <div class="square"></div><span>Bad Bunny</span>
-                            </label>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="callejeros" hidden>
-                                <div class="square"></div><span>Callejeros</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="ronpe99" hidden>
-                                <div class="square"></div><span>Ronpe99</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="lali" hidden>
-                                <div class="square"></div><span>Lali</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="mercedes-sosa" hidden>
-                                <div class="square"></div><span>Mercedes Sosa</span>
-                            </label>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="gustavo-cerati" hidden>
-                                <div class="square"></div><span>Gustavo Cerati</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="damas-gratis" hidden>
-                                <div class="square"></div><span>Damas Gratis</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="el-perro" hidden>
-                                <div class="square"></div><span>El perro</span>
-                            </label>
-                            <label class="option-row">
-                                <input type="checkbox" name="artistas" value="arjona" hidden>
-                                <div class="square"></div><span>Arjona</span>
-                            </label>
-                        </div>
-                    </div>
+        <!-- Regiones -->
+        <div class="preference-box">
+            <h5 class="mb-3">Regiones</h5>
+            <div class="row">
+                <div class="col-md-4" th:each="region : ${regiones}">
+                    <label class="option-row">
+                        <input type="checkbox" name="regiones" th:value="${region}"
+                            th:checked="${regionesSeleccionadas.contains(region)}">
+                        <div class="square"></div>
+                        <span th:text="${region}">Region</span>
+                    </label>
                 </div>
+            </div>
+        </div>
 
-                <button class="btn btn-primary mt-3 text-center" type="submit">Guardar</button>
-            </form>
-        </main>
+        <!-- Epocas -->
+        <div class="preference-box">
+            <h5 class="mb-3">Epocas</h5>
+            <div class="row">
+                <div class="col-md-4" th:each="epoca : ${epocas}">
+                    <label class="option-row">
+                        <input type="checkbox" name="epocas" th:value="${epoca}"
+                             th:checked="${epocasSeleccionadas.contains(epoca)}">
+                        <div class="square"></div>
+                        <span th:text="${epoca}">Epoca</span>
+                    </label>
+                </div>
+            </div>
+        </div>
 
-        <!-- FOOTER -->
-        <footer class="bg-secondary text-white text-center py-3">
-            <p>&copy; 2025 Diario Digital de Recitales</p>
-        </footer>
+        <button class="btn btn-primary mt-3 text-center" type="submit">Guardar</button>
+    </form>
+</main>
 
-        <!-- Bootstrap JS -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-        <script>
-            // Toggle sidebar
-            document.getElementById("menuToggle").addEventListener("click", function() {
-                document.getElementById("sidebarMenu").classList.add("active");
-            });
-            document.getElementById("menuCerrar").addEventListener("click", function() {
-                document.getElementById("sidebarMenu").classList.remove("active");
-            });
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Activar/desactivar cuadros al hacer click
+    document.querySelectorAll(".square").forEach(square => {
+        square.addEventListener("click", () => {
+            square.previousElementSibling.click(); // dispara el checkbox
+        });
+    });
+</script>
 
-            // Activar/desactivar cuadros
-            document.querySelectorAll(".square").forEach(square => {
-                square.addEventListener("click", () => {
-                    square.classList.toggle("active");
-                });
-            });
-        </script>
-
-    </body>
+</body>
 </html>

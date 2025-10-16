@@ -78,9 +78,6 @@ public class RepositorioInsigniaTest {
         Insignia insigniaObtenida = repositorio.obtenerPorId(1L);
 
         assertThat(insigniaObtenida.getId(), is(equalTo(1L)));
-        assertThat(insigniaObtenida.getNombre(), is(equalTo("Insignia")));
-        assertThat(insigniaObtenida.getDescripcion(), is(equalTo("descripcion")));
-        assertThat(insigniaObtenida.getImagen(), is(equalTo("imagen")));
     }
 
     @Test

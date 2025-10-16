@@ -35,6 +35,9 @@ public class ControladorPerfil {
 
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", usuario);
+        model.addAttribute("nombre", usuario.getNombre());
+        model.addAttribute("apellido", usuario.getApellido());
+        model.addAttribute("email", usuario.getEmail());
 
     
         if (preferencias != null) {

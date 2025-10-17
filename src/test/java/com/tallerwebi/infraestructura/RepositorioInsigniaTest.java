@@ -16,6 +16,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.hasItems;
+
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -88,13 +91,16 @@ public class RepositorioInsigniaTest {
 
         Insignia insignia = crearInsignia();
         Insignia insignia2 = crearInsignia();
-        insignia2.setId(2L);
         insignia2.setNombre("Insignia2");
 
         repositorio.guardar(insignia);
         repositorio.guardar(insignia2);
+        List<Insignia> todas = repositorio.obtenerTodas();
 
-        assertThat(repositorio.obtenerTodas().size(), is(equalTo(2)));
+        assertThat(todas.size(), is(equalTo(2)));
+        assertThat(todas.get(0).getNombre(), is(equalTo("Insignia")));
+        assertThat(todas.get(1).getNombre(), is(equalTo("Insignia2")));
+        assertThat(todas, hasItems(insignia, insignia2));
     }
 
     private Insignia crearInsignia() {

@@ -19,8 +19,8 @@ public class RepositorioInsigniaImpl implements RepositorioInsignia {
     }
 
     @Override
-    public Boolean guardar(Insignia insignia) {
-        return this.sessionfactory.getCurrentSession().save(insignia) != null;
+    public Long guardar(Insignia insignia) {
+        return (Long) this.sessionfactory.getCurrentSession().save(insignia);
     }
 
     @Override

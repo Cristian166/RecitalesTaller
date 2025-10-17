@@ -15,6 +15,7 @@ import com.tallerwebi.infraestructura.config.HibernateTestInfraestructuraConfig;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 
 import javax.transaction.Transactional;
 
@@ -38,7 +39,7 @@ public class RepositorioInsigniaTest {
 
         Insignia insignia = crearInsignia();
 
-        Boolean seGuardo = repositorio.guardar(insignia);
+        Long idGuardado = repositorio.guardar(insignia);
 
         /*String hql = "FROM Insignia WHERE id = :id";
         Query query = this.sessionfactory.getCurrentSession().createQuery(hql);
@@ -46,7 +47,7 @@ public class RepositorioInsigniaTest {
 
         Insignia insigniaObtenida = (Insignia)query.getSingleResult();*/
 
-        assertThat(seGuardo, is(equalTo(true)));
+        assertThat(idGuardado, is(notNullValue()));
     }
 
     
@@ -73,11 +74,11 @@ public class RepositorioInsigniaTest {
 
         Insignia insignia = crearInsignia();
 
-        repositorio.guardar(insignia);
+        Long id = repositorio.guardar(insignia);
 
-        Insignia insigniaObtenida = repositorio.obtenerPorId(1L);
+        Insignia insigniaObtenida = repositorio.obtenerPorId(id);
 
-        assertThat(insigniaObtenida.getId(), is(equalTo(1L)));
+        assertThat(insigniaObtenida.getId(), is(equalTo(id)));
     }
 
     @Test
@@ -98,7 +99,6 @@ public class RepositorioInsigniaTest {
 
     private Insignia crearInsignia() {
         Insignia insignia = new Insignia();
-        insignia.setId(1L);
         insignia.setNombre("Insignia");
         insignia.setDescripcion("descripcion");
         insignia.setImagen("imagen");

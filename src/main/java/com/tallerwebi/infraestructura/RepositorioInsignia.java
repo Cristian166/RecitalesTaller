@@ -2,7 +2,7 @@ package com.tallerwebi.infraestructura;
 
 import java.util.List;
 
-import com.tallerwebi.dominio.Insignia;
+import com.tallerwebi.dominio.entidades.Insignia;
 
 public interface RepositorioInsignia {
 

@@ -9,7 +9,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.tallerwebi.dominio.Insignia;
+import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.infraestructura.config.HibernateTestInfraestructuraConfig;
 
 import static org.hamcrest.MatcherAssert.assertThat;

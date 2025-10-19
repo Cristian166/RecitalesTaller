@@ -6,6 +6,9 @@ import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import com.tallerwebi.dominio.entidades.Insignia;
+import com.tallerwebi.dominio.entidades.InsigniaPremium;
+import com.tallerwebi.dominio.entidades.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;

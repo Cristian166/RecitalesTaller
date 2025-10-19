@@ -6,10 +6,9 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-
-import com.tallerwebi.dominio.Preferencia;
-import com.tallerwebi.dominio.PreferenciaUsuario;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Preferencia;
+import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.Usuario;
 
 @Repository("repositorioPerfil")
 public class RepositorioPerfilImpl implements RepositorioPerfil {

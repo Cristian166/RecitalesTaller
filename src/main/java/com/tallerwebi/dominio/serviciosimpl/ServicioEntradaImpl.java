@@ -1,7 +1,8 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.serviciosimpl;
 
-import com.tallerwebi.dominio.Entrada;
 import com.tallerwebi.dominio.ServicioEntrada;
+import com.tallerwebi.dominio.entidades.Entrada;
+
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

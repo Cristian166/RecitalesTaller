@@ -4,6 +4,7 @@ import com.tallerwebi.infraestructura.RepositorioBandaslmple;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import com.tallerwebi.dominio.entidades.Banda;
 
 
 @Service

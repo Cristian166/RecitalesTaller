@@ -13,7 +13,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
+import com.tallerwebi.dominio.entidades.Preferencia;
+import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.serviciosimpl.ServicioPerfilImpl;
 import com.tallerwebi.infraestructura.RepositorioPerfil;
 
 public class ServicioPerfilImplTest {

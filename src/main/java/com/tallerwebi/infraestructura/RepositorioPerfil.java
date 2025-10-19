@@ -2,9 +2,9 @@ package com.tallerwebi.infraestructura;
 
 import java.util.List;
 
-import com.tallerwebi.dominio.Preferencia;
-import com.tallerwebi.dominio.PreferenciaUsuario;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Preferencia;
+import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.Usuario;
 
 public interface RepositorioPerfil {
 

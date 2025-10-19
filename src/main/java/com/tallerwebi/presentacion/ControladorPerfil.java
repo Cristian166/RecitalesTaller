@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.ServicioPerfil;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.Usuario;
 
 import javax.servlet.http.HttpSession;
 

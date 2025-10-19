@@ -4,6 +4,9 @@ import com.tallerwebi.dominio.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.hibernate.SessionFactory;
+import com.tallerwebi.dominio.entidades.Banda;
+import com.tallerwebi.dominio.entidades.BandaFavorita;
+import com.tallerwebi.dominio.interfacesrepo.RepositorioBandasFavoritaInterface;
 
 import java.util.List;
 

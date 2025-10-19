@@ -1,10 +1,16 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.serviciosimpl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+
+import com.tallerwebi.dominio.ServicioInsignia;
+import com.tallerwebi.dominio.entidades.Insignia;
+import com.tallerwebi.dominio.entidades.InsigniaPremium;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.entidades.UsuarioInsignia;
 
 @Service
 public class ServicioInsigniaImpl implements ServicioInsignia {

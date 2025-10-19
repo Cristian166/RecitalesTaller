@@ -1,5 +1,9 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.serviciosimpl;
 
+import com.tallerwebi.dominio.ServicioPerfil;
+import com.tallerwebi.dominio.entidades.Preferencia;
+import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.RepositorioPerfil;
 
 import org.springframework.beans.factory.annotation.Autowired;

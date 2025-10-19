@@ -1,8 +1,9 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Recital;
-import com.tallerwebi.dominio.RepositorioRecitalInterface;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Recital;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.interfacesrepo.RepositorioRecitalInterface;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.hibernate.SessionFactory;

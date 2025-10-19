@@ -1,6 +1,9 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.dominio.interfacesrepo;
 
 import org.springframework.orm.ObjectRetrievalFailureException;
+
+import com.tallerwebi.dominio.entidades.Recital;
+import com.tallerwebi.dominio.entidades.Usuario;
 
 import java.util.List;
 

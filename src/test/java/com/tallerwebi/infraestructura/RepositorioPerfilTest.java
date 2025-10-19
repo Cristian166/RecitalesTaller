@@ -15,9 +15,9 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import com.tallerwebi.dominio.Preferencia;
-import com.tallerwebi.dominio.Usuario;
-import com.tallerwebi.dominio.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.Preferencia;
+import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.config.HibernateTestInfraestructuraConfig;
 
 import static org.hamcrest.MatcherAssert.assertThat;

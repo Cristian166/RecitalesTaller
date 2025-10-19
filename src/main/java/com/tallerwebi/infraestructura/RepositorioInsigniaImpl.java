@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.tallerwebi.dominio.Insignia;
+import com.tallerwebi.dominio.entidades.Insignia;
 
 @Repository("repositorioInsignia")
 public class RepositorioInsigniaImpl implements RepositorioInsignia {

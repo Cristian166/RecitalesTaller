@@ -3,9 +3,10 @@ package com.tallerwebi.infraestructura;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import com.tallerwebi.dominio.Banda;
-import com.tallerwebi.dominio.BandaFavorita;
-import com.tallerwebi.dominio.Usuario;
+import com.tallerwebi.dominio.entidades.Banda;
+import com.tallerwebi.dominio.entidades.BandaFavorita;
+import com.tallerwebi.dominio.entidades.Usuario;
+
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

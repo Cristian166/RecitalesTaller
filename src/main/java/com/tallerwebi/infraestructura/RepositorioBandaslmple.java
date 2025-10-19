@@ -1,7 +1,8 @@
 package com.tallerwebi.infraestructura;
 
-import com.tallerwebi.dominio.Banda;
-import com.tallerwebi.dominio.RepositorioBandaInterface;
+import com.tallerwebi.dominio.entidades.Banda;
+import com.tallerwebi.dominio.interfacesrepo.RepositorioBandaInterface;
+
 import org.springframework.stereotype.Repository;
 
 import org.springframework.beans.factory.annotation.Autowired;

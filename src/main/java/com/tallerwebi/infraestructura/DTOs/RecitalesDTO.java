@@ -1,4 +1,4 @@
-package com.tallerwebi.presentacion;
+package com.tallerwebi.infraestructura.DTOs;
 
 public class RecitalesDTO {
 

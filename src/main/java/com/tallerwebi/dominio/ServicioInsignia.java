@@ -1,4 +1,6 @@
 package com.tallerwebi.dominio;
+import com.tallerwebi.dominio.entidades.Insignia;
+import com.tallerwebi.dominio.entidades.Usuario;
 
 import java.util.List;
 

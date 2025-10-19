@@ -3,8 +3,8 @@ package com.tallerwebi.presentacion;
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
 
-import com.tallerwebi.dominio.Entrada;
 import com.tallerwebi.dominio.ServicioEntrada;
+import com.tallerwebi.dominio.entidades.Entrada;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -2,6 +2,10 @@ package com.tallerwebi.dominio;
 
 import java.util.List;
 
+import com.tallerwebi.dominio.entidades.Preferencia;
+import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
+import com.tallerwebi.dominio.entidades.Usuario;
+
 public interface ServicioPerfil {
 
     List<Preferencia> consultarPreferenciaExistentes();

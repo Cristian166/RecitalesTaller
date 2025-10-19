@@ -13,6 +13,9 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import com.tallerwebi.dominio.entidades.Entrada;
+import com.tallerwebi.dominio.serviciosimpl.ServicioEntradaImpl;
+
 public class ServicioEntradaTest {
     
     @Test

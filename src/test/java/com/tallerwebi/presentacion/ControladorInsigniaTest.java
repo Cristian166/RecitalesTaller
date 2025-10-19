@@ -1,9 +1,10 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.Insignia;
+import com.tallerwebi.dominio.entidades.Insignia;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.dominio.serviciosimpl.ServicioInsigniaImpl;
 import com.tallerwebi.dominio.ServicioInsignia;
-import com.tallerwebi.dominio.ServicioInsigniaImpl;
-import com.tallerwebi.dominio.Usuario;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.ui.Model;
 

@@ -1,7 +1,7 @@
 package com.tallerwebi.presentacion;
 
 
-import com.tallerwebi.dominio.Banda;
+import com.tallerwebi.dominio.entidades.Banda;
 import com.tallerwebi.dominio.ServicioBanda;
 import com.tallerwebi.dominio.ServicioBandaFavorita;
 import org.springframework.stereotype.Controller;

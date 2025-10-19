@@ -1,5 +1,9 @@
 package com.tallerwebi.dominio.entidades;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +22,10 @@ public class Usuario {
     private String email;
     private String password;
     private String rol;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private Set<UsuarioInsignia> usuarioInsignias = new HashSet<>();
+
 
     @OneToOne(mappedBy = "usuario")
     private PreferenciaUsuario preferenciaUsuario;

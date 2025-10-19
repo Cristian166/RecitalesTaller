@@ -1,12 +1,16 @@
 package com.tallerwebi.dominio.entidades;
 
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Insignia {
@@ -17,6 +21,10 @@ public class Insignia {
 
     @Column (length = 50, nullable = false)
     private String nombre;
+
+    @OneToMany(mappedBy = "insignia", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<UsuarioInsignia> usuarioInsignias = new HashSet<>();
+
     private String descripcion;
     private String imagen;
 

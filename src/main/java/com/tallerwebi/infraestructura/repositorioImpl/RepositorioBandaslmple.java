@@ -1,6 +1,6 @@
-package com.tallerwebi.infraestructura;
+package com.tallerwebi.infraestructura.repositorioImpl;
 
-import com.tallerwebi.dominio.entidades.Banda;
+import com.tallerwebi.dominio.entidades.Artista;
 import com.tallerwebi.dominio.interfacesrepo.RepositorioBandaInterface;
 
 import org.springframework.stereotype.Repository;
@@ -23,17 +23,17 @@ public class RepositorioBandaslmple implements RepositorioBandaInterface {
 
 
     @Override
-    public List<Banda> obtenerTodasLasBandas() {
+    public List<Artista> obtenerTodasLasBandas() {
         return sessionFactory.
                 getCurrentSession().
-                createQuery("FROM Banda", Banda.class).list();
+                createQuery("FROM Banda", Artista.class).list();
     }
 
-    public Banda buscarPorId(Long bandaId) {
-        return this.sessionFactory.getCurrentSession().get(Banda.class, bandaId);
+    public Artista buscarPorId(Long bandaId) {
+        return this.sessionFactory.getCurrentSession().get(Artista.class, bandaId);
     }
 
-    public void guardar(Banda banda) {
+    public void guardar(Artista banda) {
         this.sessionFactory.getCurrentSession().save(banda);
     }
 }

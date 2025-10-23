@@ -3,7 +3,7 @@ package com.tallerwebi.infraestructura;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import com.tallerwebi.dominio.entidades.Banda;
+import com.tallerwebi.dominio.entidades.Artista;
 import com.tallerwebi.dominio.entidades.BandaFavorita;
 import com.tallerwebi.dominio.entidades.Usuario;
 
@@ -16,6 +16,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.tallerwebi.infraestructura.config.HibernateTestInfraestructuraConfig;
+import com.tallerwebi.infraestructura.repositorioImpl.RepositorioBandasFavoritaImpl;
+import com.tallerwebi.infraestructura.repositorioImpl.RepositorioBandaslmple;
+import com.tallerwebi.infraestructura.repositorioImpl.RepositorioUsuarioImpl;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -23,7 +26,7 @@ import java.util.List;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { HibernateTestInfraestructuraConfig.class })
 
-public class RepositorioBandaDisponibles {
+public class RepositorioNotificacionRecibidaTest {
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -44,11 +47,11 @@ public class RepositorioBandaDisponibles {
     @Transactional
     public void deberiaGuardarUnaBandaDisponibleParaSerSeleccionadoPorElUsuario() throws Exception {
         // Dado un una Banda
-        Banda banda1 = new Banda();
+        Artista banda1 = new Artista();
         banda1.setNombre("Banda1");
-        Banda banda2 = new Banda();
+        Artista banda2 = new Artista();
         banda2.setNombre("Banda2");
-        Banda banda3 = new Banda();
+        Artista banda3 = new Artista();
         banda3.setNombre("Banda3");
 
         // Guardo en mi repositorio de bandas esa banda
@@ -57,7 +60,7 @@ public class RepositorioBandaDisponibles {
         repositorioBandaslmple.guardar(banda3);
 
         // entonces la tengo que recuperar
-        List<Banda> bandasDisponibles = repositorioBandaslmple.obtenerTodasLasBandas();
+        List<Artista> bandasDisponibles = repositorioBandaslmple.obtenerTodasLasBandas();
 
         // entonces compardo
         assertThat(bandasDisponibles.size(), is(3));
@@ -68,11 +71,11 @@ public class RepositorioBandaDisponibles {
     @Transactional
     public void deberiaGuardarUnaBandaDeLaListaDeBandaDisponiblesALalistaDeBandasFavoritasYasociadoAlUsuario() throws Exception {
         // Dado 3 Bandas disponibles
-        Banda banda1 = new Banda();
+        Artista banda1 = new Artista();
         banda1.setNombre("Banda1");
-        Banda banda2 = new Banda();
+        Artista banda2 = new Artista();
         banda2.setNombre("Banda2");
-        Banda banda3 = new Banda();
+        Artista banda3 = new Artista();
         banda3.setNombre("Banda3");
 
         //Dado un usuario
@@ -89,11 +92,11 @@ public class RepositorioBandaDisponibles {
         repositorioUsuarioImple.guardar(usuario1);
 
         // entonces la tengo que recuperar
-        List<Banda> bandasDisponibles = repositorioBandaslmple.obtenerTodasLasBandas();
+        List<Artista> bandasDisponibles = repositorioBandaslmple.obtenerTodasLasBandas();
 
         // cuando selecciona dos bandas
-        Banda banda1favorita = bandasDisponibles.get(0);
-        Banda banda2favorita = bandasDisponibles.get(1);
+        Artista banda1favorita = bandasDisponibles.get(0);
+        Artista banda2favorita = bandasDisponibles.get(1);
 
         // ahora agrego estasbandas  al listado de bandas favoritas
         BandaFavorita bandaFav1 = new BandaFavorita();
@@ -107,7 +110,7 @@ public class RepositorioBandaDisponibles {
         repositorioBandasFavorita.guardar(bandaFav1);
         repositorioBandasFavorita.guardar(bandaFav2);
         // entonces el usuario posee 1 lista de bandas favoritas con dos bandas
-        List<Banda> listadoDeBandasConUsuarioAsociado = repositorioBandasFavorita.obtenerSoloBandasFavoritas(usuario1.getId());
+        List<Artista> listadoDeBandasConUsuarioAsociado = repositorioBandasFavorita.obtenerSoloBandasFavoritas(usuario1.getId());
         assertThat(listadoDeBandasConUsuarioAsociado.size(), is(2));
     }
 

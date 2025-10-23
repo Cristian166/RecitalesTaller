@@ -16,15 +16,15 @@ public class BandaFavorita {
     //mappeo banda
     @ManyToOne
     @JoinColumn(name = "banda_id")
-    private Banda banda;
+    private Artista banda;
 
     public BandaFavorita() {}
 
-    public void setBanda(Banda banda) { this.banda = banda; }
+    public void setBanda(Artista banda) { this.banda = banda; }
 
     public void setUsuario(Usuario usuario) {this.usuario = usuario;}
 
-    public Banda getBanda() {
+    public Artista getBanda() {
         return banda;
     }
     public Usuario getUsuario() {

@@ -1,5 +1,6 @@
-package com.tallerwebi.dominio;
+package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioRecital;
 import com.tallerwebi.presentacion.ControladorRecitalAsistido;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

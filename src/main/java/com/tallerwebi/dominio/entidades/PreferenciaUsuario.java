@@ -24,22 +24,22 @@ public class PreferenciaUsuario {
 
     
     @ElementCollection
-    @CollectionTable(name = "preferencia_usuario_generos", joinColumns = @JoinColumn(name = "preferencia_usuario_id"))
+    @CollectionTable(name = "preferenciaUsuarioGeneros", joinColumns = @JoinColumn(name = "preferenciaUsuarioId"))
     @Column(name = "genero")
     private List<String> generosSeleccionados;
 
     @ElementCollection
-    @CollectionTable(name = "preferencia_usuario_artistas", joinColumns = @JoinColumn(name = "preferencia_usuario_id"))
+    @CollectionTable(name = "preferenciaUsuarioArtistas", joinColumns = @JoinColumn(name = "preferenciaUsuarioId"))
     @Column(name = "artista")
     private List<String> artistasSeleccionados;
 
     @ElementCollection
-    @CollectionTable(name = "preferencia_usuario_regiones", joinColumns = @JoinColumn(name = "preferencia_usuario_id"))
+    @CollectionTable(name = "preferenciaUsuarioRegiones", joinColumns = @JoinColumn(name = "preferenciaUsuarioId"))
     @Column(name = "region")
     private List<String> regionesSeleccionadas;
 
     @ElementCollection
-    @CollectionTable(name = "preferencia_usuario_epocas", joinColumns = @JoinColumn(name = "preferencia_usuario_id"))
+    @CollectionTable(name = "preferenciaUsuarioEpocas", joinColumns = @JoinColumn(name = "preferenciaUsuarioId"))
     @Column(name = "epoca")
     private List<String> epocasSeleccionadas;
     

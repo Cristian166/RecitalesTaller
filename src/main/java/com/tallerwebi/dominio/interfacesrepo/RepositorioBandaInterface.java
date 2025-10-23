@@ -5,4 +5,8 @@ import com.tallerwebi.dominio.entidades.Artista;
 
 public interface RepositorioBandaInterface {
     List<Artista> obtenerTodasLasBandas();
+
+    Artista buscarPorId(Long bandaId);
+
+    void guardar(Artista banda);
 }

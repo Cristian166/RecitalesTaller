@@ -26,13 +26,13 @@ public class RepositorioBandaslmple implements RepositorioBandaInterface {
     public List<Artista> obtenerTodasLasBandas() {
         return sessionFactory.
                 getCurrentSession().
-                createQuery("FROM Banda", Artista.class).list();
+                createQuery("FROM Artista", Artista.class).list();
     }
-
+    @Override
     public Artista buscarPorId(Long bandaId) {
         return this.sessionFactory.getCurrentSession().get(Artista.class, bandaId);
     }
-
+    @Override
     public void guardar(Artista banda) {
         this.sessionFactory.getCurrentSession().save(banda);
     }

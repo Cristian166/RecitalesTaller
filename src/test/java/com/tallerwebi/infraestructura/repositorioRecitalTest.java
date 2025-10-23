@@ -58,7 +58,7 @@ public class repositorioRecitalTest {
 
         // entonces
         assertThat(recitalEncontrado, is(notNullValue()));
-        assertThat(recitalEncontrado.getNombreRecital(), equalTo("Soda"));  // ✅ Correct usuario
+        assertThat(recitalEncontrado.getNombreRecital(), equalTo("Soda"));
     }
 
     @Test

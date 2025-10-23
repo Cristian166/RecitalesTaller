@@ -27,4 +27,15 @@ public class RepositorioBanda implements RepositorioBandaInterface {
                 getCurrentSession().
                 createQuery("FROM Banda", Artista.class).list();
     }
+    @Override
+    public Artista buscarPorId(Long bandaId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscarPorId'");
+    }
+    @Override
+    public void guardar(Artista banda) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'guardar'");
+    }
+    
 }

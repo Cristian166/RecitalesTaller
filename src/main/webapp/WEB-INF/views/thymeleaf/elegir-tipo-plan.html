@@ -65,11 +65,10 @@
 </div>
 
 <!-- MAIN CONTENT -->
-
 <div class="container my-5">
     <div class="text-center mb-4">
-        <h1 class="fw-bold">Choose Your Plan</h1>
-        <p>Select the perfect plan to manage your concert tickets and engage with communities.</p>
+        <h1 class="fw-bold">Elegir tipo Plan</h1>
+        <p>Selecciona el plan de acuerdo al uso que le daras a la pagina </p>
     </div>
 
     <div class="row justify-content-center">
@@ -82,16 +81,20 @@
                     <p class="text-muted">Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis.</p>
                     <ul class="list-unstyled">
                         <li class="mb-2">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>Access to basic features
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>Acceso basico a la pagina
                         </li>
                         <li class="mb-2">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>Limited event creation
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>Agregas tus entradas
                         </li>
                         <li class="mb-2">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>Community participation
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>Interaccion con comunidades
                         </li>
                     </ul>
-                    <a th:href="@{/select-plan/free}" class="btn btn-outline-primary w-100 mt-3">Plan actual</a>
+                    <!-- Botón para seleccionar el plan gratis -->
+                    <form action="#" th:action="@{/pago}" method="POST">
+                        <input type="hidden" name="plan" value="free" />
+                        <button type="submit" class="btn btn-outline-primary w-100 mt-3">Seleccionar Plan Gratis</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -101,26 +104,30 @@
             <div class="card h-100 shadow border-primary">
                 <div class="card-body position-relative">
                     <div class="position-absolute top-0 end-0 mt-2 me-2">
-                        <span class="badge bg-info text-dark">MOST POPULAR</span>
+                        <span class="badge bg-info text-dark">Mas popular</span>
                     </div>
                     <h5 class="card-title fw-bold">Plan Premium</h5>
-                    <h2 class="display-5">$9.99<span class="fs-6">/month</span></h2>
+                    <h2 class="display-5">150000$<span class="fs-6">Unica vez</span></h2>
                     <p class="text-muted">Lorem ipsum dolor sit amet consect etur adipisicing elit. Itaque amet indis perferendis.</p>
                     <ul class="list-unstyled">
                         <li class="mb-2">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>Unlimited event creation
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>Crear comunidades para otros usuarios
                         </li>
                         <li class="mb-2">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>Advanced features
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>Desbloqueo de insignias
                         </li>
                         <li class="mb-2">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>Priority support
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>Descuentos en merchandising
                         </li>
                         <li class="mb-2">
-                            <i class="bi bi-check-circle-fill text-success me-2"></i>Exclusive content
+                            <i class="bi bi-check-circle-fill text-success me-2"></i>Acceso a sorteos y mas...
                         </li>
                     </ul>
-                    <a href="confirmacion-pago-premium.html" class="btn btn-primary w-100 mt-3">Quiero este plan</a>
+                    <!-- Botón para seleccionar el plan premium -->
+                    <form th:action="@{/pago}" method="POST">
+                        <input type="hidden" name="plan" value="premium" />
+                        <button type="submit" class="btn btn-primary w-100 mt-3">Quiero este plan</button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -151,4 +158,3 @@
 </script>
 </body>
 </html>
-

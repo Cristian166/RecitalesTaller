@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Comunidades</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        /* 🌊 Fondo estilo ondas grises suaves */
+        body {
+            min-height: 100vh;
+            font-family: "SF Pro Display", "Inter", "Roboto", sans-serif;
+            background: linear-gradient(145deg, #f9f9f9, #eaeaea);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Capas de ondas con diferentes niveles de gris */
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 200%;
+            height: 200%;
+            border-radius: 45% 55% 50% 50%;
+            transform: rotate(-25deg);
+            z-index: -2;
+        }
+
+        body::before {
+            background: radial-gradient(circle at 30% 50%, #e2e2e2 0%, #f3f3f3 70%);
+            opacity: 0.8;
+            animation: waveMove 18s infinite ease-in-out alternate;
+        }
+
+        body::after {
+            background: radial-gradient(circle at 70% 70%, #dcdcdc 0%, #f6f6f6 80%);
+            opacity: 0.7;
+            animation: waveMove 25s infinite ease-in-out alternate-reverse;
+        }
+
+        @keyframes waveMove {
+            0% {
+                transform: translate(0, 0) rotate(-25deg);
+            }
+            100% {
+                transform: translate(-5%, -5%) rotate(-20deg);
+            }
+        }
+
+        header, footer {
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            backdrop-filter: blur(10px) saturate(180%);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        /* 🌫️ Card con efecto glass real */
+        .community-card {
+            background: linear-gradient(145deg,
+            rgba(255, 255, 255, 0.25),
+            rgba(255, 255, 255, 0.05));
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(25px) saturate(180%);
+            border-radius: 25px;
+            box-shadow:
+                    inset 1px 1px 3px rgba(255, 255, 255, 0.4),
+                    0 4px 25px rgba(0, 0, 0, 0.15);
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .community-card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow:
+                    inset 1px 1px 4px rgba(255, 255, 255, 0.6),
+                    0 8px 25px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(145deg,
+            rgba(255, 255, 255, 0.35),
+            rgba(255, 255, 255, 0.08));
+        }
+
+        .community-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .community-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            box-shadow: inset 1px 1px 3px rgba(255, 255, 255, 0.5);
+        }
+
+        .community-name {
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .leave-btn {
+            background: linear-gradient(145deg,
+            rgba(255, 69, 58, 0.85),
+            rgba(255, 99, 71, 0.7));
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #fff;
+            border-radius: 50px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+            transition: all 0.25s ease-in-out;
+        }
+
+        .leave-btn:hover {
+            background: rgba(255, 69, 58, 1);
+            transform: scale(1.05);
+        }
+
+        input.form-control {
+            background: rgba(255, 255, 255, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        input.form-control:focus {
+            border-color: rgba(0, 123, 255, 0.5);
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.3);
+        }
+    </style>
+</head>
+
+<body>
+<div class="container my-4">
+
+    <!-- Header -->
+    <header class="mb-4">
+        <h4>Header</h4>
+    </header>
+
+    <!-- Contenido principal -->
+    <section>
+        <h5 class="mb-3 fw-semibold">Comunidades</h5>
+
+        <!-- Buscador -->
+        <div class="mb-4">
+            <input type="text" class="form-control" placeholder="Buscar comunidades..." th:value="${busqueda}">
+        </div>
+
+        <!-- Comunidades unidas -->
+        <h6 class="mb-3 text-secondary">Comunidades unidas:</h6>
+
+        <div class="d-flex flex-column gap-3">
+            <!-- Iteración Thymeleaf -->
+            <div th:each="comunidad : ${comunidades}" class="community-card">
+                <div class="community-info">
+                    <div class="community-img"
+                         th:style="'background-image: url(' + ${comunidad.imagenUrl} + '); background-size: cover; background-position: center;'">
+                    </div>
+                    <div>
+                        <div class="community-name" th:text="${comunidad.nombre}">Nombre comunidad</div>
+                        <small th:text="'(' + ${comunidad.miembros} + ') miembros'">(100) miembros</small>
+                    </div>
+                </div>
+
+                <form th:action="@{/comunidades/abandonar/{id}(id=${comunidad.id})}" method="post">
+                    <button type="submit" class="btn leave-btn">Abandonar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="mt-4">
+        <p class="mb-0 text-muted">Footer</p>
+    </footer>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

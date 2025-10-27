@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.tallerwebi.infraestructura.config.HibernateTestInfraestructuraConfig;
+import com.tallerwebi.infraestructura.repositorioImpl.RepositorioUsuarioImpl;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -57,7 +58,7 @@ public class repositorioRecitalTest {
 
         // entonces
         assertThat(recitalEncontrado, is(notNullValue()));
-        assertThat(recitalEncontrado.getNombreRecital(), equalTo("Soda"));  // ✅ Correct usuario
+        assertThat(recitalEncontrado.getNombreRecital(), equalTo("Soda"));
     }
 
     @Test

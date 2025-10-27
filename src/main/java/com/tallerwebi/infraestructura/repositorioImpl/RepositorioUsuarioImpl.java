@@ -1,4 +1,6 @@
-package com.tallerwebi.infraestructura;
+package com.tallerwebi.infraestructura.repositorioImpl;
+
+import java.io.Serializable;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -6,7 +8,11 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.tallerwebi.dominio.entidades.Recital;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.infraestructura.RepositorioUsuario;
+
+import net.bytebuddy.asm.Advice.Return;
 
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
@@ -43,5 +49,10 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     @Override
     public void modificar(Usuario usuario) {
         sessionFactory.getCurrentSession().update(usuario);
+    }
+
+    @Override
+    public Usuario buscarId(Long usuarioId) {
+       return sessionFactory.getCurrentSession().get(Usuario.class, usuarioId);
     }
 }

@@ -44,20 +44,6 @@ public class ServicioLoginImpl implements ServicioLogin {
             }
         }
         return usuario;
-        /*return repositorioUsuario.buscarUsuario(email, password);
-
-        Usuario usuario = repositorioUsuario.buscarUsuario(email, password);
-        Insignia insignia = repositorioInsignia.obtenerPorId(usuario);
-
-
-        ServicioInsignia servicioInsignia = new ServicioInsigniaImpl();
-
-        if(usuario != null){
-            usuario.setInsigniasObtenidas(
-                    servicioInsignia.obtenerInsigniasDeUsuario(usuario)
-            );
-        }*/
-
     }
 
     @Override

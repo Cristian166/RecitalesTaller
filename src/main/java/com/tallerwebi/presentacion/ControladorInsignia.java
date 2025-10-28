@@ -22,23 +22,6 @@ public class ControladorInsignia {
     @Autowired
     public ControladorInsignia(ServicioInsignia servicioMock) {
         this.servicio = servicioMock;
-        /*Usuario usuario = new Usuario();
-        usuario.setId(1L);
-
-        Insignia i1 = new Insignia();
-        i1.setId(1L);
-        i1.setNombre("Participante");
-        i1.setDescripcion("Participaste en tu primer recital");
-        i1.setImagen("/");
-
-        Insignia i2 = new Insignia();
-        i2.setId(2L);
-        i2.setNombre("Activo");
-        i2.setDescripcion("Publicaste 10 reseñas");
-        i2.setImagen("/");
-
-        servicio.asignarInsignia(usuario, i1);
-        servicio.asignarInsignia(usuario, i2);*/
 
     }
 

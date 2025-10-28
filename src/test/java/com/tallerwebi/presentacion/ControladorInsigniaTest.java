@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.mockito.ArgumentMatchers.any;
@@ -37,6 +39,9 @@ public class ControladorInsigniaTest {
         List<Insignia> listaSimulada = new ArrayList<>();
         listaSimulada.add(i1);
         listaSimulada.add(i2);
+        
+        HttpSession sessionMock = mock(HttpSession.class);
+        when(sessionMock.getAttribute("usuario")).thenReturn(usuario);
 
         when(servicioMock.obtenerInsigniasDeUsuario(any(Usuario.class))).thenReturn(listaSimulada);
 
@@ -48,7 +53,7 @@ public class ControladorInsigniaTest {
 
         Model modelMock = mock(Model.class);
 
-        String vista = controller.mostrarInsignias(modelMock);
+        String vista = controller.mostrarInsignias(modelMock, sessionMock);
 
         assertThat(vista, equalTo("insignias"));
     }

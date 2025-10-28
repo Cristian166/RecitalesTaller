@@ -2,25 +2,27 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import javax.servlet.http.HttpSession;
+
 
 import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.dominio.entidades.Usuario;
-import com.tallerwebi.dominio.serviciosimpl.ServicioInsigniaImpl;
 
 import java.util.List;
 
 @Controller
 public class ControladorInsignia {
 
-    protected ServicioInsignia servicio;
+    private ServicioInsignia servicio;
 
-    public ControladorInsignia() {
-        this.servicio = new ServicioInsigniaImpl();
-
-        Usuario usuario = new Usuario();
+    @Autowired
+    public ControladorInsignia(ServicioInsignia servicioMock) {
+        this.servicio = servicioMock;
+        /*Usuario usuario = new Usuario();
         usuario.setId(1L);
 
         Insignia i1 = new Insignia();
@@ -36,22 +38,21 @@ public class ControladorInsignia {
         i2.setImagen("/");
 
         servicio.asignarInsignia(usuario, i1);
-        servicio.asignarInsignia(usuario, i2);
+        servicio.asignarInsignia(usuario, i2);*/
+
     }
-
-
-    public ControladorInsignia(ServicioInsignia servicioMock) {
-        this.servicio = servicioMock;
-    }
-
 
     @GetMapping("/insignias")
-    public String mostrarInsignias(Model model) {
-        Usuario usuario = new Usuario();
-        usuario.setId(1L);
-        List<Insignia> insignias = servicio.obtenerInsigniasDeUsuario(usuario);
+    public String mostrarInsignias(Model model, HttpSession session) {
+    Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        model.addAttribute("insignias", insignias);
-        return "insignias";
+    if (usuario == null) {
+        return "redirect:/login";
+    }
+
+    List<Insignia> insignias = servicio.obtenerInsigniasDeUsuario(usuario);
+    model.addAttribute("insignias", insignias);
+
+    return "insignias";
     }
 }

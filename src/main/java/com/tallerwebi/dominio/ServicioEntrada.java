@@ -13,4 +13,8 @@ public interface ServicioEntrada {
     List<Entrada> obtenerTodasMisEntradas();
 
     void eliminarEntrada(Long id);
+
+    void validarEntrada(Long id);
+
+    Entrada buscarPorId(Long id);
 }

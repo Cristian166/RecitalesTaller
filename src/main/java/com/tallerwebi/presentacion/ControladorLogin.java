@@ -5,10 +5,13 @@ import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,19 +49,30 @@ public class ControladorLogin {
         return new ModelAndView("login", model);
     }
 
-    @RequestMapping(path = "/registrarme", method = RequestMethod.POST)
-    public ModelAndView registrarme(@ModelAttribute("usuario") Usuario usuario) {
-        ModelMap model = new ModelMap();
-        try{
+   @PostMapping("/registrar")
+    public String registrarUsuario(@ModelAttribute("usuario") Usuario usuario,
+                                   @RequestParam("confirmPassword") String confirmPassword,
+                                   Model model) {
+        try {
+            
+            if (!usuario.getPassword().equals(confirmPassword)) {
+                model.addAttribute("error", "Las contraseñas no coinciden.");
+                return "nuevo-usuario";
+            }
+
+            if (usuario.getPassword().length() < 6) {
+                model.addAttribute("error", "La contraseña debe tener al menos 6 caracteres.");
+                return "nuevo-usuario";
+            }
+
             servicioLogin.registrar(usuario);
-        } catch (UsuarioExistente e){
-            model.put("error", "El usuario ya existe");
-            return new ModelAndView("nuevo-usuario", model);
-        } catch (Exception e){
-            model.put("error", "Error al registrar el nuevo usuario");
-            return new ModelAndView("nuevo-usuario", model);
+            model.addAttribute("mensaje", "Usuario registrado con éxito.");
+            return "redirect:/login";
+
+        } catch (UsuarioExistente existente) {
+            model.addAttribute("error", existente.getMessage());
+            return "nuevo-usuario";
         }
-        return new ModelAndView("redirect:/login");
     }
 
     @RequestMapping(path = "/nuevo-usuario", method = RequestMethod.GET)

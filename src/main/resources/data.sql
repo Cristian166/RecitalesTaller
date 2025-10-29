@@ -1,7 +1,7 @@
-INSERT INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
+INSERT IGNORE INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
 
 /*Artistas*/
-INSERT INTO Preferencia (nombre, tipo) VALUES
+INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('Duki', 'Artista'),
 ('Emilia', 'Artista'),
 ('Michael Jackson', 'Artista'),
@@ -14,9 +14,8 @@ INSERT INTO Preferencia (nombre, tipo) VALUES
 ('Eminem', 'Artista'),
 ('Rels B', 'Artista'),
 ('Shakira', 'Artista');
-
 /*Generos*/
-INSERT INTO Preferencia (nombre, tipo) VALUES
+INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('Rock', 'Genero'),
 ('Pop', 'Genero'),
 ('Hip Hop', 'Genero'),
@@ -31,7 +30,7 @@ INSERT INTO Preferencia (nombre, tipo) VALUES
 ('Cuarteto', 'Genero');
 
 /*Regiones*/
-INSERT INTO Preferencia (nombre, tipo) VALUES
+INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('EEUU', 'Region'),
 ('Italia', 'Region'),
 ('Europa', 'Region'),
@@ -46,7 +45,7 @@ INSERT INTO Preferencia (nombre, tipo) VALUES
 ('America Latina', 'Region');
 
 /*Epocas*/
-INSERT INTO Preferencia (nombre, tipo) VALUES
+INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('1950s', 'Epoca'),
 ('1960s', 'Epoca'),
 ('1970s', 'Epoca'),
@@ -60,7 +59,7 @@ INSERT INTO Preferencia (nombre, tipo) VALUES
 ('Moderna', 'Epoca'),
 ('Actual', 'Epoca');
 
-INSERT INTO Insignia (nombre, descripcion, imagen) VALUES
+INSERT IGNORE INTO Insignia (nombre, descripcion, imagen) VALUES
 ('Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png'),
 ('Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png'),
 ('Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png'),

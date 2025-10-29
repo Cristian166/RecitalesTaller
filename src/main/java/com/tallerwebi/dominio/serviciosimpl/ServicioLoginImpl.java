@@ -25,13 +25,37 @@ public class ServicioLoginImpl implements ServicioLogin {
         return repositorioUsuario.buscarUsuario(email, password);
     }
 
-    @Override
-    public void registrar(Usuario usuario) throws UsuarioExistente {
-        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
-        if(usuarioEncontrado != null){
-            throw new UsuarioExistente();
+     @Override
+    public Usuario registrar(Usuario usuario) throws UsuarioExistente {
+        validarCampos(usuario);
+
+        Usuario usuarioEncontrado = repositorioUsuario.buscarPorEmail(usuario.getEmail());
+        if (usuarioEncontrado != null) {
+            throw new UsuarioExistente("El email ya está registrado.");
         }
+
         repositorioUsuario.guardar(usuario);
+        return usuario;
+    }
+
+    private void validarCampos(Usuario usuario) {
+        if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
+            throw new IllegalArgumentException("El nombre es obligatorio.");
+        }
+        if (usuario.getApellido() == null || usuario.getApellido().trim().isEmpty()) {
+            throw new IllegalArgumentException("El apellido es obligatorio.");
+        }
+        if (usuario.getEmail() == null || !usuario.getEmail().contains("@")) {
+            throw new IllegalArgumentException("Debe ingresar un email válido.");
+        }
+        if (usuario.getPassword() == null || usuario.getPassword().length() < 6) {
+            throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres.");
+        }
+    }
+
+    @Override
+    public Usuario buscarPorEmail(String email) {
+        return repositorioUsuario.buscarPorEmail(email);
     }
 
 }

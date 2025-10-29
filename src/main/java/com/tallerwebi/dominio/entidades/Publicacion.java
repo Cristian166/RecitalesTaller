@@ -6,18 +6,17 @@ public class Publicacion {
 
     private Long id;
     private String contenido;
-    private String imagenUrl;
     private Usuario autorPublicacion;
     private LocalDateTime fechaCreacion;
+    private String fechaCreacionString;
 
     public Publicacion() {
 
     }
 
-    public Publicacion( Long id, String contenido, String imagenUrl, Usuario autorPublicacion, LocalDateTime fechaCreacion) {
+    public Publicacion( Long id, String contenido,Usuario autorPublicacion, LocalDateTime fechaCreacion) {
         this.id = id;
         this.contenido = contenido;
-        this.imagenUrl = imagenUrl;
         this.autorPublicacion = autorPublicacion;
         this.fechaCreacion = fechaCreacion;
     }
@@ -34,12 +33,7 @@ public class Publicacion {
     public void setContenido(String contenido){
         this.contenido = contenido;
     }
-    public String getImagenUrl(){
-        return imagenUrl;
-    }
-    public void setImagenUrl(String imagenUrl){
-        this.imagenUrl = imagenUrl;
-    }
+
     public Usuario getAutorPublicacion(){
         return autorPublicacion;
     }
@@ -51,5 +45,11 @@ public class Publicacion {
     }
     public void setFechaCreacion(LocalDateTime fechaCreacion){
         this.fechaCreacion = fechaCreacion;
+    }
+    public String getFechaCreacionString(){
+        return fechaCreacionString;
+    }
+    public void setFechaCreacionString(String fechaCreacionString){
+        this.fechaCreacionString = fechaCreacionString;
     }
 }

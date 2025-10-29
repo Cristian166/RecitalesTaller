@@ -166,19 +166,20 @@
                 <div class="d-flex gap-3">
                     <div class="img-placeholder">img</div>
                     <div class="flex-grow-1">
-                        <form th:action="@{/publicaciones/agregar}" method="post" enctype="multipart/form-data">
-                            <textarea rows="3" placeholder="Escribir publicación para publicar..." name="contenido"></textarea>
+                        <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}" th:object="${nuevaPublicacion}" method="post">
+                        <textarea  th:field="*{contenido}" rows="3" placeholder="Escribir publicación para publicar..."></textarea>
                             <div class="d-flex justify-content-between align-items-center mt-2">
-                                <label class="btn-glass w-auto mb-0">
+                                <!--<label class="btn-glass w-auto mb-0">
                                     Cargar img
-                                    <input type="file" name="imagen">
-                                </label>
+                                    <input type="file">
+                                </label> AGREGAR IMAGEN-->
                                 <button type="submit" class="btn-glass w-auto">Publicar</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
+
 
             <!-- Publicaciones -->
             <div>
@@ -188,13 +189,14 @@
                     <div class="user-info">
                         <div class="user-img"></div>
                         <div>
-                            <strong th:text="${pub.usuario.nombre}">Nombre Usuario</strong><br>
-                            <small th:text="${pub.fecha}">hace 1 hora</small>
+                            <strong th:text="${pub.autorPublicacion != null ? pub.autorPublicacion.nombre : 'UsuarioPrueba'}">Nombre Usuario</strong>
+                            <small th:text="${pub.fechaCreacionString}"></small>
                         </div>
                     </div>
                     <p th:text="${pub.contenido}">Texto de publicación</p>
                 </div>
             </div>
+
         </div>
 
         <!-- Derecha -->

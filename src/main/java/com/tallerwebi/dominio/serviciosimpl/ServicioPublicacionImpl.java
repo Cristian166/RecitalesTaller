@@ -2,10 +2,8 @@ package com.tallerwebi.dominio.serviciosimpl;
 
 import com.tallerwebi.dominio.ServicioPublicacion;
 import com.tallerwebi.dominio.entidades.Publicacion;
-import com.tallerwebi.dominio.entidades.Usuario;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,12 +15,8 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
     private Map<Long, List<Publicacion>> publicacionesPorComunidad = new HashMap<>();
 
     @Override
-    public void crearPublicacion(Publicacion publicacion, Long comunidadId, MultipartFile imagen) {
+    public void crearPublicacion(Publicacion publicacion, Long comunidadId) {
         publicacionesPorComunidad.putIfAbsent(comunidadId, new ArrayList<>());
-
-        if(imagen != null && !imagen.isEmpty()) {
-            publicacion.setImagenUrl("/uploads/"+ imagen.getOriginalFilename());
-        }
 
         publicacionesPorComunidad.get(comunidadId).add(publicacion);
     }

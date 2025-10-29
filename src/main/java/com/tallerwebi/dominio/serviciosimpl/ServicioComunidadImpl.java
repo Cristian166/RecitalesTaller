@@ -13,6 +13,18 @@ public class ServicioComunidadImpl implements ServicioComunidad {
 
     private List<Comunidad> comunidades = new ArrayList<>();
 
+    //prueba
+    public ServicioComunidadImpl() {
+        Comunidad prueba = new Comunidad();
+        prueba.setId(1L);
+        prueba.setNombre("Comunidad de prueba");
+        prueba.setDescripcion("Descripción de prueba");
+        prueba.setMiembros(new ArrayList<>());
+        prueba.setPublicaciones(new ArrayList<>());
+
+        comunidades.add(prueba);
+    }
+
     @Override
     public List<Comunidad> listarTodasLasComunidades() {
         return comunidades;

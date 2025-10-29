@@ -7,6 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ServicioPublicacion {
-    void crearPublicacion(Publicacion publicacion, Long comunidadId, MultipartFile imagen);
+    void crearPublicacion(Publicacion publicacion, Long comunidadId);
     List<Publicacion> listarPublicacionesPorComunidad(Long comunidadId);
 }

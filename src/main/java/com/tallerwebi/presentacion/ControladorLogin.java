@@ -79,9 +79,6 @@ public class ControladorLogin {
     @RequestMapping(path = "/resitalesAsistidos", method = RequestMethod.GET)
     public ModelAndView irARecitalesProyecto() { return new ModelAndView( "resitalesAsistidos"); }
 
-    @RequestMapping(path = "/comunidad", method = RequestMethod.GET)
-    public ModelAndView irAUnaComunidad() { return new ModelAndView("comunidad"); }
-
     @RequestMapping(path = "/", method = RequestMethod.GET)
     public ModelAndView inicio() { return new ModelAndView("redirect:/login");
     }

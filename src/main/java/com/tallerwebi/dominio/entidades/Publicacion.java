@@ -9,21 +9,21 @@ public class Publicacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column ( length = 10000)
+    private LocalDateTime fechaCreacion;
+
+    @Lob
+    private String imagen;
+
+    @Column ( length = 1000)
     private String contenido;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id")
+    @JoinColumn(name = "id_usuario_fk")
     private Usuario autorPublicacion;
 
     @ManyToOne
-    @JoinColumn(name = "comunidad_id")
+    @JoinColumn(name = "id_comunidad_fk")
     private Comunidad comunidad;
-
-    private LocalDateTime fechaCreacion;
-
-    @Column ( length = 10000)
-    private String imagen;
 
     public Publicacion() {
 

@@ -26,8 +26,8 @@ public class Comunidad {
     @ManyToMany
     @JoinTable(
             name = "comunidad_usuario",
-            joinColumns = @JoinColumn(name = "comunidad_id"),
-            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+            joinColumns = @JoinColumn(name = "id_comunidad_fk"),
+            inverseJoinColumns = @JoinColumn(name = "id_usuario_fk")
     )
     private Set<Usuario> usuarios = new HashSet<>();
 

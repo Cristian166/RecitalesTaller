@@ -3,13 +3,13 @@ package com.tallerwebi.dominio;
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Usuario;
 
-import java.util.List;
+import java.util.Set;
 
 public interface ServicioComunidad {
 
-    List<Comunidad> listarTodasLasComunidades();
+    Set<Comunidad> listarTodasLasComunidades();
     Comunidad obtenerComunidad(Long id);
-    void unirseAComunidad(Usuario usuario,Long comunidadId);
+    void unirseAComunidad(Usuario usuario, Long comunidadId);
     void abandonarComunidad(Usuario usuario, Long comunidadId);
 
 }

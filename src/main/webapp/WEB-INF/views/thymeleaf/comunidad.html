@@ -190,7 +190,7 @@
                         <div class="user-img"></div>
                         <div>
                             <strong th:text="${pub.autorPublicacion != null ? pub.autorPublicacion.nombre : 'UsuarioPrueba'}">Nombre Usuario</strong>
-                            <small th:text="${pub.fechaCreacionString}"></small>
+                            <small th:text="${#dates.format(pub.fechaCreacion, 'dd/MM/yyyy HH:mm')}"></small>
                         </div>
                     </div>
                     <p th:text="${pub.contenido}">Texto de publicación</p>

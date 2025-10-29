@@ -51,7 +51,7 @@
                     <h5>
                         <a th:href="@{/comunidad/{id}(id=${comunidad.id})}" th:text="${comunidad.nombre}">Nombre comunidad</a>
                     </h5>
-                    <p th:text="${#lists.size(comunidad.miembros)} + ' miembros'">(0 miembros)</p>
+                    <p th:text="${#lists.size(comunidad.usuarios)} + ' miembros'">(0 miembros)</p>
                 </div>
                 <form th:action="@{/comunidades/{id}/abandonar(id=${comunidad.id})}" method="post">
                     <button class="btn community-button" type="submit">Abandonar</button>

@@ -3,55 +3,59 @@ package com.tallerwebi.dominio.serviciosimpl;
 import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Usuario;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.tallerwebi.infraestructura.RepositorioComunidad;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Set;
 
 @Service
 public class ServicioComunidadImpl implements ServicioComunidad {
 
-    private List<Comunidad> comunidades = new ArrayList<>();
+    private final RepositorioComunidad repositorioComunidad;
 
-    //prueba
-    public ServicioComunidadImpl() {
-        Comunidad prueba = new Comunidad();
-        prueba.setId(1L);
-        prueba.setNombre("Comunidad de prueba");
-        prueba.setDescripcion("Descripción de prueba");
-        prueba.setMiembros(new ArrayList<>());
-        prueba.setPublicaciones(new ArrayList<>());
-
-        comunidades.add(prueba);
+    public ServicioComunidadImpl(RepositorioComunidad repositorioComunidad) {
+        this.repositorioComunidad = repositorioComunidad;
     }
 
     @Override
-    public List<Comunidad> listarTodasLasComunidades() {
-        return comunidades;
+    public Set<Comunidad> listarTodasLasComunidades() {
+        return repositorioComunidad.obtenerMisComunidades();
     }
 
     @Override
     public Comunidad obtenerComunidad(Long id) {
-        return comunidades.stream()
-                .filter( c -> c.getId().equals(id))
-                .findFirst()
-                .orElse(null);
+        return repositorioComunidad.obtenerPorId(id);
     }
 
     @Override
+    @Transactional
     public void unirseAComunidad(Usuario usuario, Long comunidadId) {
-        Comunidad c = obtenerComunidad(comunidadId);
-        if(c != null && !c.getMiembros().contains(usuario)) {
-            c.getMiembros().add(usuario);
+
+        Comunidad comunidad = repositorioComunidad.obtenerPorId(comunidadId);
+
+        if (comunidad != null && usuario != null) {
+
+            if(!comunidad.getUsuarios().contains(usuario)){
+                comunidad.getUsuarios().add(usuario);
+                repositorioComunidad.guardar(comunidad);
+            }
+
         }
     }
 
     @Override
+    @Transactional
     public void abandonarComunidad(Usuario usuario, Long comunidadId) {
-        Comunidad c = obtenerComunidad(comunidadId);
-        if(c != null){
-            c.getMiembros().remove(usuario);
-        }
 
+        Comunidad comunidad = repositorioComunidad.obtenerPorId(comunidadId);
+
+        if (comunidad != null && usuario != null) {
+            if(comunidad.getUsuarios().contains(usuario)){
+                comunidad.getUsuarios().remove(usuario);
+                repositorioComunidad.guardar(comunidad);
+            }
+        }
     }
 }

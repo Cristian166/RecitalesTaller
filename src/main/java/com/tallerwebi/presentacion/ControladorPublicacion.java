@@ -30,7 +30,6 @@ public class ControladorPublicacion {
                                         @RequestParam( value = "imagenArchivo") MultipartFile imagenArchivo){
 
         System.out.println("Contenido de publicacion: " + publicacion.getContenido());
-        publicacion.setId(System.currentTimeMillis());
         publicacion.setFechaCreacion(LocalDateTime.now());
 
         if(!imagenArchivo.isEmpty()){

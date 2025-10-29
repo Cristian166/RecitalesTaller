@@ -1,27 +1,49 @@
 package com.tallerwebi.dominio.entidades;
 
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+@Entity
 public class Comunidad {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column (length = 30)
     private String nombre;
+
+    @Column (length = 60)
     private String descripcion;
+
+    @Column (length = 15)
     private String paisOrigen;
+
+    @Column (length = 15)
     private String idioma;
-    private List<Usuario> miembros;
+
+    @ManyToMany
+    @JoinTable(
+            name = "comunidad_usuario",
+            joinColumns = @JoinColumn(name = "comunidad_id"),
+            inverseJoinColumns = @JoinColumn(name = "usuario_id")
+    )
+    private Set<Usuario> usuarios = new HashSet<>();
+
+    @OneToMany(mappedBy = "comunidad", cascade = CascadeType.ALL)
     private List<Publicacion> publicaciones;
 
     public Comunidad(){
 
     }
-    public Comunidad( Long id, String nombre, String descripcion, String paisOrigen, String idioma,List<Usuario> miembros, List<Publicacion> publicaciones) {
+    public Comunidad( Long id, String nombre, String descripcion, String paisOrigen, String idioma,Set<Usuario> usuarios, List<Publicacion> publicaciones) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.paisOrigen = paisOrigen;
         this.idioma = idioma;
-        this.miembros = miembros;
+        this.usuarios = usuarios;
         this.publicaciones = publicaciones;
     }
 
@@ -58,11 +80,11 @@ public class Comunidad {
         this.idioma = idioma;
     }
 
-    public List<Usuario> getMiembros() {
-        return miembros;
+    public Set<Usuario> getUsuarios() {
+        return usuarios;
     }
-    public void setMiembros(List<Usuario> miembros) {
-        this.miembros = miembros;
+    public void setUsuarios(Set<Usuario> usuarios) {
+        this.usuarios = usuarios;
     }
     public List<Publicacion> getPublicaciones() {
         return publicaciones;

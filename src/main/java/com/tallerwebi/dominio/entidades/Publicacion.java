@@ -9,6 +9,7 @@ public class Publicacion {
     private Usuario autorPublicacion;
     private LocalDateTime fechaCreacion;
     private String fechaCreacionString;
+    private String imagen;
 
     public Publicacion() {
 
@@ -51,5 +52,11 @@ public class Publicacion {
     }
     public void setFechaCreacionString(String fechaCreacionString){
         this.fechaCreacionString = fechaCreacionString;
+    }
+    public String getImagen(){
+        return imagen;
+    }
+    public void setImagen(String imagen){
+        this.imagen = imagen;
     }
 }

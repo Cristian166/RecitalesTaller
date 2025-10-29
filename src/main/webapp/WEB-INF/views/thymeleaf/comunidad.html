@@ -166,13 +166,13 @@
                 <div class="d-flex gap-3">
                     <div class="img-placeholder">img</div>
                     <div class="flex-grow-1">
-                        <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}" th:object="${nuevaPublicacion}" method="post">
+                        <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}" th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
                         <textarea  th:field="*{contenido}" rows="3" placeholder="Escribir publicación para publicar..."></textarea>
                             <div class="d-flex justify-content-between align-items-center mt-2">
-                                <!--<label class="btn-glass w-auto mb-0">
+                                <label class="btn-glass w-auto mb-0">
                                     Cargar img
-                                    <input type="file">
-                                </label> AGREGAR IMAGEN-->
+                                    <input type="file" name="imagenArchivo">
+                                </label>
                                 <button type="submit" class="btn-glass w-auto">Publicar</button>
                             </div>
                         </form>
@@ -194,6 +194,10 @@
                         </div>
                     </div>
                     <p th:text="${pub.contenido}">Texto de publicación</p>
+                    <!-- Imagen de la publicación (si existe) -->
+                    <div th:if="${pub.imagen != null}">
+                        <img th:src="@{'/uploads/' + ${pub.imagen}}" alt="imagen publicación" style="max-width:300px; max-height:300px; margin-top:5px;"/>
+                    </div>
                 </div>
             </div>
 

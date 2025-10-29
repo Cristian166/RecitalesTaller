@@ -5,6 +5,9 @@ import com.tallerwebi.config.HibernateConfig;
 import com.tallerwebi.config.SpringWebConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+import javax.servlet.MultipartConfigElement;
+import javax.servlet.ServletRegistration;
+
 public class MyServletInitializer
         extends AbstractAnnotationConfigDispatcherServletInitializer {
 
@@ -23,5 +26,16 @@ public class MyServletInitializer
     @Override
     protected String[] getServletMappings() {
         return new String[]{"/"};
+    }
+
+    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
+        String location = System.getProperty("java.io.tmpdir");
+        long maxFileSize = 5 * 1024 * 1024;
+        long maxRequestSize = 20 * 1024 * 1024;
+        int fileSizeThreshold = 0;
+
+        registration.setMultipartConfig(
+                new MultipartConfigElement(location, maxFileSize, maxRequestSize, fileSizeThreshold)
+        );
     }
 }

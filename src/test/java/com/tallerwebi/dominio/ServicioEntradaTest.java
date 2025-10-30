@@ -37,12 +37,11 @@ public class ServicioEntradaTest {
         assertNotNull(entrada1.getId());
 
         assertTrue(entrada1.getId() > 0);
-        
+
     }
 
     @Test
     public void  debeObtenerTodasLasEntradas(){
-
         ServicioEntradaImpl servicio = new ServicioEntradaImpl();
 
         Entrada entrada1 = new Entrada();
@@ -99,7 +98,7 @@ public class ServicioEntradaTest {
         List<Entrada> entradas = servicio.obtenerTodasMisEntradas();
 
         assertTrue(entradas.stream().noneMatch( entrada -> entrada.getId().equals(1L)));
-    
 
     }
+        
 }

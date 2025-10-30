@@ -110,14 +110,6 @@ public class ControladorLoginTest {
 		// validación
 		assertThat(vista, equalToIgnoringCase("registro"));
 		assertThat(model.getAttribute("error").toString(), equalTo(("El usuario ya existe")));
+
 	}
-
-
-
-
-
-
-
-
-
 }

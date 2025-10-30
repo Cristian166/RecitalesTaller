@@ -19,7 +19,7 @@ public class Insignia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column (length = 50, nullable = false)
+    @Column (length = 50, unique = true)
     private String nombre;
 
     @OneToMany(mappedBy = "insignia", cascade = CascadeType.ALL, orphanRemoval = true)

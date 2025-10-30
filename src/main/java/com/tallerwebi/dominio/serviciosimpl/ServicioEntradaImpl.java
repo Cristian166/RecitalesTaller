@@ -18,6 +18,10 @@ public class ServicioEntradaImpl implements ServicioEntrada {
     @Autowired
     private RepositorioEntrada repositorioEntrada;
 
+    public ServicioEntradaImpl(RepositorioEntrada repositorioEntrada){
+        this.repositorioEntrada = repositorioEntrada;
+    }
+
     @Override
     public void crearEntrada(Entrada entrada) {
         repositorioEntrada.guardarEntrada(entrada);

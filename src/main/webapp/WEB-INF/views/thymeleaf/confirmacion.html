@@ -29,6 +29,7 @@
             height: 120px;
         }
     </style>
+
 </head>
 <body class="bg-white">
 
@@ -40,10 +41,10 @@
                 <button class="btn btn-light" id="menuToggle">MENU</button>
             </div>
             <div class="col-4 text-center">
-                    <a class="btn btn-light" style="text-decoration: none; color: black;" href="home.html">Logo</a>
+                <a class="btn btn-light" style="text-decoration: none; color: black;" href="home.html">Logo</a>
             </div>
             <div class="col-4 text-end">
-                    <a class="btn btn-light" style="text-decoration: none; color: black;" href="perfil.html">Perfil</a>
+                <a class="btn btn-light" style="text-decoration: none; color: black;" href="perfil.html">Perfil</a>
             </div>
         </div>
     </div>
@@ -55,7 +56,7 @@
     <h5 class="mb-3">NavegaciOn</h5>
     <ul class="list-unstyled">
         <li><a href="vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
-        <li><a href="comunidades.html" class="d-block mb-2">Comunidades</a></li>
+        <li><a href="#" class="d-block mb-2">Comunidades</a></li>
         <li><a href="resitalesAsistidos.html" class="d-block mb-2">Recitales Asistidos</a></li>
         <li><a href="perfil.html" class="d-block mb-2">Mi perfil</a></li>
     </ul>
@@ -64,67 +65,20 @@
     <button class="btn btn-danger w-100 mt-3">Cerrar sesión</button>
 </div>
 
-<!-- MAIN CONTENT -->
-<main class="container my-4">
-
-    <!-- Mis Entradas -->
-    <section class="mb-4">
-        <h4>Mis Entradas</h4>
-        <div class="row g-3">
-            <!-- Ejemplo hardcodeado -->
-            <div class="col-md-6">
-                <div class="card-placeholder d-flex justify-content-center align-items-center">
-                    Entrada 1
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card-placeholder d-flex justify-content-center align-items-center">
-                    Entrada 2
-                </div>
-            </div>
+<!-- BODY CON COMPROBANTE -->
+<div class="container my-5">
+    <div class="card shadow mx-auto" style="max-width: 600px;">
+        <div class="card-body text-center">
+            <h1 class="card-title mb-4">¡Bienvenido al plan <span th:text="${plan}"></span>!</h1>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p class="card-text">Monto abonado: <strong th:text="${amount} + ' ARS'"></strong></p>
+            <p class="card-text">Estado del pago: <strong th:text="${status}"></strong></p>
+            <p class="card-text">Método de pago: <strong th:text="${paymentType}"></strong></p>
+            <p class="card-text">Preference ID: <strong th:text="${preferenceId}"></strong></p>
+            <a th:href="@{/elegir-tipo-plan}" class="btn btn-primary mt-4">Volver a planes</a>
         </div>
-        <button class="btn btn-primary mt-3">Boton</button>
-    </section>
-
-    <!-- Mis comunidades -->
-    <section class="mb-4">
-        <h4>Mis comunidades</h4>
-        <div class="row g-3">
-            <div class="col-6 col-md-3">
-                <div class="card-placeholder d-flex justify-content-center align-items-center">
-                    Comunidad 1
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="card-placeholder d-flex justify-content-center align-items-center">
-                    Comunidad 2
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="card-placeholder d-flex justify-content-center align-items-center">
-                    Comunidad 3
-                </div>
-            </div>
-            <div class="col-6 col-md-3">
-                <div class="card-placeholder d-flex justify-content-center align-items-center">
-                    Comunidad 4
-                </div>
-            </div>
-
-        </div>
-        <button class="btn btn-primary mt-3">Boton</button>
-    </section>
-
-    <!-- Sobre nosotros -->
-    <section class="mb-4">
-        <h4>Sobre nosotros</h4>
-        <div class="card-placeholder d-flex justify-content-center align-items-center">
-            <p class="m-0">Texto informativo</p>
-            <!-- th:text="${informacion}" -->
-        </div>
-    </section>
-
-</main>
+    </div>
+</div>
 
 <!-- FOOTER -->
 <footer class="bg-secondary text-white text-center py-3">

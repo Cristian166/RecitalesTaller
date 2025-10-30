@@ -19,5 +19,9 @@ hs_err_pid*
 /.idea/
 /.settings/
 
+src/main/resources/application.properties
+
+/uploads/
+
 **/node_modules/
 .vscode/

@@ -1,15 +1,10 @@
 package com.tallerwebi.dominio.entidades;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
 public class Usuario {
@@ -17,6 +12,7 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nombre;
     private String apellido;
     private String email;
@@ -26,6 +22,11 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<UsuarioInsignia> usuarioInsignias = new HashSet<>();
 
+    @OneToMany(mappedBy = "autorPublicacion")
+    private List<Publicacion> publicaciones;
+
+    @ManyToMany(mappedBy = "usuarios")
+    private Set<Comunidad> comunidades = new HashSet<>();
 
     @OneToOne(mappedBy = "usuario")
     private PreferenciaUsuario preferenciaUsuario;
@@ -60,7 +61,6 @@ public class Usuario {
     public void activar() {activo = true;
     }
 
-
     public Boolean getEsPremium() {
         return esPremium;
     }
@@ -69,5 +69,18 @@ public class Usuario {
         this.esPremium = esPremium;
     }
 
-    
+
+    public List<Publicacion> getPublicaciones() {
+        return publicaciones;
+    }
+    public void setPublicaciones(List<Publicacion> publicaciones) {
+        this.publicaciones = publicaciones;
+    }
+    public Set<Comunidad> getComunidades() {
+        return comunidades;
+    }
+    public  void setComunidades(Set<Comunidad> comunidades) {
+        this.comunidades = comunidades;
+    }
+
 }

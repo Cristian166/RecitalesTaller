@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ControladorEntrada {
@@ -32,11 +33,9 @@ public class ControladorEntrada {
     }
 
 
-
     @PostMapping("/agregar-entrada")
     public String agregarEntrada(@ModelAttribute Entrada entrada) {
         servicioEntrada.crearEntrada(entrada);
-        System.out.println("Id de entrada creada: "+entrada.getId());
          return "redirect:/vista-entradas-recitales";
     }
 
@@ -46,4 +45,52 @@ public class ControladorEntrada {
         return "redirect:/vista-entradas-recitales";
     }
 
+    @GetMapping("/validar-entrada")
+    public ModelAndView mostrarFormularioValidarEntrada(@RequestParam("id") Long id) {
+        ModelAndView modelAndView = new ModelAndView("validar-entrada");
+        modelAndView.addObject("entrada", servicioEntrada.buscarPorId(id));
+    return modelAndView;
+    }
+
+    @PostMapping("/validar-entrada")
+    public ModelAndView validarEntrada(@RequestParam("id") Long id) {
+
+        ModelAndView modelAndView = new ModelAndView("validar-entrada");
+
+        Entrada entrada = servicioEntrada.buscarPorId(id);
+
+        if (entrada == null) {
+            modelAndView.addObject("mensajeError", "No se encontró la entrada con ID: " + id);
+            return modelAndView;
+        }
+
+        servicioEntrada.validarEntrada(id);
+        entrada = servicioEntrada.buscarPorId(id);
+
+        if (entrada.getValidada()) {
+            modelAndView.addObject("mensajeExito", "La entrada fue validada correctamente.");
+        } else {
+            modelAndView.addObject("mensajeError", "No se pudo validar la entrada. Verifique los datos ingresados.");
+        }
+
+        modelAndView.addObject("entrada", entrada);
+        return modelAndView;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ }
+
+

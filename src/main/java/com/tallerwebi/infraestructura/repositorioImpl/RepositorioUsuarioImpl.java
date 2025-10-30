@@ -2,6 +2,8 @@ package com.tallerwebi.infraestructura.repositorioImpl;
 
 import java.io.Serializable;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
@@ -14,6 +16,7 @@ import com.tallerwebi.infraestructura.RepositorioUsuario;
 
 import net.bytebuddy.asm.Advice.Return;
 
+@Transactional
 @Repository("repositorioUsuario")
 public class RepositorioUsuarioImpl implements RepositorioUsuario {
 
@@ -40,11 +43,12 @@ public class RepositorioUsuarioImpl implements RepositorioUsuario {
     }
 
     @Override
-    public Usuario buscar(String email) {
-        return (Usuario) sessionFactory.getCurrentSession().createCriteria(Usuario.class)
-                .add(Restrictions.eq("email", email))
-                .uniqueResult();
+    public Usuario buscarPorEmail(String email) {
+        String hql = "FROM Usuario WHERE email = :email";
+        return (Usuario) sessionFactory.getCurrentSession().createQuery(hql).setParameter("email", email)
+            .uniqueResult();
     }
+
 
     @Override
     public void modificar(Usuario usuario) {

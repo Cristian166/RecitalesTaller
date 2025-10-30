@@ -1,19 +1,77 @@
-INSERT INTO Insignia (nombre, descripcion, imagen, DTYPE) VALUES
-('Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png', 'Insignia'),
-('Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png', 'Insignia'),
-('Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png', 'Insignia'),
-('Fanático', 'Marcaste a un artista como favorito', '/img/insignias/fanatico.png', 'Insignia'),
-('Bienvenido', 'Iniciaste sesion', '/img/insignias/bienvenido.png', 'Insignia'),
-('Encuestador', 'Creaste una encuesta', '/img/insignias/encuestador.png', 'Insignia'),
-('Creador de Comunidad', 'Creaste una comunidad', '/img/insignias/creador_comunidad_premium.png', 'Insignia'),
-('Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png', 'Insignia');
+/*Usuario*/
+INSERT IGNORE INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
 
-INSERT INTO Usuario(id, email, password, rol, activo) VALUES(1, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
+/*Comunidad*/
+INSERT INTO Comunidad(id, nombre, descripcion, paisOrigen, idioma) VALUES (1, 'Comunidad de prueba', 'Para probar', 'Argentina', 'Español');
 
--- ingresar comunidad para ejemplo
-
-INSERT INTO Comunidad(id,nombre,descripcion,paisOrigen,idioma) VALUES ( 1, 'Comunidad de prueba' , 'Para probar', 'Argentina', 'Español');
-
--- Asociar usuario con comunidad
-
+/*Asociar usuario con comunidad*/
 INSERT INTO comunidad_usuario(id_comunidad_fk, id_usuario_fk) VALUES (1, 1);
+
+/*Artistas*/
+INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
+('Duki', 'Artista'),
+('Emilia', 'Artista'),
+('Michael Jackson', 'Artista'),
+('Damas Gratis', 'Artista'),
+('Bad Bunny', 'Artista'),
+('Miranda', 'Artista'),
+('Taylor Swift', 'Artista'),
+('Luck Ra', 'Artista'),
+('Alejandro Sanz', 'Artista'),
+('Eminem', 'Artista'),
+('Rels B', 'Artista'),
+('Shakira', 'Artista');
+/*Generos*/
+INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
+('Rock', 'Genero'),
+('Pop', 'Genero'),
+('Hip Hop', 'Genero'),
+('Tango', 'Genero'),
+('Reggae', 'Genero'),
+('Reggaeton', 'Genero'),
+('Soul', 'Genero'),
+('Metal', 'Genero'),
+('Cumbia', 'Genero'),
+('R&B', 'Genero'),
+('Electronica', 'Genero'),
+('Cuarteto', 'Genero');
+
+/*Regiones*/
+INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
+('EEUU', 'Region'),
+('Italia', 'Region'),
+('Europa', 'Region'),
+('Asia', 'Region'),
+('Africa', 'Region'),
+('Colombia', 'Region'),
+('Argentina', 'Region'),
+('Caribe', 'Region'),
+('Mexico', 'Region'),
+('España', 'Region'),
+('Brasil', 'Region'),
+('America Latina', 'Region');
+
+/*Epocas*/
+INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
+('1950s', 'Epoca'),
+('1960s', 'Epoca'),
+('1970s', 'Epoca'),
+('1980s', 'Epoca'),
+('1990s', 'Epoca'),
+('2000s', 'Epoca'),
+('2010s', 'Epoca'),
+('2020s', 'Epoca'),
+('Clasica', 'Epoca'),
+('Contemporanea', 'Epoca'),
+('Moderna', 'Epoca'),
+('Actual', 'Epoca');
+
+INSERT IGNORE INTO Insignia (nombre, descripcion, imagen) VALUES
+('Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png'),
+('Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png'),
+('Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png'),
+('Fanático', 'Marcaste a un artista como favorito', '/img/insignias/fanatico.png'),
+('Bienvenido', 'Iniciaste sesion', '/img/insignias/bienvenido.png'),
+('Encuestador', 'Creaste una encuesta', '/img/insignias/encuestador.png'),
+('Creador de Comunidad', 'Creaste una comunidad', '/img/insignias/creador_comunidad_premium.png'),
+('Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png');

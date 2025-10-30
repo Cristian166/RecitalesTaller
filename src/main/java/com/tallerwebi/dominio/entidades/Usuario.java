@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +16,8 @@ public class Usuario {
 
     private String nombre;
     private String apellido;
+
+    @Column(unique = true)
     private String email;
     private String password;
     private String rol;

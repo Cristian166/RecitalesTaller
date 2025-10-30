@@ -31,31 +31,23 @@ public class ServicioPerfilImpl implements ServicioPerfil {
 
     @Override
     public List<String> obtenerGeneros() {
-        List<String> generos = repositorioPerfil.obtenerNombresDePreferenciasPorTipo("genero");
-         generos = List.of("Rock", "Pop", "Rap", "Reggaeton", "Jazz");
-        return generos;
+        return repositorioPerfil.obtenerNombresDePreferenciasPorTipo("genero");
     }
 
 
     @Override
     public List<String> obtenerArtistas() {
-        List<String> artistas = repositorioPerfil.obtenerNombresDePreferenciasPorTipo("artista");
-        artistas = List.of("Duki", "Emilia", "Bad bunny", "Gustavo Ceratti", "Lali");
-        return artistas;
+        return repositorioPerfil.obtenerNombresDePreferenciasPorTipo("artista");
     }
 
     @Override
     public List<String> obtenerRegiones() {
-        List<String> regiones = repositorioPerfil.obtenerNombresDePreferenciasPorTipo("region");
-         regiones = List.of("Europa", "España", "Argentina", "Mexico", "EEUU");
-        return regiones;
+        return repositorioPerfil.obtenerNombresDePreferenciasPorTipo("region");
     }
 
     @Override
     public List<String> obtenerEpocas() {
-        List<String> epocas = repositorioPerfil.obtenerNombresDePreferenciasPorTipo("epoca");
-         epocas = List.of("Clasica", "80's", "2000's", "Actualidad", "90's");
-        return epocas;
+        return repositorioPerfil.obtenerNombresDePreferenciasPorTipo("epoca");
     }
 
     @Override

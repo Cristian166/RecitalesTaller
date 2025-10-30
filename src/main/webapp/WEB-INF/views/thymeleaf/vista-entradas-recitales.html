@@ -92,7 +92,9 @@
     </ul>
     <hr>
     <p><strong>Tipo de plan:</strong> Premium</p>
-    <button class="btn btn-danger w-100 mt-3">Cerrar sesión</button>
+    <a th:href="@{/cerrar-sesion}" class="btn btn-danger w-100 mt-3">Cerrar sesión</a>
+
+
 </div>
 
 <!-- MAIN -->
@@ -123,7 +125,7 @@
         <div class="col-md-2 d-flex flex-column gap-2">
             <button class="btn btn-outline-secondary btn-sm">Editar</button>
             <button class="btn btn-outline-secondary btn-sm">Eliminar</button>
-            <button class="btn btn-outline-secondary btn-sm">Descargar</button>
+            <button class="btn btn-outline-secondary btn-sm">Validar</button>
         </div>
     </div>
 
@@ -147,7 +149,11 @@
                 <input type="hidden" th:name="id" th:value="${entrada.id}"/>
                 <button type="submit" class="btn btn-outline-secondary btn-sm">Eliminar</button>
             </form>
-            <button class="btn btn-outline-secondary btn-sm">Descargar</button>
+            <form th:action="@{/validar-entrada}" method="get">
+                <input type="hidden" name="id" th:value="${entrada.id}">
+                <button type="submit" class="btn btn-outline-secondary btn-sm">Validar</button>
+            </form>
+
         </div>
     </div>
 

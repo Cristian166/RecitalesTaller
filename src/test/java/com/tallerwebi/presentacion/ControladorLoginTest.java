@@ -5,13 +5,17 @@ import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.ui.ExtendedModelMap;
+import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 public class ControladorLoginTest {
@@ -67,39 +71,53 @@ public class ControladorLoginTest {
 	}
 
 	@Test
-	public void registrameSiUsuarioNoExisteDeberiaCrearUsuarioYVolverAlLogin() throws UsuarioExistente {
+	public void registrarUsuarioSiNoExisteDeberiaCrearUsuarioYRedirigirAlLogin() throws UsuarioExistente {
+		// preparacion
+		Usuario usuarioMock = new Usuario();
+		usuarioMock.setEmail("test@correo.com");
+		usuarioMock.setPassword("123456");
+		
+		when(servicioLoginMock.registrar(usuarioMock)).thenReturn(usuarioMock);
+		
+
+		Model model = new ExtendedModelMap(); // esto simula el Model de Spring
 
 		// ejecucion
-		ModelAndView modelAndView = controladorLogin.registrarme(usuarioMock);
+		String vista = controladorLogin.registrarUsuario(usuarioMock, "123456", model);
 
 		// validacion
-		assertThat(modelAndView.getViewName(), equalToIgnoringCase("redirect:/login"));
+		assertThat(vista, equalToIgnoringCase("redirect:/login"));
 		verify(servicioLoginMock, times(1)).registrar(usuarioMock);
 	}
 
-	@Test
-	public void registrarmeSiUsuarioExisteDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente {
-		// preparacion
-		doThrow(UsuarioExistente.class).when(servicioLoginMock).registrar(usuarioMock);
-
-		// ejecucion
-		ModelAndView modelAndView = controladorLogin.registrarme(usuarioMock);
-
-		// validacion
-		assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
-		assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("El usuario ya existe"));
-	}
 
 	@Test
-	public void errorEnRegistrarmeDeberiaVolverAFormularioYMostrarError() throws UsuarioExistente {
-		// preparacion
-		doThrow(RuntimeException.class).when(servicioLoginMock).registrar(usuarioMock);
+	public void registrarUsuarioSiUsuarioExisteDeberiaVolverAlFormularioConError() throws UsuarioExistente {
+		// preparación
+		Usuario usuarioMock = new Usuario();
+		usuarioMock.setEmail("test@correo.com");
+		usuarioMock.setPassword("123456");
 
-		// ejecucion
-		ModelAndView modelAndView = controladorLogin.registrarme(usuarioMock);
+		// simulamos que el servicio lanza la excepción UsuarioExistente
+		doThrow(new UsuarioExistente("El usuario ya existe"))
+			.when(servicioLoginMock).registrar(usuarioMock);
 
-		// validacion
-		assertThat(modelAndView.getViewName(), equalToIgnoringCase("nuevo-usuario"));
-		assertThat(modelAndView.getModel().get("error").toString(), equalToIgnoringCase("Error al registrar el nuevo usuario"));
+		Model model = new ExtendedModelMap();
+
+		// ejecución
+		String vista = controladorLogin.registrarUsuario(usuarioMock, "123456", model);
+
+		// validación
+		assertThat(vista, equalToIgnoringCase("registro"));
+		assertThat(model.getAttribute("error").toString(), equalTo(("El usuario ya existe")));
 	}
+
+
+
+
+
+
+
+
+
 }

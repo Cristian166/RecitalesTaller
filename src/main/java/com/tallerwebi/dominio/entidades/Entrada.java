@@ -5,16 +5,32 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+
+@Entity
 public class Entrada {
+
+    @Id
+    @GeneratedValue(strategy =GenerationType.IDENTITY )
     private Long id;
+
     private String nombreRecital;
     private String lugar;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
+
     @DateTimeFormat(pattern = "HH:mm")
     private LocalTime horario;
+
     private String seccion;
+    private Boolean validada=false;
+
+    
 
     public Entrada(){
     }
@@ -63,6 +79,13 @@ public class Entrada {
     }
     public void setSeccion(String seccion) {
         this.seccion = seccion;
+    }
+    public Boolean getValidada() {
+        return validada;
+    }
+
+    public void setValidada(Boolean validada) {
+        this.validada = validada;
     }
 
 }

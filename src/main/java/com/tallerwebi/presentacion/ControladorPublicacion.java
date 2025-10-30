@@ -1,13 +1,18 @@
 package com.tallerwebi.presentacion;
 
+import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.ServicioPublicacion;
+import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Publicacion;
+import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.infraestructura.RepositorioPublicacionImpl;
+import com.tallerwebi.infraestructura.RepositorioUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -16,24 +21,49 @@ import java.time.LocalDateTime;
 
 @Controller
 public class ControladorPublicacion {
-    /*
-    * Maneja las publicaciones dentro de una comunidad (crear,listar...)
-    * */
+
+    private final ServicioPublicacion servicioPublicacion;
+    private final ServicioComunidad servicioComunidad;
+    private final RepositorioUsuario repositorioUsuario;
+    private final HttpSession session;
+    private final RepositorioPublicacionImpl repositorioPublicacion;
 
     @Autowired
-    private ServicioPublicacion servicioPublicacion;
+    public ControladorPublicacion(ServicioPublicacion servicioPublicacion,
+                                  ServicioComunidad servicioComunidad,
+                                  RepositorioUsuario repositorioUsuario,
+                                  HttpSession session, RepositorioPublicacionImpl repositorioPublicacion) {
+        this.servicioPublicacion = servicioPublicacion;
+        this.servicioComunidad = servicioComunidad;
+        this.repositorioUsuario = repositorioUsuario;
+        this.session = session;
+        this.repositorioPublicacion = repositorioPublicacion;
+    }
 
     //Crear una publicacion en una comunidad
     @PostMapping("/comunidad/{id}/publicar")
     public String publicarEnLaComunidad(@PathVariable Long id,
                                         @ModelAttribute("nuevaPublicacion") Publicacion publicacion,
-                                        @RequestParam( value = "imagenArchivo") MultipartFile imagenArchivo){
+                                        @RequestParam(value = "imagenArchivo", required = false) MultipartFile imagenArchivo) {
 
-        System.out.println("Contenido de publicacion: " + publicacion.getContenido());
-        publicacion.setFechaCreacion(LocalDateTime.now());
+        Comunidad comunidad = servicioComunidad.obtenerComunidad(id);
+        if (comunidad == null) {
+            System.out.println("No existe comunidad con id: " + id);
+            return "redirect:/comunidades";
+        }
 
-        if(!imagenArchivo.isEmpty()){
-            try{
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            System.out.println("No hay usuario logueado en sesión");
+            return "redirect:/login";
+        }
+
+        if (publicacion.getContenido() == null || publicacion.getContenido().trim().isEmpty()) {
+            System.out.println("Contenido de publicación vacío");
+            return "redirect:/comunidad/" + id;
+        }
+        if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
+            try {
                 String nombreArchivo = System.currentTimeMillis() + "_" + imagenArchivo.getOriginalFilename();
                 Path ruta = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
                 Files.createDirectories(ruta.getParent());
@@ -43,10 +73,14 @@ public class ControladorPublicacion {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
 
-        servicioPublicacion.crearPublicacion(publicacion, id);
-        return "redirect:/comunidad/"+id;
+        publicacion.setAutorPublicacion(usuario);
+        publicacion.setComunidad(comunidad);
+        publicacion.setFechaCreacion(LocalDateTime.now());
+
+        servicioPublicacion.crearPublicacion( publicacion, id, usuario);
+        return "redirect:/comunidad/" + id;
     }
+
 }

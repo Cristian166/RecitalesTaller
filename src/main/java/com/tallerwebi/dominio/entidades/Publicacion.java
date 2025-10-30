@@ -9,13 +9,15 @@ public class Publicacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column ( length = 500)
+    private String contenido;
+
     private LocalDateTime fechaCreacion;
 
-    @Lob
     private String imagen;
 
-    @Column ( length = 1000)
-    private String contenido;
+    @Transient
+    private String fechaFormateada;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario_fk")
@@ -28,11 +30,9 @@ public class Publicacion {
     public Publicacion() {
 
     }
-    public Publicacion( Long id, String contenido,Usuario autorPublicacion, LocalDateTime fechaCreacion, Comunidad comunidad) {
-        this.id = id;
+    public Publicacion(String contenido, Usuario autorPublicacion, Comunidad comunidad) {
         this.contenido = contenido;
         this.autorPublicacion = autorPublicacion;
-        this.fechaCreacion = fechaCreacion;
         this.comunidad = comunidad;
     }
 
@@ -50,37 +50,34 @@ public class Publicacion {
     public void setContenido(String contenido){
         this.contenido = contenido;
     }
-
-    public Usuario getAutorPublicacion(){
-        return autorPublicacion;
-    }
-    public void setAutorPublicacion(Usuario autorPublicacion){
-        this.autorPublicacion = autorPublicacion;
-    }
-
     public LocalDateTime getFechaCreacion(){
         return fechaCreacion;
     }
-
     public void setFechaCreacion(LocalDateTime fechaCreacion){
         this.fechaCreacion = fechaCreacion;
     }
-
     public String getImagen(){
         return imagen;
     }
     public void setImagen(String imagen){
         this.imagen = imagen;
     }
+    public String getFechaFormateada(){
+        return fechaFormateada;
+    }
+    public void setFechaFormateada(String fechaFormateada){
+        this.fechaFormateada = fechaFormateada;
+    }
+    public Usuario getAutorPublicacion(){
+        return autorPublicacion;
+    }
+    public void setAutorPublicacion(Usuario usuario) {
+        this.autorPublicacion = usuario;
+    }
     public Comunidad getComunidad(){
         return comunidad;
     }
-
-    public void setComunidad(Comunidad comunidad) {
+    public void setComunidad(Comunidad comunidad){
         this.comunidad = comunidad;
-    }
-
-    public String getEmailAutor(){
-        return autorPublicacion.getEmail();
     }
 }

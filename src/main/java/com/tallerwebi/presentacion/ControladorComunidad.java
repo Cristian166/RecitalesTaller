@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.ServicioPublicacion;
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.infraestructura.DTOs.PublicacionDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,22 +14,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class ControladorComunidad {
-
-    /*
-    * Maneja todo lo relacionado a comunidades (listar,ver,detalles,unirse o abandonar)
-    * */
-
     private final ServicioComunidad servicioComunidad;
     private final ServicioPublicacion servicioPublicacion;
 
     @Autowired
     private HttpSession session;
 
+    @Autowired
     public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioPublicacion servicioPublicacion) {
         this.servicioComunidad = servicioComunidad;
         this.servicioPublicacion = servicioPublicacion;
@@ -37,50 +34,41 @@ public class ControladorComunidad {
     //mostrar comunidades
     @GetMapping("/comunidades")
     public String mostrarComunidades(Model model){
-        model.addAttribute("comunidades", servicioComunidad.listarTodasLasComunidades());
+        Set<Comunidad> comunidades = servicioComunidad.listarTodasLasComunidades();
+        comunidades.forEach(c -> System.out.println(c.getUsuarios()));
+        model.addAttribute("comunidades", comunidades);
         return "comunidades";
     }
 
     @GetMapping("/comunidad/{id}")
-    public String verComunidad(@PathVariable Long id, Model model){
+    public String verComunidad(@PathVariable Long id, Model model) {
         Comunidad comunidad = servicioComunidad.obtenerComunidad(id);
-        if (comunidad == null) {
-            // Redirige a la lista de comunidades si no existe
+
+        if(comunidad == null){
             return "redirect:/comunidades";
         }
-        List<Publicacion> publicaciones = servicioPublicacion.listarPublicacionesPorComunidad(id);
-        DateTimeFormatter formatear = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
-        publicaciones.forEach(pub ->{
-            if(pub.getFechaCreacion() != null){
-                String fechaFormateada = pub.getFechaCreacion().format(formatear);
-                model.addAttribute("fechaCreacion", fechaFormateada);
-            }else {
-                model.addAttribute("fechaCreacion" + pub.getId(),"hace unos minutos");
-            }
-        });
 
-        // Pasamos al modelo la comunidad y sus publicaciones
-        model.addAttribute("comunidad", comunidad);
-        model.addAttribute("publicaciones", publicaciones);
-        model.addAttribute("nuevaPublicacion", new Publicacion());
+        List<PublicacionDTO> publicacionesDTO = servicioPublicacion.listarPublicacionesDTOPorComunidad(id);
 
+        model.addAttribute("comunidad",comunidad);
+        model.addAttribute("publicaciones",publicacionesDTO);
+        model.addAttribute("nuevaPublicacion",new Publicacion());
         return "comunidad";
     }
 
 
-    @PostMapping("/{id}/unirse")
-    public String ingresarAUnaComunidad(@PathVariable Long id){
 
+    @PostMapping("/comunidad/{id}/unirse")
+    public String ingresarAUnaComunidad(@PathVariable Long id){
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if(usuario == null){
             return "redirect:/login";
         }
-
         servicioComunidad.unirseAComunidad(usuario, id);
         return "redirect:/comunidades/" + id;
     }
 
-    @PostMapping("{id}/abandonar")
+    @PostMapping("/comunidad/{id}/abandonar")
     public String abandonarUnaComunidad(@PathVariable Long id){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");

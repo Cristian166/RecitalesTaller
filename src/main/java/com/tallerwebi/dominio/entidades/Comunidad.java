@@ -23,7 +23,7 @@ public class Comunidad {
     @Column (length = 15)
     private String idioma;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "comunidad_usuario",
             joinColumns = @JoinColumn(name = "id_comunidad_fk"),

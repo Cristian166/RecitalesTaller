@@ -185,18 +185,19 @@
             <div>
                 <h5 class="mb-3">Publicaciones</h5>
 
-                <div class="post mb-3" th:each="pub : ${publicaciones}">
+                <div class="post mb-3" th:each="publicacion : ${publicaciones}">
                     <div class="user-info">
                         <div class="user-img"></div>
                         <div>
-                            <strong th:text="${pub.autorPublicacion != null ? pub.autorPublicacion.nombre : 'UsuarioPrueba'}">Nombre Usuario</strong>
-                            <small th:text="${#dates.format(pub.fechaCreacion, 'dd/MM/yyyy HH:mm')}"></small>
+                            <strong th:text="${publicacion.autorNombre}">Nombre Usuario</strong>
+                            <small th:text="${publicacion.fechaFormateada}"></small>
                         </div>
                     </div>
-                    <p th:text="${pub.contenido}">Texto de publicación</p>
-                    <!-- Imagen de la publicación (si existe) -->
-                    <div th:if="${pub.imagen != null}">
-                        <img th:src="@{'/uploads/' + ${pub.imagen}}" alt="imagen publicación" style="max-width:300px; max-height:300px; margin-top:5px;"/>
+                    <p th:text="${publicacion.contenido}">Texto de publicación</p>
+                    <div th:if="${publicacion.imagen != null}">
+                        <img th:src="@{'/uploads/' + ${publicacion.imagen}}"
+                             alt="imagen publicación"
+                             style="max-width:300px; max-height:300px; margin-top:5px;"/>
                     </div>
                 </div>
             </div>

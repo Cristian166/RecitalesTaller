@@ -36,7 +36,8 @@ public class RepositorioComunidadImpl implements RepositorioComunidad{
 
     @Override
     public Comunidad obtenerPorId(Long id) {
-        return getCurrentSession().load(Comunidad.class, id);
+
+        return getCurrentSession().get(Comunidad.class, id);
     }
 
     @Override

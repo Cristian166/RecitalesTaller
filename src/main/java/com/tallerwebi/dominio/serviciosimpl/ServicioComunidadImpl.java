@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class ServicioComunidadImpl implements ServicioComunidad {
 
     private final RepositorioComunidad repositorioComunidad;
@@ -20,13 +21,17 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     }
 
     @Override
+    @Transactional
     public Set<Comunidad> listarTodasLasComunidades() {
         return repositorioComunidad.obtenerMisComunidades();
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Comunidad obtenerComunidad(Long id) {
-        return repositorioComunidad.obtenerPorId(id);
+        Comunidad comunidad = repositorioComunidad.obtenerPorId(id);
+        System.out.println("ServicioComunidad obtenido: "+comunidad);
+        return comunidad;
     }
 
     @Override

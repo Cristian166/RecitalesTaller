@@ -66,12 +66,12 @@ INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('Moderna', 'Epoca'),
 ('Actual', 'Epoca');
 
-INSERT IGNORE INTO Insignia (nombre, descripcion, imagen) VALUES
-('Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png'),
-('Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png'),
-('Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png'),
-('Fanático', 'Marcaste a un artista como favorito', '/img/insignias/fanatico.png'),
-('Bienvenido', 'Iniciaste sesion', '/img/insignias/bienvenido.png'),
-('Encuestador', 'Creaste una encuesta', '/img/insignias/encuestador.png'),
-('Creador de Comunidad', 'Creaste una comunidad', '/img/insignias/creador_comunidad_premium.png'),
-('Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png');
+INSERT INTO Insignia (DTYPE, nombre, descripcion, imagen) VALUES
+('Insignia', 'Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png'),
+('Insignia', 'Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png'),
+('Insignia', 'Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png'),
+('Insignia', 'Fanático', 'Marcaste a un artista como favorito', '/img/insignias/fanatico.png'),
+('Insignia', 'Bienvenido', 'Iniciaste sesion', '/img/insignias/bienvenido.png'),
+('InsigniaPremium', 'Encuestador', 'Creaste una encuesta', '/img/insignias/encuestador.png'),
+('InsigniaPremium', 'Creador de Comunidad', 'Creaste una comunidad', '/img/insignias/creador_comunidad_premium.png'),
+('InsigniaPremium', 'Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png');

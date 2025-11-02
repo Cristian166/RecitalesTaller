@@ -6,20 +6,25 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToMany;
 
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "DTYPE")
 public class Insignia {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column (length = 50, unique = true)
+    @Column(length = 50, unique = true)
     private String nombre;
 
     @OneToMany(mappedBy = "insignia", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -35,6 +40,7 @@ public class Insignia {
         this.imagen = imagen;
 
     }
+
     public Insignia() {
 
     }
@@ -54,6 +60,7 @@ public class Insignia {
     public String getImagen() {
         return imagen;
     }
+
     public void setId(long id) {
         this.id = id;
     }
@@ -69,22 +76,22 @@ public class Insignia {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
-    
-	@Override
-	public int hashCode() {
-		return Objects.hash(id);
-	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Insignia other = (Insignia) obj;
-		return Objects.equals(id, other.id);
-	}
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Insignia other = (Insignia) obj;
+        return Objects.equals(id, other.id);
+    }
 
 }

@@ -12,6 +12,10 @@ public class InsigniaPremium extends Insignia {
         this.efectoVisual = efectoVisual;
     }
 
+    public InsigniaPremium() {
+        super();
+    }
+
     public String getEfectoVisual() {
         return efectoVisual;
     }

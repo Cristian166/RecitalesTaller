@@ -30,8 +30,8 @@ public class ServicioInsigniaImpl implements ServicioInsignia {
     }
 
     @Override
+    @Transactional
     public boolean asignarInsignia(Usuario usuario, Insignia insignia) {
-
         if (Boolean.FALSE.equals(usuario.esPremium()) && insignia instanceof InsigniaPremium) {
             return false;
         }

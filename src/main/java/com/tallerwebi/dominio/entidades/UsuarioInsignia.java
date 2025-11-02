@@ -19,11 +19,11 @@ public class UsuarioInsignia {
     @ManyToOne
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
-    
+
     @ManyToOne
     @JoinColumn(name = "insignia_id", nullable = false)
     private Insignia insignia;
-    
+
     private LocalDate fechaObtenida;
 
     public long getId() {

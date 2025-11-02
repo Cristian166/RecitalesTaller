@@ -4,7 +4,7 @@ import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
 import com.tallerwebi.dominio.ServicioMercadoPago;
-import com.tallerwebi.dominio.entidades.Insignia;
+import com.tallerwebi.dominio.ServicioSuscripcion;
 import com.tallerwebi.dominio.entidades.Usuario;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +17,22 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import com.tallerwebi.infraestructura.RepositorioInsignia;
-import com.tallerwebi.dominio.ServicioInsignia;
 import javax.servlet.http.HttpSession;
 
 @Controller
 public class ControladorSuscripcion {
 
-    @Autowired
     private ServicioMercadoPago servicioMercadoPago;
 
-    private ServicioInsignia servicioInsignia;
+    private ServicioSuscripcion servicioSuscripcion;
 
-    private RepositorioInsignia repositorioInsignia;
+    @Autowired
+    public ControladorSuscripcion(
+            ServicioMercadoPago servicioMercadoPago,
+            ServicioSuscripcion servicioSuscripcion) {
+        this.servicioMercadoPago = servicioMercadoPago;
+        this.servicioSuscripcion = servicioSuscripcion;
+    }
 
     @PostMapping("/pago")
     public void generarPreferenciaDePago(@RequestParam("plan") String plan, HttpServletResponse response)
@@ -85,22 +88,9 @@ public class ControladorSuscripcion {
         System.out.println("preference_id=" + preferenceId);
         System.out.println("payment_id=" + paymentId);
 
-        if ("approved".equalsIgnoreCase(status)) {
-            Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-            if (usuario != null) {
-                Insignia insigniaPremium = repositorioInsignia.obtenerPorId(8L);
-                if (insigniaPremium != null) {
-                    servicioInsignia.asignarInsignia(usuario, insigniaPremium);
-                    System.out.println("Insignia Premium asignada al usuario: " + usuario.getEmail());
-                } else {
-                    System.out.println("No se encontró la insignia.");
-                }
-            } else {
-                System.out.println("No hay usuario en sesión");
-            }
-        }
-
+        servicioSuscripcion.procesarPagoPremium(usuario);
         return "confirmacion";
     }
 

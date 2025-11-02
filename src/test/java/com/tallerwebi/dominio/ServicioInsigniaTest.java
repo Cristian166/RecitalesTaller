@@ -18,7 +18,7 @@ public class ServicioInsigniaTest {
     Usuario usuario;
 
     @BeforeEach
-    public void init(){
+    public void init() {
 
         usuario = new Usuario();
         usuario.setId(1L);
@@ -65,7 +65,7 @@ public class ServicioInsigniaTest {
     }
 
     @Test
-    public void dadoQueExisteUnUsuarioSeLePuedeAsignarUnaInsigniaPremium(){
+    public void dadoQueExisteUnUsuarioSeLePuedeAsignarUnaInsigniaPremium() {
         ServicioInsignia servicio = mock(ServicioInsignia.class);
 
         usuario.setPremium(true);
@@ -82,7 +82,7 @@ public class ServicioInsigniaTest {
     }
 
     @Test
-    public void dadoQueExisteUnUsuarioNoPremiumNoSeLePuedeAsignarUnaInsigniaPremium(){
+    public void dadoQueExisteUnUsuarioNoPremiumNoSeLePuedeAsignarUnaInsigniaPremium() {
         ServicioInsignia servicio = mock(ServicioInsignia.class);
 
         usuario.setPremium(false);

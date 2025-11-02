@@ -9,7 +9,6 @@ import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.tallerwebi.dominio.entidades.UsuarioInsignia;
 import com.tallerwebi.infraestructura.RepositorioUsuarioInsignia;
 
 import javax.transaction.Transactional;
@@ -65,13 +64,6 @@ public class ServicioLoginImpl implements ServicioLogin {
         if (usuarioEncontrado != null) {
             throw new UsuarioExistente("El email ya está registrado.");
         }
-         /*
-    @Override
-    public void registrar(Usuario usuario) throws UsuarioExistente {
-        Usuario usuarioEncontrado = repositorioUsuario.buscarUsuario(usuario.getEmail(), usuario.getPassword());
-        if (usuarioEncontrado != null) {
-            throw new UsuarioExistente();
-            */
         repositorioUsuario.guardar(usuario);
         return usuario;
     }

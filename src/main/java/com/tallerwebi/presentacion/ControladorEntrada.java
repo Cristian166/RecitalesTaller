@@ -2,6 +2,9 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioEntrada;
 import com.tallerwebi.dominio.entidades.Entrada;
+import com.tallerwebi.dominio.entidades.Usuario;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +24,13 @@ public class ControladorEntrada {
     }
 
     @GetMapping("vista-entradas-recitales")
-    public String mostrarMisEntradas( Model model) {
-        model.addAttribute("entradas", servicioEntrada.obtenerTodasMisEntradas());
+    public String mostrarMisEntradas( Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("entradas", servicioEntrada.obtenerEntradasPorUsuario(usuario));
         return "vista-entradas-recitales";
     }
 
@@ -34,8 +42,14 @@ public class ControladorEntrada {
 
 
     @PostMapping("/agregar-entrada")
-    public String agregarEntrada(@ModelAttribute Entrada entrada) {
-        servicioEntrada.crearEntrada(entrada);
+    public String agregarEntrada(@ModelAttribute Entrada entrada, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        servicioEntrada.crearEntrada(entrada,usuario);
          return "redirect:/vista-entradas-recitales";
     }
 
@@ -53,7 +67,9 @@ public class ControladorEntrada {
     }
 
     @PostMapping("/validar-entrada")
-    public ModelAndView validarEntrada(@RequestParam("id") Long id) {
+    public ModelAndView validarEntrada(@RequestParam("id") Long id, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         ModelAndView modelAndView = new ModelAndView("validar-entrada");
 
@@ -64,7 +80,7 @@ public class ControladorEntrada {
             return modelAndView;
         }
 
-        servicioEntrada.validarEntrada(id);
+        servicioEntrada.validarEntrada(id, usuario);
         entrada = servicioEntrada.buscarPorId(id);
 
         if (entrada.getValidada()) {

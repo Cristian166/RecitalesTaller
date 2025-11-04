@@ -9,6 +9,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 
 @Entity
@@ -17,6 +19,11 @@ public class Entrada {
     @Id
     @GeneratedValue(strategy =GenerationType.IDENTITY )
     private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
+
 
     private String nombreRecital;
     private String lugar;
@@ -86,6 +93,14 @@ public class Entrada {
 
     public void setValidada(Boolean validada) {
         this.validada = validada;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
 }

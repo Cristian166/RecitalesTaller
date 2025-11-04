@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio.entidades;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,6 +28,10 @@ public class Usuario {
 
     @OneToMany(mappedBy = "autorPublicacion")
     private List<Publicacion> publicaciones;
+
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
+    private List<Entrada> entradas = new ArrayList<>();
+
 
     @ManyToMany(mappedBy = "usuarios")
     private Set<Comunidad> comunidades = new HashSet<>();
@@ -84,6 +89,13 @@ public class Usuario {
     }
     public  void setComunidades(Set<Comunidad> comunidades) {
         this.comunidades = comunidades;
+    }
+
+    public List<Entrada> getEntradas() {
+        return entradas;
+    }
+    public void setEntradas(List<Entrada> entradas) {
+        this.entradas = entradas;
     }
 
 }

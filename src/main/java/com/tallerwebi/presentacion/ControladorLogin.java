@@ -51,26 +51,25 @@ public class ControladorLogin {
 
    @PostMapping("/registrar")
     public String registrarUsuario(@ModelAttribute("usuario") Usuario usuario,
-                                   @RequestParam("confirmPassword") String confirmPassword,
-                                   Model model) {
+                                @RequestParam("confirmPassword") String confirmPassword,
+                                Model model) {
         try {
-            
             if (!usuario.getPassword().equals(confirmPassword)) {
                 model.addAttribute("error", "Las contraseñas no coinciden.");
                 return "nuevo-usuario";
             }
 
-            if (usuario.getPassword().length() < 6) {
-                model.addAttribute("error", "La contraseña debe tener al menos 6 caracteres.");
-                return "nuevo-usuario";
-            }
-
             servicioLogin.registrar(usuario);
+
             model.addAttribute("mensaje", "Usuario registrado con éxito.");
             return "redirect:/login";
 
         } catch (UsuarioExistente existente) {
             model.addAttribute("error", existente.getMessage());
+            return "nuevo-usuario";
+
+        } catch (IllegalArgumentException excepcion) {
+            model.addAttribute("error", excepcion.getMessage());
             return "nuevo-usuario";
         }
     }
@@ -81,14 +80,6 @@ public class ControladorLogin {
         model.put("usuario", new Usuario());
         return new ModelAndView("nuevo-usuario", model);
     }
-
-    @RequestMapping(path = "/home", method = RequestMethod.GET)
-    public ModelAndView irAHome() {
-        return new ModelAndView("home");
-    }
-
-    @RequestMapping(path = "/home-Page", method = RequestMethod.GET)
-    public ModelAndView irAHomeProyecto() { return new ModelAndView( "home-Page"); }
 
     @RequestMapping(path = "/resitalesAsistidos", method = RequestMethod.GET)
     public ModelAndView irARecitalesProyecto() { return new ModelAndView( "resitalesAsistidos"); }

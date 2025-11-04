@@ -66,7 +66,7 @@ INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('Moderna', 'Epoca'),
 ('Actual', 'Epoca');
 
-INSERT INTO Insignia (DTYPE, nombre, descripcion, imagen) VALUES
+INSERT IGNORE INTO Insignia (DTYPE, nombre, descripcion, imagen) VALUES
 ('Insignia', 'Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png'),
 ('Insignia', 'Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png'),
 ('Insignia', 'Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png'),

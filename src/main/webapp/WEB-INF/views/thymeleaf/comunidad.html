@@ -12,137 +12,16 @@
     <link rel="stylesheet" th:href="@{/css/fondo.css}"/>
     <link rel="stylesheet" th:href="@{/css/layout.css}"/>
     <link rel="stylesheet" th:href="@{/css/menu.css}"/>
+    <link rel="stylesheet" th:href="@{/css/comunidad.css}"/>
 
-    <style>
-        /* 🧊 Paneles glass */
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.12);
-            backdrop-filter: blur(22px) saturate(130%);
-            -webkit-backdrop-filter: blur(22px) saturate(130%);
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            border-radius: 15px;
-            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
-            padding: 1.5rem;
-            color: #111;
-        }
-
-        /* Header y Footer */
-        header, footer {
-            background: rgba(255,255,255,0.15);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border-bottom: 1px solid rgba(255,255,255,0.25);
-            text-align: center;
-            padding: 1rem;
-            color: #111;
-            font-weight: bold;
-        }
-
-        footer {
-            margin-top: 2rem;
-            border-top: 1px solid rgba(255,255,255,0.25);
-            border-bottom: none;
-        }
-
-        /* Botones */
-        .btn-glass {
-            background-color: rgba(255, 255, 255, 0.85);
-            color: #111;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-            width: 100%;
-        }
-
-        .btn-glass:hover {
-            background-color: rgba(255, 255, 255, 0.9);
-        }
-
-        /* Área de publicación */
-        .add-post textarea {
-            resize: none;
-            border: none;
-            border-radius: 10px;
-            width: 100%;
-            padding: 0.75rem;
-            background-color: rgba(255,255,255,0.8);
-        }
-
-        .add-post input[type="file"] {
-            display: none;
-        }
-
-        .img-placeholder {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-        }
-
-        /* Publicaciones */
-        .post {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(18px);
-            -webkit-backdrop-filter: blur(18px);
-            border: 1px solid rgba(255,255,255,0.35);
-            border-radius: 15px;
-            padding: 1rem;
-        }
-
-        .post .user-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .post .user-info .user-img {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.4);
-            flex-shrink: 0;
-        }
-    </style>
 </head>
 <body>
 
 <!-- HEADER con el botón de menú -->
-<header>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-4 text-start">
-                <button class="btn btn-light" id="menuToggle">MENU</button>
-            </div>
-            <div class="col-4 text-center">
-                <a class="btn btn-light" style="text-decoration: none; color: black;" href="/home">Logo</a>
-            </div>
-            <div class="col-4 text-end">
-                <a class="btn btn-light" style="text-decoration: none; color: black;" href="/perfil">Perfil</a>
-            </div>
-        </div>
-    </div>
-</header>
+<div th:replace="fragments/header :: header"></div>
 
 <!-- SIDEBAR MENU -->
-<div id="sidebarMenu">
-    <button class="btn btn-light" id="menuCerrar">=</button>
-    <h5 class="mb-3">Navegación</h5>
-    <ul class="list-unstyled">
-        <li><a href="/vista-entradas-recitales" class="d-block mb-2">Mis entradas</a></li>
-        <li><a href="/comunidades" class="d-block mb-2">Comunidades</a></li>
-        <li><a href="resitalesAsistidos.html" class="d-block mb-2">Recitales Asistidos</a></li>
-        <li><a href="/perfil" class="d-block mb-2">Mi perfil</a></li>
-    </ul>
-    <hr>
-    <p><strong>Tipo de plan:</strong> Premium</p>
-    <button class="btn btn-danger w-100 mt-3">Cerrar sesión</button>
-</div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
 
 <!-- CONTENIDO PRINCIPAL -->
 <div class="container my-4">

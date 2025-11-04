@@ -1,0 +1,37 @@
+.ticket {
+    border: 2px solid #6c757d;
+    border-radius: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    margin-bottom: 20px;
+}
+
+.ticket-left {
+    flex: 2;
+    padding-right: 15px;
+}
+    
+.ticket-right {
+    flex: 1;
+    padding-left: 15px;
+    border-left: 2px dashed #6c757d;
+    text-align: center;
+    }
+    
+html, body {
+    height: 100%;
+    margin: 0;
+    }
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    margin: 0;
+    }
+
+main {
+    flex: 1;
+    }

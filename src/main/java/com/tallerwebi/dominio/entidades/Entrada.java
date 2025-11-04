@@ -5,11 +5,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
 
@@ -31,8 +33,10 @@ public class Entrada {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate fecha;
 
-    @DateTimeFormat(pattern = "HH:mm")
-    private LocalTime horario;
+    private String horario;
+
+    private String imagen;
+
 
     private String seccion;
     private Boolean validada=false;
@@ -42,13 +46,14 @@ public class Entrada {
     public Entrada(){
     }
 
-    public Entrada(Long id, String nombreRecital,String lugar, LocalDate fecha, LocalTime horario,String seccion){
+    public Entrada(Long id, String nombreRecital,String lugar, LocalDate fecha, String horario,String seccion, String imagen){
         this.id = id;
         this.nombreRecital = nombreRecital;
         this.lugar = lugar;
         this.fecha = fecha;
         this.horario = horario;
         this.seccion = seccion;
+        this.imagen=imagen;
     }
 
     public Long getId() {
@@ -75,10 +80,10 @@ public class Entrada {
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
-    public LocalTime getHorario() {
+    public String getHorario() {
         return horario;
     }
-    public void setHorario(LocalTime horario) {
+    public void setHorario(String horario) {
         this.horario = horario;
     }
     public String getSeccion() {
@@ -101,6 +106,14 @@ public class Entrada {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+   public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 
 }

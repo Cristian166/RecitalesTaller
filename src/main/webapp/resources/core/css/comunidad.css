@@ -1,0 +1,61 @@
+/* 🧊 Paneles glass */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(22px) saturate(130%);
+    -webkit-backdrop-filter: blur(22px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 15px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
+    padding: 1.5rem;
+    color: #111;
+}
+
+/* Área de publicación */
+.add-post textarea {
+    resize: none;
+    border: none;
+    border-radius: 10px;
+    width: 100%;
+    padding: 0.75rem;
+    background-color: rgba(255,255,255,0.8);
+}
+
+.add-post input[type="file"] {
+    display: none;
+}
+
+.img-placeholder {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+}
+
+/* Publicaciones */
+.post {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(255,255,255,0.35);
+    border-radius: 15px;
+    padding: 1rem;
+}
+
+.post .user-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.post .user-info .user-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: rgba(255,255,255,0.4);
+    flex-shrink: 0;
+        }

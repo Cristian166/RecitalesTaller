@@ -12,72 +12,18 @@
     <link rel="stylesheet" th:href="@{/css/fondo.css}"/>
     <link rel="stylesheet" th:href="@{/css/layout.css}"/>
     <link rel="stylesheet" th:href="@{/css/menu.css}"/>
-    <style>
-
-        /* 🧊 Card estilo vidrio más cristalizado */
-        .card, .btn-outline-primary, .btn-primary, .btn-light {
-        background: rgba(255, 255, 255, 0.12);
-        backdrop-filter: blur(22px) saturate(130%);
-        -webkit-backdrop-filter: blur(22px) saturate(130%);
-        border: 1px solid rgba(255, 255, 255, 0.45);
-        border-radius: 15px;
-        box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
-        color: #111;
-        }
-
-        .card-body {
-        padding: 2rem;
-        }
-
-        .btn-outline-primary:hover, .btn-primary:hover {
-        background-color: rgba(255, 255, 255, 0.25);
-        }
-
-        .card-body ul li {
-        margin-bottom: 1rem;
-        }
-
-        .card-title {
-        font-weight: bold;
-        color: #111;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/elegir-tipo-plan.css}"/>
+    
+   
 
 </head>
 <body class="bg-white">
 
 <!-- HEADER -->
-<header>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-4 text-start">
-                <button class="btn btn-light" id="menuToggle">MENU</button>
-            </div>
-            <div class="col-4 text-center">
-                <a class="btn btn-light" style="text-decoration: none; color: black;" href="home.html">Logo</a>
-            </div>
-            <div class="col-4 text-end">
-                <a class="btn btn-light" style="text-decoration: none; color: black;" href="perfil.html">Perfil</a>
-            </div>
-        </div>
-    </div>
-</header>
+<div th:replace="fragments/header :: header"></div>
 
 <!-- SIDEBAR MENU -->
-<div id="sidebarMenu">
-    <button class="btn btn-light" id="menuCerrar">=</button>
-    <h5 class="mb-3">Navegación</h5>
-    <ul class="list-unstyled">
-        <li><a href="vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
-        <li><a href="#" class="d-block mb-2">Comunidades</a></li>
-        <li><a href="resitalesAsistidos.html" class="d-block mb-2">Recitales Asistidos</a></li>
-        <li><a href="perfil.html" class="d-block mb-2">Mi perfil</a></li>
-    </ul>
-    <hr>
-    <p><strong>Tipo de plan:</strong> Premium</p>
-    <a th:href="@{/cerrar-sesion}" class="btn btn-danger w-100 mt-3">Cerrar sesión</a>
-
-</div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
 
 <!-- MAIN CONTENT -->
 <div class="container my-5">

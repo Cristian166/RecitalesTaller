@@ -4,12 +4,20 @@ import com.tallerwebi.dominio.ServicioEntrada;
 import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -41,17 +49,39 @@ public class ControladorEntrada {
     }
 
 
+
     @PostMapping("/agregar-entrada")
-    public String agregarEntrada(@ModelAttribute Entrada entrada, HttpSession session) {
+    public String agregarEntrada(@ModelAttribute("entrada") Entrada entrada,
+                                @RequestParam(value = "imagenArchivo", required = false) MultipartFile imagenArchivo,
+                                HttpSession session) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        servicioEntrada.crearEntrada(entrada,usuario);
-         return "redirect:/vista-entradas-recitales";
+        if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
+            try {
+                Path carpetaUploads = Paths.get("uploads").toAbsolutePath();
+                Files.createDirectories(carpetaUploads);
+
+                String nombreArchivo = System.currentTimeMillis() + "_" + imagenArchivo.getOriginalFilename();
+                Path rutaArchivo = carpetaUploads.resolve(nombreArchivo);
+                Files.write(rutaArchivo, imagenArchivo.getBytes());
+
+                
+                entrada.setImagen(nombreArchivo);
+                System.out.println("Imagen guardada en: " + rutaArchivo);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        servicioEntrada.crearEntrada(entrada, usuario);
+        return "redirect:/vista-entradas-recitales";
     }
+
+
 
     @PostMapping("/eliminar-entrada")
     public String eliminarEntrada(@RequestParam Long id) {

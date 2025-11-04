@@ -1,0 +1,51 @@
+body {
+    background-color: #ffffff;
+    color: #212529;
+}
+
+header {
+    background-color: #6c757d;
+}
+
+.form-card {
+    border: 2px solid #6c757d;
+    border-radius: 10px;
+    background: #f8f9fa;
+    padding: 30px;
+    max-width: 500px;
+    margin: 60px auto;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+label {
+    font-weight: 600;
+}
+
+input, select {
+    border: 2px solid #6c757d !important;
+    border-radius: 8px !important;
+}
+
+.btn-validate {
+    background-color: #6c757d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.btn-validate:hover {
+    background-color: #5a6268;
+}
+
+.alert {
+    border: 2px solid #6c757d;
+    border-radius: 8px;
+}
+
+footer {
+    background-color: #6c757d;
+    color: white;
+}

@@ -1,0 +1,28 @@
+
+    /* 🧊 Card estilo vidrio más cristalizado */
+ .card, .btn-outline-primary, .btn-primary, .btn-light {
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(22px) saturate(130%);
+    -webkit-backdrop-filter: blur(22px) saturate(130%);
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 15px;
+    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
+    color: #111;
+    }
+
+.card-body {
+    padding: 2rem;
+    }
+
+.btn-outline-primary:hover, .btn-primary:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+    }
+
+.card-body ul li {
+    margin-bottom: 1rem;
+    }
+
+.card-title {
+    font-weight: bold;
+    color: #111;
+    }

@@ -1,14 +1,19 @@
 package com.tallerwebi.dominio.serviciosimpl;
 
+import com.tallerwebi.dominio.ServicioInsignia;
 import com.tallerwebi.dominio.ServicioPublicacion;
 import com.tallerwebi.dominio.entidades.Comunidad;
+import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.dominio.entidades.Publicacion;
 
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.DTOs.PublicacionDTO;
 import com.tallerwebi.infraestructura.RepositorioComunidad;
+import com.tallerwebi.infraestructura.RepositorioInsignia;
 import com.tallerwebi.infraestructura.RepositorioPublicacion;
 import com.tallerwebi.infraestructura.RepositorioUsuario;
+import com.tallerwebi.infraestructura.RepositorioUsuarioInsignia;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,33 +30,62 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
     private final RepositorioPublicacion repositorioPublicacion;
     private final RepositorioComunidad repositorioComunidad;
     private final RepositorioUsuario repositorioUsuario;
+    private ServicioInsignia servicioInsignia;
+    private RepositorioInsignia repositorioInsignia;
+    private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
 
-    @Autowired
     public ServicioPublicacionImpl(RepositorioPublicacion repositorioPublicacion,
-                                 RepositorioComunidad repositorioComunidad,
-                                 RepositorioUsuario repositorioUsuario){
+            RepositorioComunidad repositorioComunidad,
+            RepositorioUsuario repositorioUsuario) {
         this.repositorioPublicacion = repositorioPublicacion;
         this.repositorioComunidad = repositorioComunidad;
         this.repositorioUsuario = repositorioUsuario;
     }
 
+    @Autowired
+    public ServicioPublicacionImpl(RepositorioPublicacion repositorioPublicacion,
+            RepositorioComunidad repositorioComunidad,
+            RepositorioUsuario repositorioUsuario, RepositorioInsignia repositorioInsignia,
+            ServicioInsignia servicioInsignia, RepositorioUsuarioInsignia repositorioUsuarioInsignia) {
+        this.repositorioPublicacion = repositorioPublicacion;
+        this.repositorioComunidad = repositorioComunidad;
+        this.repositorioUsuario = repositorioUsuario;
+        this.repositorioInsignia = repositorioInsignia;
+        this.servicioInsignia = servicioInsignia;
+        this.repositorioUsuarioInsignia = repositorioUsuarioInsignia;
+    }
+
     @Override
     @Transactional
-    public void crearPublicacion(Publicacion publicacion, Long comunidadId, Usuario usuario) {
+    public Boolean crearPublicacion(Publicacion publicacion, Long comunidadId, Usuario usuario) {
         Comunidad comunidad = repositorioComunidad.obtenerPorId(comunidadId);
 
-        // Validaciones básicas
-        if (comunidad == null || usuario == null || publicacion.getContenido() == null || publicacion.getContenido().isEmpty()) {
-            return;
+        if (comunidad == null || usuario == null || publicacion.getContenido() == null
+                || publicacion.getContenido().isEmpty()) {
+            return false;
         }
 
-        // Crear nueva publicación con datos asociados
         Publicacion nuevaPublicacion = new Publicacion(publicacion.getContenido(), usuario, comunidad);
         nuevaPublicacion.setImagen(publicacion.getImagen());
         nuevaPublicacion.setFechaCreacion(LocalDateTime.now());
 
-        // Guardar en base de datos
-        repositorioPublicacion.guardar(nuevaPublicacion);
+        Usuario usuarioActualizado = repositorioUsuario.buscarId(usuario.getId());
+
+        usuarioActualizado.setCantidadPublicaciones(usuarioActualizado.getCantidadPublicaciones() + 1);
+
+        boolean yaTieneInsignia = repositorioUsuarioInsignia.existe(usuarioActualizado.getId(), 2L);
+
+        if (usuarioActualizado.getCantidadPublicaciones() >= 5 && !yaTieneInsignia) {
+            Insignia insigniaActivo = repositorioInsignia.obtenerPorId(2L);
+            if (insigniaActivo != null) {
+                servicioInsignia.asignarInsignia(usuarioActualizado, insigniaActivo);
+            }
+        }
+
+        repositorioUsuario.modificar(usuarioActualizado);
+
+        return repositorioPublicacion.guardar(nuevaPublicacion);
+
     }
 
     @Override
@@ -59,7 +93,7 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
         return repositorioPublicacion.obtenerPorComunidad(comunidadId);
     }
 
-    public List<PublicacionDTO> listarPublicacionesDTOPorComunidad(Long comunidadId){
+    public List<PublicacionDTO> listarPublicacionesDTOPorComunidad(Long comunidadId) {
         List<Publicacion> publicaciones = repositorioPublicacion.obtenerPorComunidad(comunidadId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 

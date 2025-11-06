@@ -21,15 +21,20 @@ public class RepositorioPublicacionImpl implements RepositorioPublicacion {
     }
 
     @Override
-    public Publicacion guardar(Publicacion publicacion) {
-        getCurrentSession().saveOrUpdate(publicacion);
-        return publicacion;
+    public Boolean guardar(Publicacion publicacion) {
+        try {
+            getCurrentSession().saveOrUpdate(publicacion);
+            return publicacion.getId() != null;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override
-    public List<Publicacion> obtenerPorComunidad(Long comunidadId){
+    public List<Publicacion> obtenerPorComunidad(Long comunidadId) {
         return getCurrentSession()
-                .createQuery("FROM Publicacion p WHERE p.comunidad.id = :id ORDER BY p.fechaCreacion DESC", Publicacion.class)
+                .createQuery("FROM Publicacion p WHERE p.comunidad.id = :id ORDER BY p.fechaCreacion DESC",
+                        Publicacion.class)
                 .setParameter("id", comunidadId)
                 .list();
     }
@@ -42,7 +47,7 @@ public class RepositorioPublicacionImpl implements RepositorioPublicacion {
     @Override
     public void eliminar(Long id) {
         Publicacion publicacion = obtenerPorId(id);
-        if(publicacion != null){
+        if (publicacion != null) {
             getCurrentSession().delete(publicacion);
         }
     }

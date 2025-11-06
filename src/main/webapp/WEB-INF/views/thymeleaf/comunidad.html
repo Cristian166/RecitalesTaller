@@ -21,7 +21,19 @@
 <div th:replace="fragments/header :: header"></div>
 
 <!-- SIDEBAR MENU -->
-<div th:replace="fragments/sidebar :: sidebar"></div>
+<div id="sidebarMenu">
+    <button class="btn btn-light" id="menuCerrar">=</button>
+    <h5 class="mb-3">Navegación</h5>
+    <ul class="list-unstyled">
+        <li><a href="/spring/vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
+        <li><a href="/spring/comunidades.html" class="d-block mb-2">Comunidades</a></li>
+        <li><a href="/spring/resitalesAsistidos.html" class="d-block mb-2">Recitales Asistidos</a></li>
+        <li><a href="/spring/perfil.html" class="d-block mb-2">Mi perfil</a></li>
+    </ul>
+    <hr>
+    <p><strong>Tipo de plan:</strong> Premium</p>
+    <button class="btn btn-danger w-100 mt-3">Cerrar sesión</button>
+</div>
 
 <!-- CONTENIDO PRINCIPAL -->
 <div class="container my-4">

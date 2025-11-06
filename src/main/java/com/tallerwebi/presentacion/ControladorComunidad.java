@@ -31,9 +31,9 @@ public class ControladorComunidad {
         this.servicioPublicacion = servicioPublicacion;
     }
 
-    //mostrar comunidades
+    // mostrar comunidades
     @GetMapping("/comunidades")
-    public String mostrarComunidades(Model model){
+    public String mostrarComunidades(Model model) {
         Set<Comunidad> comunidades = servicioComunidad.listarTodasLasComunidades();
         comunidades.forEach(c -> System.out.println(c.getUsuarios()));
         model.addAttribute("comunidades", comunidades);
@@ -44,24 +44,22 @@ public class ControladorComunidad {
     public String verComunidad(@PathVariable Long id, Model model) {
         Comunidad comunidad = servicioComunidad.obtenerComunidad(id);
 
-        if(comunidad == null){
+        if (comunidad == null) {
             return "redirect:/comunidades";
         }
 
         List<PublicacionDTO> publicacionesDTO = servicioPublicacion.listarPublicacionesDTOPorComunidad(id);
 
-        model.addAttribute("comunidad",comunidad);
-        model.addAttribute("publicaciones",publicacionesDTO);
-        model.addAttribute("nuevaPublicacion",new Publicacion());
+        model.addAttribute("comunidad", comunidad);
+        model.addAttribute("publicaciones", publicacionesDTO);
+        model.addAttribute("nuevaPublicacion", new Publicacion());
         return "comunidad";
     }
 
-
-
     @PostMapping("/comunidad/{id}/unirse")
-    public String ingresarAUnaComunidad(@PathVariable Long id){
+    public String ingresarAUnaComunidad(@PathVariable Long id) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario == null){
+        if (usuario == null) {
             return "redirect:/login";
         }
         servicioComunidad.unirseAComunidad(usuario, id);
@@ -69,13 +67,13 @@ public class ControladorComunidad {
     }
 
     @PostMapping("/comunidad/{id}/abandonar")
-    public String abandonarUnaComunidad(@PathVariable Long id){
+    public String abandonarUnaComunidad(@PathVariable Long id) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if(usuario == null){
+        if (usuario == null) {
             return "redirect:/login";
         }
-        servicioComunidad.abandonarComunidad( usuario, id);
+        servicioComunidad.abandonarComunidad(usuario, id);
 
         return "redirect:/comunidades";
     }

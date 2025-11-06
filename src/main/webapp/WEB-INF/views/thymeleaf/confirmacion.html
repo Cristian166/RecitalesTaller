@@ -30,19 +30,14 @@
 </div>
 
 <!-- BODY CON COMPROBANTE -->
-<div class="container my-5">
-    <div class="card shadow mx-auto" style="max-width: 600px;">
-        <div class="card-body text-center">
-            <h1 class="card-title mb-4">¡Bienvenido al plan <span th:text="${plan}"></span>!</h1>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <p class="card-text">Monto abonado: <strong th:text="${amount} + ' ARS'"></strong></p>
-            <p class="card-text">Estado del pago: <strong th:text="${status}"></strong></p>
-            <p class="card-text">Método de pago: <strong th:text="${paymentType}"></strong></p>
-            <p class="card-text">Preference ID: <strong th:text="${preferenceId}"></strong></p>
+<div class="card-body text-center">
+            <h1 class="card-title mb-4">¡Bienvenido al plan Premium<span th:text="${plan}"></span>!</h1>
+            <p class="card-text">Monto abonado: 40000</strong></p>
+            <p class="card-text">Estado del pago: confirmado</strong></p>
+            <p class="card-text">Método de pago: dinero en cuenta></strong></p>
+            <p class="card-text">Como usuario premium tendras estos beneficios</p>
             <a th:href="@{/elegir-tipo-plan}" class="btn btn-primary mt-4">Volver a planes</a>
         </div>
-    </div>
-</div>
 
 <!-- FOOTER -->
 <footer class="bg-secondary text-white text-center py-3">

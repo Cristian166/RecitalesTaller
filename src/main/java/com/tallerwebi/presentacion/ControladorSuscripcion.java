@@ -44,7 +44,7 @@ public class ControladorSuscripcion {
             String descripcion;
 
             if ("premium".equalsIgnoreCase(plan)) {
-                monto = 1500.0;
+                monto = 40000.0;
                 descripcion = "premium";
             } else {
                 monto = 0.0;

@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.tallerwebi.infraestructura.config.HibernateTestInfraestructuraConfig;
+import com.tallerwebi.infraestructura.repositorioImpl.RepositorioRecitalImpl;
 import com.tallerwebi.infraestructura.repositorioImpl.RepositorioUsuarioImpl;
 
 import javax.transaction.Transactional;
@@ -26,13 +27,13 @@ public class repositorioRecitalTest {
     @Autowired
     private SessionFactory sessionFactory;
 
-    private RepositorioRecitalImple  repositorioRecitalImple;
+    private RepositorioRecitalImpl  repositorioRecitalImple;
     private RepositorioUsuarioImpl repositorioUsuarioImple;
 
     // Inyecto la secion en cada repositorio
     @BeforeEach
     void setupSession() throws Exception {
-       this.repositorioRecitalImple = new RepositorioRecitalImple(sessionFactory);
+       this.repositorioRecitalImple = new RepositorioRecitalImpl(sessionFactory);
        this.repositorioUsuarioImple = new RepositorioUsuarioImpl(sessionFactory);
     }
 

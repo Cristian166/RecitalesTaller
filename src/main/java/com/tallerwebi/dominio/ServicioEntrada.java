@@ -4,13 +4,14 @@ import java.util.List;
 
 import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
 
 public interface ServicioEntrada {
 
     void crearEntrada(Entrada entrada, Usuario usuario);
 
     List<Entrada> obtenerTodasMisEntradas();
-    List<Entrada> obtenerEntradasPorUsuario(Usuario usuario);
+    List<EntradaDTO> obtenerEntradasPorUsuario(Usuario usuario);
 
     void eliminarEntrada(Long id);
 

@@ -1,6 +1,8 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioPerfil;
+import com.tallerwebi.dominio.ServicioInsignia;
+import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.dominio.entidades.Usuario;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -12,18 +14,23 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 public class ControladorPerfilTest {
 
     private ServicioPerfil servicioPerfilMock;
+    private ServicioInsignia servicioInsigniaMock;
     private ControladorPerfil controladorPerfil;
     private HttpSession sessionMock;
 
     @BeforeEach
     public void init() {
         servicioPerfilMock = mock(ServicioPerfil.class);
-        controladorPerfil = new ControladorPerfil(servicioPerfilMock);
+        servicioInsigniaMock = mock(ServicioInsignia.class);
+        controladorPerfil = new ControladorPerfil(servicioPerfilMock, servicioInsigniaMock);
         sessionMock = mock(HttpSession.class);
     }
 
@@ -88,5 +95,34 @@ public class ControladorPerfilTest {
         );
 
         assertEquals("redirect:/perfil", modelAndView.getViewName());
+    }
+
+    @Test
+    public void debePoderVerseLasInsigniasConseguidasEnElPerfil(){
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Nico");
+        usuario.setApellido("Oliverio");
+        usuario.setEmail("nico@example.com");
+
+        Insignia insignia1 = new Insignia();    
+        Insignia insignia2 = new Insignia();
+
+        List<Insignia> insigniasDelUsuario = List.of(insignia1, insignia2);
+
+        when(sessionMock.getAttribute("usuario")).thenReturn(usuario);
+        when(servicioInsigniaMock.obtenerInsigniasDeUsuario(usuario)).thenReturn(insigniasDelUsuario);
+        when(servicioPerfilMock.obtenerPreferenciasPorUsuario(usuario)).thenReturn(null);
+
+
+        ModelAndView modelAndView = controladorPerfil.irAPerfil(sessionMock);
+        assertEquals("perfil", modelAndView.getViewName());
+
+        List<Insignia> insigniasEnModelo = (List<Insignia>) modelAndView.getModel().get("insignias");
+        assertNotNull(insigniasEnModelo);
+        assertEquals(2, insigniasEnModelo.size());
+        assertTrue(insigniasEnModelo.containsAll(List.of(insignia1, insignia2)));
+
+        verify(servicioInsigniaMock).obtenerInsigniasDeUsuario(usuario);
     }
 }

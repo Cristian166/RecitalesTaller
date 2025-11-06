@@ -31,14 +31,22 @@ public class ControladorEntrada {
         this.servicioEntrada = servicioEntrada;
     }
 
-    @GetMapping("vista-entradas-recitales")
-    public String mostrarMisEntradas( Model model, HttpSession session) {
+    @GetMapping("/vista-entradas-recitales")
+    public String mostrarMisEntradas(@RequestParam(required = false) String error,
+                                    Model model,
+                                    HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        
+
         if (usuario == null) {
             return "redirect:/login";
         }
+
         model.addAttribute("entradas", servicioEntrada.obtenerEntradasPorUsuario(usuario));
+
+        if (error != null) {
+            model.addAttribute("mensajeError", "No se pudo eliminar la entrada (no existe).");
+        }
+
         return "vista-entradas-recitales";
     }
 
@@ -47,8 +55,6 @@ public class ControladorEntrada {
         model.addAttribute("entrada", new Entrada());
         return "crear-entrada";
     }
-
-
 
     @PostMapping("/agregar-entrada")
     public String agregarEntrada(@ModelAttribute("entrada") Entrada entrada,
@@ -81,12 +87,14 @@ public class ControladorEntrada {
         return "redirect:/vista-entradas-recitales";
     }
 
-
-
     @PostMapping("/eliminar-entrada")
     public String eliminarEntrada(@RequestParam Long id) {
-       servicioEntrada.eliminarEntrada(id);
-        return "redirect:/vista-entradas-recitales";
+        try {
+            servicioEntrada.eliminarEntrada(id);
+            return "redirect:/vista-entradas-recitales";
+        } catch (IllegalArgumentException e) {
+            return "redirect:/vista-entradas-recitales?error";
+        }
     }
 
     @GetMapping("/validar-entrada")

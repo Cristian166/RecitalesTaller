@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.tallerwebi.dominio.ServicioPerfil;
+import com.tallerwebi.dominio.ServicioInsignia;
+import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
 import com.tallerwebi.dominio.entidades.Usuario;
+
 
 import javax.servlet.http.HttpSession;
 
@@ -18,10 +21,12 @@ import java.util.List;
 public class ControladorPerfil {
 
     private final ServicioPerfil servicioPerfil;
+    private ServicioInsignia servicioInsignia;
 
     @Autowired
-    public ControladorPerfil(ServicioPerfil servicioPerfil) {
+    public ControladorPerfil(ServicioPerfil servicioPerfil, ServicioInsignia servicioInsignia) {
         this.servicioPerfil = servicioPerfil;
+        this.servicioInsignia = servicioInsignia;
     }
 
     @GetMapping("/perfil")
@@ -32,13 +37,15 @@ public class ControladorPerfil {
         }
 
         PreferenciaUsuario preferencias = servicioPerfil.obtenerPreferenciasPorUsuario(usuario);
-
+        List<Insignia> insignias = servicioInsignia.obtenerInsigniasDeUsuario(usuario);
+        
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", usuario);
         model.addAttribute("usuario", usuario);
         model.addAttribute("nombre", usuario.getNombre());
         model.addAttribute("apellido", usuario.getApellido());
         model.addAttribute("email", usuario.getEmail());
+        model.addAttribute("insignias", insignias);
     
         if (preferencias != null) {
             model.addAttribute("generos", preferencias.getGenerosSeleccionados());

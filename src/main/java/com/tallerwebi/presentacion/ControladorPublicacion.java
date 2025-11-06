@@ -5,8 +5,9 @@ import com.tallerwebi.dominio.ServicioPublicacion;
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
-import com.tallerwebi.infraestructura.RepositorioPublicacionImpl;
 import com.tallerwebi.infraestructura.RepositorioUsuario;
+import com.tallerwebi.infraestructura.repositorioImpl.RepositorioPublicacionImpl;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

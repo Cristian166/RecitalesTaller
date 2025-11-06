@@ -1,4 +1,4 @@
-package com.tallerwebi.infraestructura;
+package com.tallerwebi.infraestructura.repositorioImpl;
 
 import java.util.List;
 
@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.tallerwebi.dominio.entidades.Preferencia;
 import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.infraestructura.RepositorioPerfil;
 
 @Repository("repositorioPerfil")
 public class RepositorioPerfilImpl implements RepositorioPerfil {

@@ -1,4 +1,4 @@
-package com.tallerwebi.infraestructura;
+package com.tallerwebi.infraestructura.repositorioImpl;
 
 import com.tallerwebi.dominio.entidades.Recital;
 import com.tallerwebi.dominio.entidades.Usuario;
@@ -12,14 +12,14 @@ import java.util.List;
 
 @Repository ("Repositorio Recital")
 
-public class RepositorioRecitalImple implements RepositorioRecitalInterface {
+public class RepositorioRecitalImpl implements RepositorioRecitalInterface {
 
     // me conecto a la base de datos
     private SessionFactory sessionFactory;
 
     // inicializo - constructor
     @Autowired
-    public RepositorioRecitalImple(SessionFactory sessionFactory) {
+    public RepositorioRecitalImpl(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

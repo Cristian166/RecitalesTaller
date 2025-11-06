@@ -8,12 +8,15 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +26,7 @@ import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.serviciosimpl.ServicioEntradaImpl;
 import com.tallerwebi.infraestructura.RepositorioEntrada;
+import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
 
 public class ServicioEntradaTest {
     
@@ -52,6 +56,7 @@ public class ServicioEntradaTest {
         entrada1.setFecha(LocalDate.parse("2026-01-15"));
         entrada1.setHorario("21:00");
         entrada1.setSeccion("Campo");
+        entrada1.setValidada(false);
 
         servicio.crearEntrada(entrada1, usuario);
 
@@ -63,7 +68,7 @@ public class ServicioEntradaTest {
     public void  debeObtenerTodasLasEntradas(){
 
         Usuario usuario= new Usuario();
-
+        
         Entrada entrada1 = new Entrada();
         entrada1.setId(1L);
         entrada1.setNombreRecital("Dark Tranquility");
@@ -91,41 +96,105 @@ public class ServicioEntradaTest {
         List<Entrada> entradas = servicio.obtenerTodasMisEntradas();
 
         verify(repositorioEntradaMock).obtenerEntradas(); 
-        assertEquals(2, entradas.size());
+        assertEquals(entradasMock.size(), entradas.size());
         assertTrue(entradas.contains(entrada1));
         assertTrue(entradas.contains(entrada2));
 
     }
     
-    /*@Test
+    @Test
     public void debePonerEliminarUnaEntradaPorLaId(){
+
+        Usuario usuario= new Usuario();
 
         Entrada entrada1 = new Entrada();
         entrada1.setId(1L);
-        entrada1.setNombreRecital("Dark Tranquility");
-        entrada1.setLugar("El teatrito");
-        entrada1.setFecha(LocalDate.parse("2026-01-15"));
-        entrada1.setHorario(LocalTime.parse("21:00"));
-        entrada1.setSeccion("Campo");
 
         Entrada entrada2 = new Entrada();
         entrada2.setId(2L);
-        entrada2.setNombreRecital("Korn");
-        entrada2.setLugar("Parque Sarmiento");
-        entrada2.setFecha(LocalDate.parse("2026-04-15"));
-        entrada2.setHorario(LocalTime.parse("21:00"));
-        entrada2.setSeccion("Campo");
 
-        doNothing().when(repositorioEntradaMock).guardarEntrada(any(Entrada.class));
-        servicio.crearEntrada(entrada1);
-        servicio.crearEntrada(entrada2);
-        
-        doNothing().when(repositorioEntradaMock).eliminarPorId(anyLong());
-        servicio.eliminarEntrada(1L);
+        servicio.crearEntrada(entrada1, usuario);
+        servicio.crearEntrada(entrada2, usuario);
+
+        when(repositorioEntradaMock.obtenerEntradas()).thenReturn(List.of(entrada1, entrada2));
+
+        servicio.eliminarEntrada(entrada1.getId());
+
+        when(repositorioEntradaMock.obtenerEntradas()).thenReturn(List.of(entrada2));
+
         List<Entrada> entradas = servicio.obtenerTodasMisEntradas();
 
-        assertTrue(entradas.stream().noneMatch( entrada -> entrada.getId().equals(1L)));
+        assertEquals(1, entradas.size());
+        assertFalse(entradas.contains(entrada1));
+        assertTrue(entradas.contains(entrada2));
 
-    }*/
+        verify(repositorioEntradaMock).eliminarPorId(1L);
+        verify(repositorioEntradaMock, times(1)).obtenerEntradas();
+
+    }
+
+    @Test
+    public void debePoderValidarUnaEntrada(){
+
+        Usuario usuario= new Usuario();
+
+        Entrada entrada1 = new Entrada();
+
+        entrada1.setId(1L);
+        entrada1.setValidada(false);
+
+        servicio.crearEntrada(entrada1, usuario);
+        
+        when(repositorioEntradaMock.buscarPorId(1L)).thenReturn(entrada1);
+
+        when(repositorioEntradaMock.obtenerEntradas()).thenReturn(List.of(entrada1));
+
+        servicio.validarEntrada(1L, usuario, 8);
+        
+
+        assertEquals(1, servicio.obtenerTodasMisEntradas().size());
+        assertTrue(entrada1.getValidada());
+
+        verify(repositorioEntradaMock, times(2)).guardarEntradaPorUsuario(entrada1, usuario);
+    }
+
+    @Test
+    public void debePoderObtenerEntradasPorId(){
+
+        Usuario usuario= new Usuario();
+
+        Entrada entrada1 = new Entrada();
+        entrada1.setId(1L);
+
+        Entrada entrada2 = new Entrada();
+        entrada2.setId(2L);
+
+        when(repositorioEntradaMock.buscarPorId(1L)).thenReturn(entrada1);
+
+        Entrada entradaEncontrada= servicio.buscarPorId(entrada1.getId());
+
+        assertEquals(entrada1, entradaEncontrada);
+        verify(repositorioEntradaMock).buscarPorId(entrada1.getId());
+
+    }
+
+    @Test
+    public void debePoderObtenerEntradasPorUsuario(){
+
+        Usuario usuario= new Usuario();
+
+        Entrada entrada1 = new Entrada();
+        entrada1.setId(1L);
+
+        Entrada entrada2 = new Entrada();
+        entrada2.setId(2L);
+
+
+        when(repositorioEntradaMock.obtenerEntradasPorUsuario(usuario)).thenReturn(List.of(entrada1, entrada2));
+        List<EntradaDTO> entradasDeUsuario = servicio.obtenerEntradasPorUsuario(usuario);
+
+        assertEquals(2, entradasDeUsuario.size());
+        verify(repositorioEntradaMock).obtenerEntradasPorUsuario(usuario);
+    }
         
 }

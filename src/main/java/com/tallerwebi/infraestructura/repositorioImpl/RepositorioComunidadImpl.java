@@ -1,6 +1,8 @@
-package com.tallerwebi.infraestructura;
+package com.tallerwebi.infraestructura.repositorioImpl;
 
 import com.tallerwebi.dominio.entidades.Comunidad;
+import com.tallerwebi.infraestructura.RepositorioComunidad;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;

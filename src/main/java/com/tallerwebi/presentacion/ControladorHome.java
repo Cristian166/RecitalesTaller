@@ -14,6 +14,7 @@ import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.ServicioEntrada;
 import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
 import com.tallerwebi.dominio.entidades.Comunidad;
 
 
@@ -40,7 +41,7 @@ public class ControladorHome {
             return "redirect:/login";
         }
 
-        List<Entrada> entradas = servicioEntrada.obtenerEntradasPorUsuario(usuario);
+        List<EntradaDTO> entradas = servicioEntrada.obtenerEntradasPorUsuario(usuario);
         model.addAttribute("entradas", entradas);
 
         

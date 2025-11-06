@@ -4,11 +4,13 @@ import com.tallerwebi.dominio.ServicioEntrada;
 import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.RepositorioEntrada;
+import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,15 +42,18 @@ public class ServicioEntradaImpl implements ServicioEntrada {
         repositorioEntrada.eliminarPorId(id);
     }
 
-
     @Override
     public void validarEntrada(Long id, Usuario usuario) {
-        int random = (int) (Math.random() * 10);
+        validarEntrada(id, usuario, (int) (Math.random() * 10));
+    }
+
+
+
+    public void validarEntrada(Long id, Usuario usuario, int random) {
         Entrada entradaEncontrada = repositorioEntrada.buscarPorId(id);
 
         if (entradaEncontrada != null && random >= 4) {
             entradaEncontrada.setValidada(true);
-             System.out.println("Nueva entrada validada: " + entradaEncontrada.getValidada());
             repositorioEntrada.guardarEntradaPorUsuario(entradaEncontrada, usuario);
         }
     }
@@ -59,9 +64,24 @@ public class ServicioEntradaImpl implements ServicioEntrada {
     }
 
     @Override
-    public List<Entrada> obtenerEntradasPorUsuario(Usuario usuario) {
-        return repositorioEntrada.obtenerEntradasPorUsuario(usuario);
+    public List<EntradaDTO> obtenerEntradasPorUsuario(Usuario usuario) {
+       List<Entrada> entradas = repositorioEntrada.obtenerEntradasPorUsuario(usuario);
+        return entradas.stream()
+                .map(this::convertirADTO)
+                .collect(Collectors.toList());
     }
+
+    private EntradaDTO convertirADTO(Entrada entrada) {
+    return new EntradaDTO(
+        entrada.getId(),
+        entrada.getNombreRecital(),
+        entrada.getLugar(),
+        entrada.getFecha(),
+        entrada.getHorario(),
+        entrada.getSeccion(),
+        entrada.getImagen()
+    );
+}
 
     
 }

@@ -19,6 +19,7 @@ import com.tallerwebi.dominio.entidades.Preferencia;
 import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.config.HibernateTestInfraestructuraConfig;
+import com.tallerwebi.infraestructura.repositorioImpl.RepositorioPerfilImpl;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;

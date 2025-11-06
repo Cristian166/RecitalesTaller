@@ -30,6 +30,8 @@
         <button class="btn btn-primary">Ordenar Por</button>
     </div>
 
+    <div th:if="${mensajeError}" class="alert alert-danger" th:text="${mensajeError}"></div>
+    
     <!-- PRIMERA ENTRADA HARDCODEADA -->
     <div class="row align-items-start">
         <div class="col-md-10">

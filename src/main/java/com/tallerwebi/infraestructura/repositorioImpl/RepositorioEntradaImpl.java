@@ -1,4 +1,4 @@
-package com.tallerwebi.infraestructura;
+package com.tallerwebi.infraestructura.repositorioImpl;
 
 import java.util.List;
 
@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
+import com.tallerwebi.infraestructura.RepositorioEntrada;
 
 @Repository("repositorioEntrada")
 public class RepositorioEntradaImpl implements RepositorioEntrada {

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificaciones</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/menu.css}">
+    <link rel="stylesheet" th:href="@{/css/fondo.css}">
+    <link rel="stylesheet" th:href="@{/css/layout.css}">
+
+    <style>
+        body {
+            background-color: #f7f9fb;
+        }
+        .notification-card {
+            background-color: #fff;
+            border: none;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            padding: 1rem 1.2rem;
+        }
+        .notification-icon {
+            font-size: 1.5rem;
+            color: #007bff;
+            background-color: #e8f0fe;
+            border-radius: 50%;
+            padding: 0.5rem;
+        }
+        .notification-time {
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body class="bg-white">
+
+<!-- HEADER -->
+<div th:replace="fragments/header :: header"></div>
+
+<!-- SIDEBAR -->
+<div id="sidebarMenu" th:replace="fragments/sidebar :: sidebar"></div>
+
+<!-- MAIN -->
+<main class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h4>Notificaciones</h4>
+        <form th:action="@{/notificaciones/marcar-leidas}" method="post">
+            <button type="submit" class="btn btn-light border">Marcar todas como leídas</button>
+        </form>
+    </div>
+
+    <!-- Si no hay notificaciones -->
+    <div th:if="${#lists.isEmpty(notificaciones)}" class="text-muted">
+        No hay notificaciones nuevas.
+    </div>
+
+    <!-- Listado de notificaciones -->
+    <div class="notification-card d-flex justify-content-between align-items-center"
+        th:each="notificacion : ${notificaciones}">
+        <div class="d-flex align-items-center">
+            <div class="notification-icon me-3">
+                <i class="bi bi-bell"></i>
+            </div>
+            <div>
+                <strong th:text="${notificacion.nombreNotificacion}">Título</strong><br>
+                <small th:text="${notificacion.descripcionNotificacion}">Mensaje</small>
+                <a th:href="@{${notificacion.link}}">Ver aquí</a>
+            </div>
+        </div>
+        <div class="notification-time"
+            th:text="${notificacion.vista ? 'Leída' : 'Nueva'}">hace X min</div>
+    </div>
+
+
+</main>
+
+<!-- FOOTER -->
+<footer class="bg-secondary text-white text-center py-3">
+    <p>&copy; 2025 Diario Digital de Recitales</p>
+</footer>
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Toggle sidebar
+    document.getElementById("menuToggle").addEventListener("click", function() {
+        document.getElementById("sidebarMenu").classList.toggle("active");
+    });
+    document.getElementById("menuCerrar").addEventListener("click", function() {
+        document.getElementById("sidebarMenu").classList.remove("active");
+    });
+</script>
+</body>
+</html>
+

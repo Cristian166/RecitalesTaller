@@ -18,7 +18,21 @@
 <body>
 
 <!-- HEADER con el botón de menú -->
-<div th:replace="fragments/header :: header"></div>
+    <header class="bg-secondary text-white p-3">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-4 text-start">
+                    <button class="btn btn-light" id="menuToggle">Menu</button>
+                </div>
+                <div class="col-4 text-center">
+                    <a href="/spring/home.html" class="text-decoration-none text-white fw-bold">Diario de Recitales</a>
+                </div>
+                <div class="col-4 text-end">
+                    <a class="btn btn-light" th:href="@{/perfil}">Perfil</a>
+                </div>
+            </div>
+        </div>
+    </header>
 
 <!-- SIDEBAR MENU -->
 <div id="sidebarMenu">
@@ -32,7 +46,9 @@
     </ul>
     <hr>
     <p><strong>Tipo de plan:</strong> Premium</p>
-    <button class="btn btn-danger w-100 mt-3">Cerrar sesión</button>
+
+    <a th:href="@{/cerrar-sesion}" class="btn btn-danger w-100 mt-3">Cerrar sesión</a>
+
 </div>
 
 <!-- CONTENIDO PRINCIPAL -->

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,78 +14,79 @@
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             background-color: #fff;
         }
+
         .community-button {
             color: #fff;
             background-color: #FF6F61;
             border-color: #FF6F61;
         }
-        .header, .footer {
+
+        .header,
+        .footer {
             background-color: #f8f9fa;
             padding: 20px;
         }
     </style>
 </head>
+
 <body>
-<div class="container-fluid">
-    <!-- Header -->
-    <header class="header">
-        <div class="d-flex justify-content-between align-items-center">
-            <h1>Header</h1>
-        </div>
-    </header>
+    <div class="container-fluid">
+        <!-- Header -->
+        <div th:replace="fragments/header :: header"></div>
 
-    <!-- Main content -->
-    <main class="mt-4">
-        <div>
-            <!-- Título Comunidades -->
-            <h3>Comunidades</h3>
+        <!-- Main content -->
+        <main class="mt-4">
+            <div>
+                <!-- Título Comunidades -->
+                <h3>Comunidades</h3>
 
-            <!-- Barra de búsqueda -->
-            <div class="mb-4">
-                <input type="text" class="form-control" placeholder="Buscar comunidades...">
-            </div>
+                <!-- Barra de búsqueda -->
+                <div class="mb-4">
+                    <input type="text" class="form-control" placeholder="Buscar comunidades...">
+                </div>
 
-            <!-- Comunidades unidas -->
-            <h5>Comunidades unidas:</h5>
+                <!-- Comunidades unidas -->
+                <h5>Comunidades unidas:</h5>
 
-            <div class="community-list">
+                <div class="community-list">
 
-                <!-- Si hay comunidades, las mostramos -->
-                <div th:if="${not #lists.isEmpty(comunidades)}">
-                    <div th:each="comunidad : ${comunidades}"
-                         class="community-card d-flex justify-content-between align-items-center">
+                    <!-- Si hay comunidades, las mostramos -->
+                    <div th:if="${not #lists.isEmpty(comunidades)}">
+                        <div th:each="comunidad : ${comunidades}"
+                            class="community-card d-flex justify-content-between align-items-center">
 
-                        <div>
-                            <h5>
-                                <a th:href="@{/comunidad/{id}(id=${comunidad.id})}"
-                                   th:text="${comunidad.nombre}">Nombre comunidad</a>
-                            </h5>
-                            <p th:text="${comunidad.usuarios.size()} + ' miembros'">(0 miembros)</p>
+                            <div>
+                                <h5>
+                                    <a th:href="@{/comunidad/{id}(id=${comunidad.id})}"
+                                        th:text="${comunidad.nombre}">Nombre comunidad</a>
+                                </h5>
+                                <p th:text="${comunidad.usuarios.size()} + ' miembros'">(0 miembros)</p>
+                            </div>
+
+                            <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
+                                <button class="btn community-button" type="submit">Abandonar</button>
+                            </form>
                         </div>
-
-                        <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
-                            <button class="btn community-button" type="submit">Abandonar</button>
-                        </form>
                     </div>
-                </div>
 
-                <!-- Si no hay comunidades, mostramos un mensaje -->
-                <div th:if="${#lists.isEmpty(comunidades)}" class="text-center mt-3">
-                    <p>No estás unido a ninguna comunidad todavía.</p>
+                    <!-- Si no hay comunidades, mostramos un mensaje -->
+                    <div th:if="${#lists.isEmpty(comunidades)}" class="text-center mt-3">
+                        <p>No estás unido a ninguna comunidad todavía.</p>
+                    </div>
+
                 </div>
 
             </div>
+        </main>
 
-        </div>
-    </main>
+        <!-- Footer -->
+        <footer class="footer text-center mt-4">
+            <p>Footer</p>
+        </footer>
+    </div>
 
-    <!-- Footer -->
-    <footer class="footer text-center mt-4">
-        <p>Footer</p>
-    </footer>
-</div>
-
-<!-- Bootstrap JS and dependencies -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

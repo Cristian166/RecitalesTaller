@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface ServicioPublicacion {
-    void crearPublicacion(Publicacion publicacion, Long comunidadId, Usuario usuario);
+    Boolean crearPublicacion(Publicacion publicacion, Long comunidadId, Usuario usuario);
     List<Publicacion> listarPublicacionesPorComunidad(Long comunidadId);
     List<PublicacionDTO> listarPublicacionesDTOPorComunidad(Long id);
 }

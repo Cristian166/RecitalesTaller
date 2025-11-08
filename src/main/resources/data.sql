@@ -1,5 +1,7 @@
 /*Usuario*/
-INSERT IGNORE INTO Usuario(id, email, password, rol, activo) VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true);
+
+INSERT IGNORE INTO Usuario(id, email, password, rol, activo, cantidad_publicaciones) 
+VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true, 0);
 
 /*Comunidad*/
 INSERT IGNORE INTO Comunidad(id, nombre, descripcion, paisOrigen, idioma) VALUES (1, 'Comunidad de prueba', 'Para probar', 'Argentina', 'Español');

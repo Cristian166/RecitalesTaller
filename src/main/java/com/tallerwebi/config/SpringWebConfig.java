@@ -17,7 +17,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 
 @EnableWebMvc
 @Configuration
-@ComponentScan({"com.tallerwebi.presentacion", "com.tallerwebi.dominio", "com.tallerwebi.infraestructura"})
+@ComponentScan({ "com.tallerwebi.presentacion", "com.tallerwebi.dominio", "com.tallerwebi.infraestructura" })
 @PropertySource("classpath:application.properties")
 public class SpringWebConfig implements WebMvcConfigurer {
 
@@ -31,6 +31,8 @@ public class SpringWebConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/js/**").addResourceLocations("/resources/core/js/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/");
         registry.addResourceHandler("/uploads/**").addResourceLocations("file:uploads/");
+        registry.addResourceHandler("/img/**").addResourceLocations("/resources/img/");
+
     }
 
     // https://www.thymeleaf.org/doc/tutorials/3.0/thymeleafspring.html
@@ -66,6 +68,7 @@ public class SpringWebConfig implements WebMvcConfigurer {
         templateEngine.setEnableSpringELCompiler(true);
         return templateEngine;
     }
+
     // Spring + Thymeleaf
     // Configure Thymeleaf View Resolver
     @Bean

@@ -12,7 +12,6 @@ import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
 import com.tallerwebi.dominio.entidades.Usuario;
 
-
 import javax.servlet.http.HttpSession;
 
 import java.util.List;
@@ -38,7 +37,7 @@ public class ControladorPerfil {
 
         PreferenciaUsuario preferencias = servicioPerfil.obtenerPreferenciasPorUsuario(usuario);
         List<Insignia> insignias = servicioInsignia.obtenerInsigniasDeUsuario(usuario);
-        
+
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", usuario);
         model.addAttribute("usuario", usuario);
@@ -46,7 +45,7 @@ public class ControladorPerfil {
         model.addAttribute("apellido", usuario.getApellido());
         model.addAttribute("email", usuario.getEmail());
         model.addAttribute("insignias", insignias);
-    
+
         if (preferencias != null) {
             model.addAttribute("generos", preferencias.getGenerosSeleccionados());
             model.addAttribute("artistas", preferencias.getArtistasSeleccionados());
@@ -62,63 +61,56 @@ public class ControladorPerfil {
         return new ModelAndView("perfil", model);
     }
 
-   
-
-     @GetMapping("/editar-preferencias")
+    @GetMapping("/editar-preferencias")
     public ModelAndView irAEditar(HttpSession session) {
 
-    Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
-    if (usuario == null) {
-        return new ModelAndView("redirect:/login");
+        ModelMap model = new ModelMap();
+        model.addAttribute("generos", servicioPerfil.obtenerGeneros());
+        model.addAttribute("artistas", servicioPerfil.obtenerArtistas());
+        model.addAttribute("regiones", servicioPerfil.obtenerRegiones());
+        model.addAttribute("epocas", servicioPerfil.obtenerEpocas());
+
+        PreferenciaUsuario preferenciasUsuario = servicioPerfil.obtenerPreferenciasPorUsuario(usuario);
+        if (preferenciasUsuario != null) {
+            model.addAttribute("generosSeleccionados", preferenciasUsuario.getGenerosSeleccionados());
+            model.addAttribute("artistasSeleccionados", preferenciasUsuario.getArtistasSeleccionados());
+            model.addAttribute("regionesSeleccionadas", preferenciasUsuario.getRegionesSeleccionadas());
+            model.addAttribute("epocasSeleccionadas", preferenciasUsuario.getEpocasSeleccionadas());
+        } else {
+
+            model.addAttribute("generosSeleccionados", List.of());
+            model.addAttribute("artistasSeleccionados", List.of());
+            model.addAttribute("regionesSeleccionadas", List.of());
+            model.addAttribute("epocasSeleccionadas", List.of());
+        }
+
+        return new ModelAndView("editar-preferencias", model);
     }
-
-    ModelMap model = new ModelMap();
-    model.addAttribute("generos", servicioPerfil.obtenerGeneros());
-    model.addAttribute("artistas", servicioPerfil.obtenerArtistas());
-    model.addAttribute("regiones", servicioPerfil.obtenerRegiones());
-    model.addAttribute("epocas", servicioPerfil.obtenerEpocas());
-
-    PreferenciaUsuario preferenciasUsuario = servicioPerfil.obtenerPreferenciasPorUsuario(usuario);
-    if (preferenciasUsuario != null) {
-        model.addAttribute("generosSeleccionados", preferenciasUsuario.getGenerosSeleccionados());
-        model.addAttribute("artistasSeleccionados", preferenciasUsuario.getArtistasSeleccionados());
-        model.addAttribute("regionesSeleccionadas", preferenciasUsuario.getRegionesSeleccionadas());
-        model.addAttribute("epocasSeleccionadas", preferenciasUsuario.getEpocasSeleccionadas());
-    } else {
-
-        model.addAttribute("generosSeleccionados", List.of());
-        model.addAttribute("artistasSeleccionados", List.of());
-        model.addAttribute("regionesSeleccionadas", List.of());
-        model.addAttribute("epocasSeleccionadas", List.of());
-    }
-
-    return new ModelAndView("editar-preferencias", model);
-}
-
-
-
 
     @PostMapping("/guardar-preferencias")
-        public ModelAndView guardarPreferencias(HttpSession session,
-                @RequestParam(value = "generos", required = false) List<String> generosSeleccionados,
-                @RequestParam(value = "artistas", required = false) List<String> artistasSeleccionados,
-                @RequestParam(value = "regiones", required = false) List<String> regionesSeleccionadas,
-                @RequestParam(value = "epocas", required = false) List<String> epocasSeleccionadas) {
+    public ModelAndView guardarPreferencias(HttpSession session,
+            @RequestParam(value = "generos", required = false) List<String> generosSeleccionados,
+            @RequestParam(value = "artistas", required = false) List<String> artistasSeleccionados,
+            @RequestParam(value = "regiones", required = false) List<String> regionesSeleccionadas,
+            @RequestParam(value = "epocas", required = false) List<String> epocasSeleccionadas) {
 
-            Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-            if (usuario != null) {
-                servicioPerfil.guardarPreferencias(
-                        usuario.getId(),
-                        generosSeleccionados != null ? generosSeleccionados : List.of(),
-                        artistasSeleccionados != null ? artistasSeleccionados : List.of(),
-                        regionesSeleccionadas != null ? regionesSeleccionadas : List.of(),
-                        epocasSeleccionadas != null ? epocasSeleccionadas : List.of()
-                );
-            }
+        if (usuario != null) {
+            servicioPerfil.guardarPreferencias(
+                    usuario.getId(),
+                    generosSeleccionados != null ? generosSeleccionados : List.of(),
+                    artistasSeleccionados != null ? artistasSeleccionados : List.of(),
+                    regionesSeleccionadas != null ? regionesSeleccionadas : List.of(),
+                    epocasSeleccionadas != null ? epocasSeleccionadas : List.of());
+        }
 
-            return new ModelAndView("redirect:/perfil");
-       }
+        return new ModelAndView("redirect:/perfil");
+    }
 
 }

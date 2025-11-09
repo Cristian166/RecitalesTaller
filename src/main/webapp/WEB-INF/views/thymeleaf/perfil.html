@@ -12,6 +12,21 @@
     <link rel="stylesheet" th:href="@{/css/perfil.css}">
     <link rel="stylesheet" th:href="@{/css/fondo.css}" />
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
 </head>
 
 <body class="bg-white">
@@ -33,22 +48,8 @@
         </div>
     </header>
 
-<!-- ===== SIDEBAR MENU ===== -->
-<aside id="sidebarMenu">
-    <button class="btn btn-light mb-3" id="menuCerrar">Cerrar menu</button>
-    <h5 class="mb-3">Navegacion</h5>
-    <ul class="list-unstyled">
-        <li><a href="vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
-        <li><a href="comunidades.html" class="d-block mb-2">Comunidades</a></li>
-        <li><a href="resitalesAsistidos.html" class="d-block mb-2">Recitales asistidos</a></li>
-        <li><a href="perfil.html" class="d-block mb-2">Mi perfil</a></li>
-    </ul>
-    <hr>
-    <p><strong>Tipo de plan:</strong> Premium</p>
-    <a th:href="@{/cerrar-sesion}" class="btn btn-danger w-100 mt-3">Cerrar sesión</a>
-
-    </aside>
-
+    <!-- ===== SIDEBAR MENU ===== -->
+    <div th:replace="fragments/sidebar :: sidebar"></div>
     <!-- ===== MAIN CONTENT ===== -->
     <main class="container my-4">
 

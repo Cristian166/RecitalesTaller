@@ -2,11 +2,15 @@ package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioRecital;
 import com.tallerwebi.dominio.entidades.Recital;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.DTOs.RecitalesDTO;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.ui.Model;
+import javax.servlet.http.HttpSession;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,25 +32,33 @@ public class ControladorRecitalAsistido {
         return true;
     }
 
-    @RequestMapping("/recitales-asistidos/mapa") // este es el nombre de la url de my sitio
-    public ModelAndView obtenerRecitalesAsistidosParaPresentarEnLaVista(long usuarioId){
-        List<Recital> recitales = servicioRecital.obtenerRecitalesAsistidosPorUsuario(usuarioId);
+    @RequestMapping("/recitales-asistidos")
+    public ModelAndView mostrarRecitalesAsistidos(HttpSession session) {
 
-        // creo el array vacio para colocar el recital con los atributos deseados
-        List<RecitalesDTO> dto = new ArrayList<>();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        // agrego Recital al array
-        for (Recital recital : recitales) {
-            RecitalesDTO recitalesDto = new RecitalesDTO(
-                    recital.getRecitalId(),
-                    recital.getNombreRecital(),
-                    recital.getLocalidad()
-            );
-            dto.add(recitalesDto);}
+        if (usuario == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
-        // esto indicara que mostral al html
-        ModelAndView  mav = new ModelAndView("recitales-asistidos");
-        mav.addObject("recitales", dto);
+        List<Recital> recitales = servicioRecital.obtenerRecitalesAsistidosPorUsuario(usuario.getId());
+
+        ModelAndView mav = new ModelAndView("recitalesAsistidos");
+
+        mav.addObject("usuario", usuario);
+
+        if (recitales == null) {
+            mav.addObject("recitales", new ArrayList<>());
+        } else {
+            List<RecitalesDTO> dto = recitales.stream()
+                    .map(r -> new RecitalesDTO(
+                            r.getRecitalId(),
+                            r.getNombreRecital(),
+                            r.getLocalidad()))
+                    .toList();
+
+            mav.addObject("recitales", dto);
+        }
 
         return mav;
     }

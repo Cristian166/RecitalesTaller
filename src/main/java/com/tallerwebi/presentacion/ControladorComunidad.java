@@ -37,11 +37,18 @@ public class ControladorComunidad {
         Set<Comunidad> comunidades = servicioComunidad.listarTodasLasComunidades();
         comunidades.forEach(c -> System.out.println(c.getUsuarios()));
         model.addAttribute("comunidades", comunidades);
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        model.addAttribute("usuario", usuario);
+
         return "comunidades";
     }
 
     @GetMapping("/comunidad/{id}")
     public String verComunidad(@PathVariable Long id, Model model) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
         Comunidad comunidad = servicioComunidad.obtenerComunidad(id);
 
         if (comunidad == null) {
@@ -49,6 +56,8 @@ public class ControladorComunidad {
         }
 
         List<PublicacionDTO> publicacionesDTO = servicioPublicacion.listarPublicacionesDTOPorComunidad(id);
+
+        model.addAttribute("usuario", usuario);
 
         model.addAttribute("comunidad", comunidad);
         model.addAttribute("publicaciones", publicacionesDTO);

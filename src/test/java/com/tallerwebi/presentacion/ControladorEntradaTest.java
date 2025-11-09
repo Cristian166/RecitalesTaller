@@ -23,9 +23,9 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 public class ControladorEntradaTest {
-    
+
     @Test
-    public void debeMostrarMisEntradasYMostrarLaVistaCorrecta(){
+    public void debeMostrarMisEntradasYMostrarLaVistaCorrecta() {
 
         ServicioEntrada servicioMock = mock(ServicioEntrada.class);
         HttpSession sessionMock = mock(HttpSession.class);
@@ -51,27 +51,27 @@ public class ControladorEntradaTest {
         entrada2.setHorario("21:00");
         entrada2.setSeccion("Campo");
 
-
         List<EntradaDTO> entradasSimuladas = new ArrayList<>();
         entradasSimuladas.add(entrada1);
         entradasSimuladas.add(entrada2);
 
-        when( servicioMock.obtenerEntradasPorUsuario(usuario)).thenReturn(entradasSimuladas);
+        when(servicioMock.obtenerEntradasPorUsuario(usuario)).thenReturn(entradasSimuladas);
 
         String vistaRetornada = controlador.mostrarMisEntradas(null, modelMock, sessionMock);
 
         verify(servicioMock).obtenerEntradasPorUsuario(usuario);
-        verify(modelMock).addAttribute("entradas",entradasSimuladas);
+        verify(modelMock).addAttribute("entradas", entradasSimuladas);
 
         assertEquals("vista-entradas-recitales", vistaRetornada);
     }
 
     @Test
-    public void debePoderAgregarUnaEntradaYRedirigaAVistaDeLasEntradas(){
-        
+    public void debePoderAgregarUnaEntradaYRedirigaAVistaDeLasEntradas() {
+
         ServicioEntrada servicioMock = mock(ServicioEntrada.class);
         HttpSession sessionMock = mock(HttpSession.class);
         ControladorEntrada controlador = new ControladorEntrada(servicioMock);
+        Model modelMock = mock(Model.class);
 
         Usuario usuario = new Usuario();
         when(sessionMock.getAttribute("usuario")).thenReturn(usuario);
@@ -84,15 +84,15 @@ public class ControladorEntradaTest {
         entrada1.setHorario("21:00");
         entrada1.setSeccion("Campo");
 
-        String vistaDevuelta = controlador.agregarEntrada(entrada1, null, sessionMock);
+        String vistaDevuelta = controlador.agregarEntrada(entrada1, null, sessionMock, modelMock);
 
         verify(servicioMock).crearEntrada(entrada1, usuario);
         assertEquals("redirect:/vista-entradas-recitales", vistaDevuelta);
-        
+
     }
 
     @Test
-    public void debePoderEliminarUnaEntradaPorLaIdEnLaMismaVista(){
+    public void debePoderEliminarUnaEntradaPorLaIdEnLaMismaVista() {
 
         ServicioEntrada servicioMock = mock(ServicioEntrada.class);
         ControladorEntrada controlador = new ControladorEntrada(servicioMock);
@@ -113,13 +113,13 @@ public class ControladorEntradaTest {
         entrada2.setHorario("21:00");
         entrada2.setSeccion("Campo");
 
-        List<Entrada> entradasSimuladas = new ArrayList<>( Arrays.asList(entrada1,entrada2));
+        List<Entrada> entradasSimuladas = new ArrayList<>(Arrays.asList(entrada1, entrada2));
         when(servicioMock.obtenerTodasMisEntradas()).thenReturn(entradasSimuladas);
 
         doAnswer(invocation -> {
-        Long id = invocation.getArgument(0);
-        entradasSimuladas.removeIf(entrada -> entrada.getId().equals(id)); 
-        return null;
+            Long id = invocation.getArgument(0);
+            entradasSimuladas.removeIf(entrada -> entrada.getId().equals(id));
+            return null;
         }).when(servicioMock).eliminarEntrada(1L);
 
         controlador.eliminarEntrada(1L);
@@ -128,17 +128,18 @@ public class ControladorEntradaTest {
 
         assertEquals(1, entradasSimuladas.size());
         assertTrue(entradasSimuladas.stream().noneMatch(entrada -> entrada.getId().equals(1L)));
-        
+
     }
 
     @Test
-    public void debePoderMostrarVistaDelFormularioParaCrearUnaEntrada(){
+    public void debePoderMostrarVistaDelFormularioParaCrearUnaEntrada() {
         ServicioEntrada servicioMock = mock(ServicioEntrada.class);
         Model modelMock = mock(Model.class);
+        HttpSession sessionMock = mock(HttpSession.class);
 
         ControladorEntrada controlador = new ControladorEntrada(servicioMock);
 
-        String vista = controlador.mostrarFormularioParaAgregarEntrada(modelMock);
+        String vista = controlador.mostrarFormularioParaAgregarEntrada(modelMock, sessionMock);
 
         verify(modelMock).addAttribute(eq("entrada"), any(Entrada.class));
 
@@ -146,10 +147,11 @@ public class ControladorEntradaTest {
     }
 
     @Test
-    public void debePoderValidarUnaEntradaYaCreada(){
+    public void debePoderValidarUnaEntradaYaCreada() {
         ServicioEntrada servicioMock = mock(ServicioEntrada.class);
         HttpSession sessionMock = mock(HttpSession.class);
         ControladorEntrada controlador = new ControladorEntrada(servicioMock);
+        Model modelMock = mock(Model.class);
 
         Usuario usuario = new Usuario();
         when(sessionMock.getAttribute("usuario")).thenReturn(usuario);
@@ -157,16 +159,15 @@ public class ControladorEntradaTest {
         Entrada entrada1 = new Entrada();
         entrada1.setId(1L);
         entrada1.setValidada(false);
-    
+
         when(servicioMock.buscarPorId(1L)).thenReturn(entrada1);
-        
+
         doAnswer(invocation -> {
-        entrada1.setValidada(true);
-        return null;
+            entrada1.setValidada(true);
+            return null;
         }).when(servicioMock).validarEntrada(entrada1.getId(), usuario);
 
-
-        ModelAndView vistaDevuelta = controlador.validarEntrada(entrada1.getId(), sessionMock);
+        ModelAndView vistaDevuelta = controlador.validarEntrada(entrada1.getId(), sessionMock, modelMock);
 
         assertEquals("validar-entrada", vistaDevuelta.getViewName());
         assertEquals("La entrada fue validada correctamente.", vistaDevuelta.getModel().get("mensajeExito"));
@@ -178,12 +179,14 @@ public class ControladorEntradaTest {
     @Test
     public void debeDarErrorSiIngresamosIdInexistenteAlValidarEntrada() {
         ServicioEntrada servicioMock = mock(ServicioEntrada.class);
+        Model modelMock = mock(Model.class);
+
         HttpSession sessionMock = mock(HttpSession.class);
         ControladorEntrada controlador = new ControladorEntrada(servicioMock);
 
         when(servicioMock.buscarPorId(999L)).thenReturn(null);
 
-        ModelAndView vistaDevuelta = controlador.validarEntrada(999L, sessionMock);
+        ModelAndView vistaDevuelta = controlador.validarEntrada(999L, sessionMock, modelMock);
 
         assertEquals("validar-entrada", vistaDevuelta.getViewName());
         assertEquals("No se encontró la entrada con ID: 999", vistaDevuelta.getModel().get("mensajeError"));
@@ -195,7 +198,7 @@ public class ControladorEntradaTest {
         ControladorEntrada controlador = new ControladorEntrada(servicioMock);
 
         doThrow(new IllegalArgumentException("No existe la entrada"))
-            .when(servicioMock).eliminarEntrada(999L);
+                .when(servicioMock).eliminarEntrada(999L);
 
         String vista = controlador.eliminarEntrada(999L);
 

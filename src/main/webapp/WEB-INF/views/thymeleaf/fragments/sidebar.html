@@ -1,14 +1,16 @@
 <div th:fragment="sidebar" id="sidebarMenu">
-    <button class="btn btn-light" id="menuCerrar">=</button>
-    <h5 class="mb-3">NavegaciOn</h5>
+    <button class="btn btn-light" id="menuCerrar">Cerrar Menu</button>
+    <h5 class="mb-3">Navegación</h5>
     <ul class="list-unstyled">
-        <li><a href="vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
-        <li><a href="comunidades.html" class="d-block mb-2">Comunidades</a></li>
-        <li><a href="resitalesAsistidos.html" class="d-block mb-2">Recitales Asistidos</a></li>
-        <li><a href="perfil.html" class="d-block mb-2">Mi perfil</a></li>
+        <li><a th:href="@{/vista-entradas-recitales}" class="d-block mb-2">Mis entradas</a></li>
+        <li><a th:href="@{/comunidades}" class="d-block mb-2">Comunidades</a></li>
+        <li><a th:href="@{/recitales-asistidos}" class="d-block mb-2">Recitales Asistidos</a></li>
+        <li><a th:href="@{/perfil}" class="d-block mb-2">Mi perfil</a></li>
     </ul>
     <hr>
-    <p><strong>Tipo de plan:</strong> Premium</p>
+    <p><strong>Tipo de plan: </strong>
+        <span th:if="${usuario != null}" th:text="${usuario.esPremium} ? 'Premium' : 'Gratis'"></span>
+        <span th:if="${usuario == null}">Gratis</span>
+    </p>
     <a th:href="@{/cerrar-sesion}" class="btn btn-danger w-100 mt-3">Cerrar sesión</a>
-
 </div>

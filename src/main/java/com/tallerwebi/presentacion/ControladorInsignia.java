@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import javax.servlet.http.HttpSession;
 
-
 import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.dominio.entidades.Usuario;
 
@@ -27,15 +26,17 @@ public class ControladorInsignia {
 
     @GetMapping("/insignias")
     public String mostrarInsignias(Model model, HttpSession session) {
-    Usuario usuario = (Usuario) session.getAttribute("usuario");
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-    if (usuario == null) {
-        return "redirect:/login";
-    }
+        model.addAttribute("usuario", usuario);
 
-    List<Insignia> insignias = servicio.obtenerInsigniasDeUsuario(usuario);
-    model.addAttribute("insignias", insignias);
+        if (usuario == null) {
+            return "redirect:/login";
+        }
 
-    return "insignias";
+        List<Insignia> insignias = servicio.obtenerInsigniasDeUsuario(usuario);
+        model.addAttribute("insignias", insignias);
+
+        return "insignias";
     }
 }

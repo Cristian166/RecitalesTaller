@@ -17,8 +17,6 @@ import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
 import com.tallerwebi.dominio.entidades.Comunidad;
 
-
-
 @Controller
 public class ControladorHome {
 
@@ -27,7 +25,7 @@ public class ControladorHome {
 
     @Autowired
     public ControladorHome(ServicioEntrada servicioEntrada,
-                           ServicioComunidad servicioComunidad) {
+            ServicioComunidad servicioComunidad) {
         this.servicioEntrada = servicioEntrada;
         this.servicioComunidad = servicioComunidad;
     }
@@ -36,15 +34,16 @@ public class ControladorHome {
     public String mostrarHome(Model model, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        
+
         if (usuario == null) {
             return "redirect:/login";
         }
 
+        model.addAttribute("usuario", usuario);
+
         List<EntradaDTO> entradas = servicioEntrada.obtenerEntradasPorUsuario(usuario);
         model.addAttribute("entradas", entradas);
 
-        
         Set<Comunidad> comunidades = servicioComunidad.listarTodasLasComunidades();
         model.addAttribute("comunidades", comunidades);
 

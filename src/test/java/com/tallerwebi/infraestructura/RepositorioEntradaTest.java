@@ -1,7 +1,6 @@
 package com.tallerwebi.infraestructura;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.verify;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +20,7 @@ import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.config.HibernateTestInfraestructuraConfig;
 import com.tallerwebi.infraestructura.repositorioImpl.RepositorioEntradaImpl;
-import com.tallerwebi.infraestructura.repositorioImpl.RepositorioPerfilImpl;
+
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {HibernateTestInfraestructuraConfig.class})

@@ -23,7 +23,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class ControladorEntrada {
 
-
     private final ServicioEntrada servicioEntrada;
 
     @Autowired
@@ -33,9 +32,11 @@ public class ControladorEntrada {
 
     @GetMapping("/vista-entradas-recitales")
     public String mostrarMisEntradas(@RequestParam(required = false) String error,
-                                    Model model,
-                                    HttpSession session) {
+            Model model,
+            HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        model.addAttribute("usuario", usuario);
 
         if (usuario == null) {
             return "redirect:/login";
@@ -51,19 +52,28 @@ public class ControladorEntrada {
     }
 
     @GetMapping("/crear-entrada")
-    public String mostrarFormularioParaAgregarEntrada( Model model) {
+    public String mostrarFormularioParaAgregarEntrada(Model model, HttpSession session) {
         model.addAttribute("entrada", new Entrada());
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+
         return "crear-entrada";
     }
 
     @PostMapping("/agregar-entrada")
     public String agregarEntrada(@ModelAttribute("entrada") Entrada entrada,
-                                @RequestParam(value = "imagenArchivo", required = false) MultipartFile imagenArchivo,
-                                HttpSession session) {
+            @RequestParam(value = "imagenArchivo", required = false) MultipartFile imagenArchivo,
+            HttpSession session, Model model) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        model.addAttribute("usuario", usuario);
+
         if (usuario == null) {
             return "redirect:/login";
+        }
+
+        if (entrada.getFecha() == null) {
+            entrada.setFecha(LocalDate.now());
         }
 
         if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
@@ -75,7 +85,6 @@ public class ControladorEntrada {
                 Path rutaArchivo = carpetaUploads.resolve(nombreArchivo);
                 Files.write(rutaArchivo, imagenArchivo.getBytes());
 
-                
                 entrada.setImagen(nombreArchivo);
                 System.out.println("Imagen guardada en: " + rutaArchivo);
 
@@ -101,13 +110,15 @@ public class ControladorEntrada {
     public ModelAndView mostrarFormularioValidarEntrada(@RequestParam("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("validar-entrada");
         modelAndView.addObject("entrada", servicioEntrada.buscarPorId(id));
-    return modelAndView;
+        return modelAndView;
     }
 
     @PostMapping("/validar-entrada")
-    public ModelAndView validarEntrada(@RequestParam("id") Long id, HttpSession session) {
+    public ModelAndView validarEntrada(@RequestParam("id") Long id, HttpSession session, Model model) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        model.addAttribute("usuario", usuario);
 
         ModelAndView modelAndView = new ModelAndView("validar-entrada");
 
@@ -129,22 +140,6 @@ public class ControladorEntrada {
 
         modelAndView.addObject("entrada", entrada);
         return modelAndView;
+    }
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- }
-
-

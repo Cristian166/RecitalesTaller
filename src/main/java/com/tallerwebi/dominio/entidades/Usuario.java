@@ -34,13 +34,14 @@ public class Usuario {
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private List<Entrada> entradas = new ArrayList<>();
 
-
     @ManyToMany(mappedBy = "usuarios")
     private Set<Comunidad> comunidades = new HashSet<>();
 
     @OneToOne(mappedBy = "usuario")
     private PreferenciaUsuario preferenciaUsuario;
     private Boolean activo = false;
+
+    @Column(name = "es_premium")
     private Boolean esPremium = false;
 
     public Long getId() {
@@ -150,6 +151,7 @@ public class Usuario {
     public List<Entrada> getEntradas() {
         return entradas;
     }
+
     public void setEntradas(List<Entrada> entradas) {
         this.entradas = entradas;
     }

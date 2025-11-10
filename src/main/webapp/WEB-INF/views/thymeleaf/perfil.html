@@ -12,6 +12,21 @@
     <link rel="stylesheet" th:href="@{/css/perfil.css}">
     <link rel="stylesheet" th:href="@{/css/fondo.css}" />
     <link rel="stylesheet" th:href="@{/css/layout.css}" />
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
 </head>
 
 <body class="bg-white">
@@ -19,7 +34,7 @@
 <!-- HEADER -->
 <div th:replace="fragments/header :: header"></div>
 
-<!-- SIDEBAR MENU -->
+<!-- ===== SIDEBAR MENU ===== -->
 <div th:replace="fragments/sidebar :: sidebar"></div>
 
     <!-- ===== MAIN CONTENT ===== -->

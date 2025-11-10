@@ -74,12 +74,20 @@ public class ControladorSuscripcion {
             @RequestParam(name = "payment_id", required = false) String paymentId,
             Model model,
             HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            System.out.println("Usuario null al volver de MercadoPago!");
+            usuario = new Usuario();
+            usuario.setEsPremium(false);
+        }
 
         model.addAttribute("collectionId", collectionId);
         model.addAttribute("status", status);
         model.addAttribute("paymentType", paymentType);
         model.addAttribute("preferenceId", preferenceId);
         model.addAttribute("paymentId", paymentId);
+        model.addAttribute("usuario", usuario);
 
         System.out.println("---PAGO CONFIRMADO---");
         System.out.println("collection_id=" + collectionId);
@@ -88,9 +96,9 @@ public class ControladorSuscripcion {
         System.out.println("preference_id=" + preferenceId);
         System.out.println("payment_id=" + paymentId);
 
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-        servicioSuscripcion.procesarPagoPremium(usuario);
+        if (usuario.getId() != null) {
+            servicioSuscripcion.procesarPagoPremium(usuario);
+        }
         return "confirmacion";
     }
 
@@ -105,7 +113,17 @@ public class ControladorSuscripcion {
     }
 
     @GetMapping("/elegir-tipo-plan")
-    public ModelAndView irAElegirTipoPlan() {
+    public ModelAndView irAElegirTipoPlan(HttpSession session, Model model) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            usuario = new Usuario();
+            usuario.setEsPremium(false);
+        }
+
+        model.addAttribute("usuario", usuario);
+
         return new ModelAndView("elegir-tipo-plan");
     }
 }

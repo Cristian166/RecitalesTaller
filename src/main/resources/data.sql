@@ -1,7 +1,7 @@
 /*Usuario*/
 
-INSERT IGNORE INTO Usuario(id, email, password, rol, activo, cantidad_publicaciones) 
-VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true, 0);
+INSERT IGNORE INTO Usuario(id, email, password, rol, activo, cantidad_publicaciones, es_premium) 
+VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true, 0, false);
 
 /*Comunidad*/
 INSERT IGNORE INTO Comunidad(id, nombre, descripcion, paisOrigen, idioma) VALUES (1, 'Comunidad de prueba', 'Para probar', 'Argentina', 'Español');
@@ -68,12 +68,12 @@ INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('Moderna', 'Epoca'),
 ('Actual', 'Epoca');
 
-INSERT IGNORE INTO Insignia (DTYPE, nombre, descripcion, imagen) VALUES
-('Insignia', 'Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png'),
-('Insignia', 'Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png'),
-('Insignia', 'Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png'),
-('Insignia', 'Fanático', 'Marcaste a un artista como favorito', '/img/insignias/fanatico.png'),
-('Insignia', 'Bienvenido', 'Iniciaste sesion', '/img/insignias/bienvenido.png'),
-('InsigniaPremium', 'Encuestador', 'Creaste una encuesta', '/img/insignias/encuestador.png'),
-('InsigniaPremium', 'Creador de Comunidad', 'Creaste una comunidad', '/img/insignias/creador_comunidad_premium.png'),
-('InsigniaPremium', 'Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png');
+INSERT IGNORE INTO Insignia (DTYPE, nombre, descripcion, imagen, efectoVisual) VALUES
+('Insignia', 'Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png', NULL),
+('Insignia', 'Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png', NULL),
+('Insignia', 'Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png', NULL),
+('Insignia', 'Fanático', 'Marcaste a un artista como favorito', '/img/insignias/fanatico.png', NULL),
+('Insignia', 'Bienvenido', 'Iniciaste sesion', '/img/insignias/bienvenido.png', NULL),
+('InsigniaPremium', 'Encuestador', 'Creaste una encuesta', '/img/insignias/encuestador.png', 'Azul'),
+('InsigniaPremium', 'Creador de Comunidad', 'Creaste una comunidad', '/img/insignias/creador_comunidad_premium.png', 'Rojo'),
+('InsigniaPremium', 'Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png', 'Amarillo');

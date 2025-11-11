@@ -33,6 +33,16 @@
             color: #6c757d;
             font-size: 0.9rem;
         }
+
+        .borde-azul {
+            border: 2px solid #007bff; 
+            border-radius: 8px;
+            padding: 10px;
+        }
+
+        .ocultar {
+            display: none;
+        }
     </style>
 </head>
 <body class="bg-white">
@@ -58,21 +68,23 @@
     </div>
 
     <!-- Listado de notificaciones -->
-    <div class="notification-card d-flex justify-content-between align-items-center"
-        th:each="notificacion : ${notificaciones}">
-        <div class="d-flex align-items-center">
-            <div class="notification-icon me-3">
-                <i class="bi bi-bell"></i>
-            </div>
-            <div>
-                <strong th:text="${notificacion.nombreNotificacion}">Título</strong><br>
-                <small th:text="${notificacion.descripcionNotificacion}">Mensaje</small>
-                <a th:href="@{${notificacion.link}}">Ver aquí</a>
+    <div th:each="notificacion : ${notificaciones}">
+        <div class="notification-card d-flex justify-content-between align-items-center "
+            th:classappend="${!notificacion.vista} ? ' borde-azul' : ' ocultar'">
+            
+            <div class="d-flex align-items-center">
+                <div class="notification-icon me-3">
+                    <i class="bi bi-bell"></i>
+                </div>
+                <div>
+                    <strong th:text="${notificacion.nombreNotificacion}">Título</strong><br>
+                    <small th:text="${notificacion.descripcionNotificacion}">Mensaje</small>
+                    <a th:href="@{${notificacion.link}}">Ver aquí</a>
+                </div>
             </div>
         </div>
-        <div class="notification-time"
-            th:text="${notificacion.vista ? 'Leída' : 'Nueva'}">hace X min</div>
     </div>
+
 
 
 </main>

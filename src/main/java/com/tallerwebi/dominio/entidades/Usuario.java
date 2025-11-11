@@ -16,10 +16,15 @@ public class Usuario {
 
     private String nombre;
     private String apellido;
+    
 
     @Column(unique = true)
     private String email;
     private String password;
+    private String pais;
+    private String provincia;
+    private String direccion;
+    private String telefono;
     private String rol;
 
     @Column(name = "cantidad_publicaciones")
@@ -154,6 +159,38 @@ public class Usuario {
 
     public void setEntradas(List<Entrada> entradas) {
         this.entradas = entradas;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public String getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(String provincia) {
+        this.provincia = provincia;
+    }
+
+    public String getDireccion() {
+        return direccion;
+    }
+
+    public void setDireccion(String direccion) {
+        this.direccion = direccion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
 }

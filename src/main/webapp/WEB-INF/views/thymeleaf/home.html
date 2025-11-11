@@ -47,17 +47,15 @@
                 <h4>Mis Entradas</h4>
                 <a th:href="@{/vista-entradas-recitales}" class="btn-view-more">Ver más</a>
             </div>
-            <div class="row g-4">
-                <div class="col-12 col-sm-6 col-md-3" th:each="entrada : ${entradas}">
-                    <div class="ticket-card">
-                        <img th:src="@{/uploads/{img}(img=${entrada.imagen})}" alt="Recital">
-                        <h6 th:text="${entrada.nombreRecital}">Nombre del recital</h6>
-                        <p class="ticket-date"
-                            th:text="${entrada.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy'))}">
-                        </p>
-                    </div>
+
+            <div class="scroll-container">
+                <div class="ticket-card" th:each="entrada : ${entradas}">
+                    <img th:src="@{/uploads/{img}(img=${entrada.imagen})}" alt="Recital">
+                    <h6 th:text="${entrada.nombreRecital}">Nombre del recital</h6>
+                    <p class="ticket-date" th:text="${entrada.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy'))}"></p>
                 </div>
             </div>
+            
         </section>
 
         <!-- SECCIÓN COMUNIDADES -->

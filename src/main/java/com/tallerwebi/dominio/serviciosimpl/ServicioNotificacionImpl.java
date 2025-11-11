@@ -25,8 +25,7 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
 
     @Override
     public List<Notificacion> obtenerNotificacionesPorUsuario(Usuario usuario) {
-       List<Notificacion> notificaciones = repositorioNotificacion.obtenerEntradasPorUsuario(usuario);
-       return notificaciones;
+      return  repositorioNotificacion.obtenerEntradasPorUsuario(usuario);
     }
 
     @Override

@@ -37,6 +37,7 @@ public class Entrada {
 
     private String seccion;
     private Boolean validada=false;
+    
 
     
 

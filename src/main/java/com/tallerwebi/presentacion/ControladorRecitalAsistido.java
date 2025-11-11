@@ -50,13 +50,14 @@ public class ControladorRecitalAsistido {
         if (recitales == null) {
             mav.addObject("recitales", new ArrayList<>());
         } else {
-            List<RecitalesDTO> dto = recitales.stream()
-                    .map(r -> new RecitalesDTO(
-                            r.getRecitalId(),
-                            r.getNombreRecital(),
-                            r.getLocalidad()))
-                    .toList();
+            List<RecitalesDTO> dto = new ArrayList<>();
 
+            for (Recital r : recitales) {
+                dto.add(new RecitalesDTO(
+                        r.getRecitalId(),
+                        r.getNombreRecital(),
+                        r.getLocalidad()));
+            }
             mav.addObject("recitales", dto);
         }
 

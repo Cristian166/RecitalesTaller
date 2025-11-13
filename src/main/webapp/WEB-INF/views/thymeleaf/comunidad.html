@@ -35,37 +35,10 @@
 
 <body>
 
-    <!-- HEADER con el botón de menú -->
-    <header class="bg-secondary text-white p-3">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-4 text-start">
-                    <button class="btn btn-light" id="menuToggle">Menu</button>
-                </div>
-                <div class="col-4 text-center">
-                    <a href="/spring/home.html" class="text-decoration-none text-white fw-bold">Diario de Recitales</a>
-                </div>
-                <div class="col-4 text-end">
-                    <a class="btn btn-light" th:href="@{/perfil}">Perfil</a>
-                </div>
-            </div>
-        </div>
-    </header>
-
-<!-- SIDEBAR MENU -->
-<div id="sidebarMenu">
-        <button class="btn btn-light" id="menuCerrar">=</button>
-        <h5 class="mb-3">Navegación</h5>
-        <ul class="list-unstyled">
-            <li><a href="/spring/vista-entradas-recitales.html" class="d-block mb-2">Mis entradas</a></li>
-            <li><a href="/spring/comunidades.html" class="d-block mb-2">Comunidades</a></li>
-            <li><a href="/spring/recitales-asistidos" class="d-block mb-2">Recitales Asistidos</a></li>
-            <li><a href="/spring/perfil.html" class="d-block mb-2">Mi perfil</a></li>
-        </ul>
-        <hr>
-        <p><strong>Tipo de plan: </strong><span th:text="${usuario.esPremium} ? 'Premium' : 'Gratis'"></span></p>
-        <a th:href="@{/cerrar-sesion}" class="btn btn-danger w-100 mt-3">Cerrar sesión</a>
-    </div>
+    <!-- Header -->
+    <div th:replace="fragments/header :: header"></div>
+    <!-- Sidebar Menu -->
+    <div th:replace="fragments/sidebar :: sidebar"></div>
 
     <!-- CONTENIDO PRINCIPAL -->
     <div class="container my-4">
@@ -125,12 +98,14 @@
             <div class="col-lg-4 col-md-12">
                 <div class="glass-panel">
                     <h5 class="mb-3">Acciones</h5>
-                    <form th:action="@{/comunidad/unirse/{id}(id=${comunidad.id})}" method="post">
-                        <button type="submit" class="btn-glass mb-2">Unirse a comunidad</button>
-                    </form>
-                    <form th:action="@{/comunidad/abandonar/{id}(id=${comunidad.id})}" method="post">
+                    <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
                         <button type="submit" class="btn-glass mb-2">Abandonar comunidad</button>
                     </form>
+                    <div th:if="${usuario.esPremium} and ${comunidad.usuarioCreador != null} and ${usuario.id} == ${comunidad.usuarioCreador.id}">
+                        <form th:action="@{/comunidad/{id}/eliminar(id=${comunidad.id})}" method="post">
+                            <button type="submit" class="btn-glass mb-2">Eliminar comunidad</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

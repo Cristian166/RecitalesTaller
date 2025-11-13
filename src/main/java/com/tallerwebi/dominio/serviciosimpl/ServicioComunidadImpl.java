@@ -22,45 +22,52 @@ public class ServicioComunidadImpl implements ServicioComunidad {
 
     @Override
     @Transactional
-    public Set<Comunidad> listarTodasLasComunidades() {
-        return repositorioComunidad.obtenerMisComunidades();
+    public Set<Comunidad> listarComunidadesUnidas(Long usuarioId){
+        return repositorioComunidad.obtenerComunidadesUnidas(usuarioId);
+    }
+
+    @Override
+    @Transactional
+    public Set<Comunidad> listarComunidadesSugeridas(Long usuarioId){
+        return repositorioComunidad.obtenerComunidadesSugeridas(usuarioId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Comunidad obtenerComunidad(Long id) {
-        Comunidad comunidad = repositorioComunidad.obtenerPorId(id);
-        System.out.println("ServicioComunidad obtenido: "+comunidad);
+        Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(id);
+        System.out.println("Servicio comunidad obtenido: "+comunidad);
         return comunidad;
     }
 
     @Override
     @Transactional
     public void unirseAComunidad(Usuario usuario, Long comunidadId) {
+        Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(comunidadId);
 
-        Comunidad comunidad = repositorioComunidad.obtenerPorId(comunidadId);
-
-        if (comunidad != null && usuario != null) {
-
-            if(!comunidad.getUsuarios().contains(usuario)){
+        if(comunidad != null && usuario != null){
+            if (!comunidad.getUsuarios().contains(usuario)) {
                 comunidad.getUsuarios().add(usuario);
-                repositorioComunidad.guardar(comunidad);
+                repositorioComunidad.guardarUnaComunidad(comunidad);
             }
-
         }
     }
 
     @Override
     @Transactional
     public void abandonarComunidad(Usuario usuario, Long comunidadId) {
+        repositorioComunidad.abandonarComunidad(usuario, comunidadId);
+    }
 
-        Comunidad comunidad = repositorioComunidad.obtenerPorId(comunidadId);
+    @Override
+    @Transactional
+    public Comunidad crearComunidad(Comunidad comunidad) {
+        return repositorioComunidad.guardarUnaComunidad(comunidad);
+    }
 
-        if (comunidad != null && usuario != null) {
-            if(comunidad.getUsuarios().contains(usuario)){
-                comunidad.getUsuarios().remove(usuario);
-                repositorioComunidad.guardar(comunidad);
-            }
-        }
+    @Override
+    @Transactional
+    public void eliminarComunidad(Long id) {
+         repositorioComunidad.borrarComunidad(id);
     }
 }

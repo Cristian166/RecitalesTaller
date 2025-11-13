@@ -62,36 +62,34 @@
                     <input type="text" class="form-control" placeholder="Buscar comunidades...">
                 </div>
 
+                <a th:href="@{/crear-comunidad}" class="btn btn-primary mt-3">Crear comunidad</a>
+
                 <!-- Comunidades unidas -->
-                <h5>Comunidades unidas:</h5>
-
-                <div class="community-list">
-
-                    <!-- Si hay comunidades, las mostramos -->
-                    <div th:if="${not #lists.isEmpty(comunidades)}">
-                        <div th:each="comunidad : ${comunidades}"
-                            class="community-card d-flex justify-content-between align-items-center">
-
-                            <div>
-                                <h5>
-                                    <a th:href="@{/comunidad/{id}(id=${comunidad.id})}"
-                                        th:text="${comunidad.nombre}">Nombre comunidad</a>
-                                </h5>
-                                <p th:text="${comunidad.usuarios.size()} + ' miembros'">(0 miembros)</p>
-                            </div>
-
-                            <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
-                                <button class="btn community-button" type="submit">Abandonar</button>
-                            </form>
-                        </div>
-                    </div>
-
-                    <!-- Si no hay comunidades, mostramos un mensaje -->
-                    <div th:if="${#lists.isEmpty(comunidades)}" class="text-center mt-3">
-                        <p>No estás unido a ninguna comunidad todavía.</p>
-                    </div>
-
+                <h5 class="mt-4">Comunidades unidas:</h5>
+                <div th:if="${#lists.isEmpty(comunidadesUnidas)}">
+                    <p>No te uniste a ninguna comunidad todavía.</p>
                 </div>
+                <ul th:if="${!#lists.isEmpty(comunidadesUnidas)}" class="list-group mb-4">
+                    <li th:each="comunidad : ${comunidadesUnidas}" class="list-group-item">
+                        <strong th:text="${comunidad.nombre}"></strong> :
+                        <span th:text="${comunidad.descripcion}"></span>
+                    </li>
+                </ul>
+
+                 <h5>Comunidades sugeridas:</h5>
+                <div th:if="${#lists.isEmpty(comunidadesSugeridas)}">
+                    <p>No hay comunidades sugeridas en este momento.</p>
+                </div>
+                <ul th:if="${!#lists.isEmpty(comunidadesSugeridas)}" class="list-group">
+                    <li th:each="comunidad : ${comunidadesSugeridas}" class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong th:text="${comunidad.nombre}"></strong> :
+                            <span th:text="${comunidad.descripcion}"></span>
+                        </div>
+                        <a th:href="@{/comunidad/{id}/unirse(id=${comunidad.id})}" class="btn btn-sm btn-success">Unirse</a>
+                    </li>
+                </ul>
+
 
             </div>
         </main>

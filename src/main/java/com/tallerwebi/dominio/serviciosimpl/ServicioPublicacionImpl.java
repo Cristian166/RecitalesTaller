@@ -4,12 +4,14 @@ import com.tallerwebi.dominio.ServicioInsignia;
 import com.tallerwebi.dominio.ServicioPublicacion;
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Insignia;
+import com.tallerwebi.dominio.entidades.Notificacion;
 import com.tallerwebi.dominio.entidades.Publicacion;
 
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.DTOs.PublicacionDTO;
 import com.tallerwebi.infraestructura.RepositorioComunidad;
 import com.tallerwebi.infraestructura.RepositorioInsignia;
+import com.tallerwebi.infraestructura.RepositorioNotificacion;
 import com.tallerwebi.infraestructura.RepositorioPublicacion;
 import com.tallerwebi.infraestructura.RepositorioUsuario;
 import com.tallerwebi.infraestructura.RepositorioUsuarioInsignia;
@@ -21,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +36,7 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
     private ServicioInsignia servicioInsignia;
     private RepositorioInsignia repositorioInsignia;
     private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
+    private RepositorioNotificacion repositorioNotificacion;
 
     public ServicioPublicacionImpl(RepositorioPublicacion repositorioPublicacion,
             RepositorioComunidad repositorioComunidad,
@@ -46,19 +50,20 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
     public ServicioPublicacionImpl(RepositorioPublicacion repositorioPublicacion,
             RepositorioComunidad repositorioComunidad,
             RepositorioUsuario repositorioUsuario, RepositorioInsignia repositorioInsignia,
-            ServicioInsignia servicioInsignia, RepositorioUsuarioInsignia repositorioUsuarioInsignia) {
+            ServicioInsignia servicioInsignia, RepositorioUsuarioInsignia repositorioUsuarioInsignia, RepositorioNotificacion repositorioNotificacion) {
         this.repositorioPublicacion = repositorioPublicacion;
         this.repositorioComunidad = repositorioComunidad;
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioInsignia = repositorioInsignia;
         this.servicioInsignia = servicioInsignia;
         this.repositorioUsuarioInsignia = repositorioUsuarioInsignia;
+        this.repositorioNotificacion = repositorioNotificacion;
     }
 
     @Override
     @Transactional
     public Boolean crearPublicacion(Publicacion publicacion, Long comunidadId, Usuario usuario) {
-        Comunidad comunidad = repositorioComunidad.obtenerPorId(comunidadId);
+        Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(comunidadId);
 
         if (comunidad == null || usuario == null || publicacion.getContenido() == null
                 || publicacion.getContenido().isEmpty()) {
@@ -81,6 +86,25 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
                 servicioInsignia.asignarInsignia(usuarioActualizado, insigniaActivo);
             }
         }
+
+
+        Set<Usuario> miembros = repositorioComunidad.obtenerMiembros(comunidadId);
+
+        for (Usuario miembro : miembros) {
+            if (!miembro.getId().equals(usuario.getId())) {
+
+                Notificacion notificacion = new Notificacion();
+                notificacion.setNombreNotificacion("Nueva publicación en " + comunidad.getNombre());
+                notificacion.setDescripcionNotificacion(
+                    usuario.getNombre() + " publicó algo nuevo en la comunidad ");
+                notificacion.setLink("/comunidad/"+comunidadId);
+                notificacion.setUsuario(miembro);
+
+                repositorioNotificacion.agregarNotificacion(miembro, notificacion);
+            }
+        }
+        
+            
 
         repositorioUsuario.modificar(usuarioActualizado);
 

@@ -7,9 +7,12 @@ import java.util.Set;
 
 public interface ServicioComunidad {
 
-    Set<Comunidad> listarTodasLasComunidades();
+    public Set<Comunidad> listarComunidadesUnidas(Long usuarioId);
+    public Set<Comunidad> listarComunidadesSugeridas(Long usuarioId);
     Comunidad obtenerComunidad(Long id);
     void unirseAComunidad(Usuario usuario, Long comunidadId);
     void abandonarComunidad(Usuario usuario, Long comunidadId);
+    Comunidad crearComunidad(Comunidad comunidad);
+    void eliminarComunidad(Long id);
 
 }

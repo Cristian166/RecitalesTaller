@@ -89,6 +89,16 @@ public class ControladorComunidad {
         return "redirect:/comunidades";
     }
 
+    @PostMapping("/comunidad/{id}/eliminar")
+    public String eliminarUnaComunidad(@PathVariable Long id) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario != null) {
+            servicioComunidad.eliminarComunidad(id);
+        }
+        return "redirect:/comunidades";
+    }
+
     @GetMapping("/crear-comunidad")
     public String mostrarFormularioCrearComunidad(Model model){
         Usuario usuario = (Usuario) session.getAttribute("usuario");

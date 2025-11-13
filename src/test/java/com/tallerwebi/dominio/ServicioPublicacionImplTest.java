@@ -50,7 +50,7 @@ public class ServicioPublicacionImplTest {
                 repoUsuario,
                 repoInsignia,
                 servicioInsignia,
-                repoUsuarioInsignia);
+                repoUsuarioInsignia, null);
     }
 
     @Test

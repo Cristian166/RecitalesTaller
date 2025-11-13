@@ -25,6 +25,34 @@
         main {
             flex: 1;
         }
+        .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.community-card {
+    flex: 0 0 200px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    backdrop-filter: blur(5px);
+    transition: transform 0.2s ease;
+}
+
+.community-card:hover {
+    transform: translateY(-4px);
+}
+
+.community-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
     </style>
 
 
@@ -59,16 +87,32 @@
         </section>
 
         <!-- SECCIÓN COMUNIDADES -->
-        <section class="mb-5">
+        <section th:if="${comunidadesUnidas != null and comunidadesUnidas.size() > 0}" class="mb-5">
             <div class="section-header">
                 <h4>Mis Comunidades</h4>
                 <a th:href="@{/comunidades}" class="btn-view-more">Ver más</a>
             </div>
-            <div class="row g-4">
-                <div class="col-12 col-sm-6 col-md-3" th:each="comunidad : ${comunidades}">
-                    <div class="community-card">
-                        <!-- <img th:src="@{/uploads/{img}(img=${comunidad.imagen})}" alt="Comunidad"> -->
-                    </div>
+
+            <div class="scroll-container">
+                <div class="community-card" th:each="comunidad : ${comunidadesUnidas}">
+                    <!-- Imagen de la comunidad (opcional)
+                     <img th:if="${comunidad.imagen != null}" 
+                        th:src="@{/uploads/{img}(img=${comunidad.imagen})}" 
+                        alt="Comunidad">
+                    <img th:if="${comunidad.imagen == null}" 
+                        src="/img/default-community.jpg" 
+                        alt="Comunidad por defecto"> -->
+                    
+
+                    <!-- Nombre y descripción -->
+                    <h6 th:text="${comunidad.nombre}">Nombre de la comunidad</h6>
+                    <p class="community-description" 
+                    th:text="${comunidad.descripcion}">Descripción de la comunidad</p>
+
+                    <!-- Botón para ir a la comunidad -->
+                    <a th:href="@{/comunidad/{id}(id=${comunidad.id})}" class="btn-glass mt-2">
+                        Ver comunidad
+                    </a>
                 </div>
             </div>
         </section>

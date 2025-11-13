@@ -56,19 +56,18 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     @Override
     @Transactional
     public void abandonarComunidad(Usuario usuario, Long comunidadId) {
-        Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(comunidadId);
-
-        if (comunidad != null && usuario != null) {
-            if (!comunidad.getUsuarios().contains(usuario)) {
-                comunidad.getUsuarios().remove(usuario);
-                repositorioComunidad.guardarUnaComunidad(comunidad);
-            }
-        }
+        repositorioComunidad.abandonarComunidad(usuario, comunidadId);
     }
 
     @Override
     @Transactional
     public Comunidad crearComunidad(Comunidad comunidad) {
         return repositorioComunidad.guardarUnaComunidad(comunidad);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarComunidad(Long id) {
+         repositorioComunidad.borrarComunidad(id);
     }
 }

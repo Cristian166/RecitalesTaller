@@ -42,7 +42,9 @@ public class ControladorHome {
         model.addAttribute("usuario", usuario);
 
         List<EntradaDTO> entradas = servicioEntrada.obtenerEntradasPorUsuario(usuario);
+        
         model.addAttribute("entradas", entradas);
+        model.addAttribute("comunidadesUnidas", servicioComunidad.listarComunidadesUnidas(usuario.getId()));
 
         return "home";
     }

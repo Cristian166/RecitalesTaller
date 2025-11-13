@@ -1,6 +1,7 @@
 package com.tallerwebi.infraestructura.repositorioImpl;
 
 import com.tallerwebi.dominio.entidades.Comunidad;
+import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.RepositorioComunidad;
 
 import org.hibernate.Session;
@@ -61,6 +62,25 @@ public class RepositorioComunidadImpl implements RepositorioComunidad{
                 .setParameter("usuarioId", usuarioId)
                 .list();
         return new HashSet<>(comunidadList);
+    }
+
+    @Override
+    public void abandonarComunidad(Usuario usuario, Long comunidadId) {
+        Comunidad comunidad = obtenerComunidadPorId(comunidadId);
+
+        if (comunidad != null) {
+            Usuario session = getCurrentSession().get(Usuario.class, usuario.getId());
+            comunidad.getUsuarios().remove(session);
+            getCurrentSession().update(comunidad);
+        }
+    }
+    @Override
+    public Set<Usuario> obtenerMiembros(Long comunidadId) {
+       List<Usuario> miembros = getCurrentSession()
+                .createQuery("SELECT u FROM Comunidad c JOIN c.usuarios u WHERE c.id= :comunidadId", Usuario.class)
+                .setParameter("comunidadId", comunidadId)
+                .list();    
+        return new HashSet<>(miembros);
     }
 
 }

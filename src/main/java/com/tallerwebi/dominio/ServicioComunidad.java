@@ -13,5 +13,6 @@ public interface ServicioComunidad {
     void unirseAComunidad(Usuario usuario, Long comunidadId);
     void abandonarComunidad(Usuario usuario, Long comunidadId);
     Comunidad crearComunidad(Comunidad comunidad);
+    void eliminarComunidad(Long id);
 
 }

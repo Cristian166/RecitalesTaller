@@ -12,6 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.Model;
 import javax.servlet.http.HttpSession;
 
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,21 +44,20 @@ public class ControladorRecitalAsistido {
 
         List<Recital> recitales = servicioRecital.obtenerRecitalesAsistidosPorUsuario(usuario.getId());
 
-        ModelAndView mav = new ModelAndView("recitalesAsistidos");
+        ModelAndView mav = new ModelAndView("recitales-asistidos");
 
         mav.addObject("usuario", usuario);
 
         if (recitales == null) {
             mav.addObject("recitales", new ArrayList<>());
         } else {
-            List<RecitalesDTO> dto = new ArrayList<>();
+            List<RecitalesDTO> dto = recitales.stream()
+                    .map(r -> new RecitalesDTO(
+                            r.getRecitalId(),
+                            r.getNombreRecital(),
+                            r.getLocalidad()))
+                    .collect(Collectors.toList());
 
-            for (Recital r : recitales) {
-                dto.add(new RecitalesDTO(
-                        r.getRecitalId(),
-                        r.getNombreRecital(),
-                        r.getLocalidad()));
-            }
             mav.addObject("recitales", dto);
         }
 

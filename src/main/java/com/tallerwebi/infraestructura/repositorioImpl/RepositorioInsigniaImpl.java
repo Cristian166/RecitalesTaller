@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.tallerwebi.dominio.entidades.Insignia;
-import com.tallerwebi.dominio.entidades.InsigniaPremium;
 import com.tallerwebi.infraestructura.RepositorioInsignia;
 
 @Repository("repositorioInsignia")

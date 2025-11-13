@@ -40,10 +40,13 @@ public class ControladorPerfil {
 
         ModelMap model = new ModelMap();
         model.addAttribute("usuario", usuario);
-        model.addAttribute("usuario", usuario);
         model.addAttribute("nombre", usuario.getNombre());
         model.addAttribute("apellido", usuario.getApellido());
         model.addAttribute("email", usuario.getEmail());
+        model.addAttribute("pais", usuario.getPais());
+        model.addAttribute("provincia", usuario.getProvincia());
+        model.addAttribute("direccion", usuario.getDireccion());
+        model.addAttribute("telefono", usuario.getTelefono());
         model.addAttribute("insignias", insignias);
 
         if (preferencias != null) {
@@ -60,6 +63,9 @@ public class ControladorPerfil {
 
         return new ModelAndView("perfil", model);
     }
+
+
+  
 
     @GetMapping("/editar-preferencias")
     public ModelAndView irAEditar(HttpSession session) {

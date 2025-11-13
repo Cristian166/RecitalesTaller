@@ -2,21 +2,14 @@ package com.tallerwebi.dominio;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +30,7 @@ public class ServicioEntradaTest {
     void setUp() {
         // Inicializa el mock de RepositorioEntrada
         repositorioEntradaMock = mock(RepositorioEntrada.class);
-        servicio = new ServicioEntradaImpl(repositorioEntradaMock);  // Inyectamos el mock en el servicio
+        servicio = new ServicioEntradaImpl(repositorioEntradaMock, null);  // Inyectamos el mock en el servicio
 
         List<Entrada> entradasMock = new ArrayList<>();
         when(repositorioEntradaMock.obtenerEntradas()).thenReturn(entradasMock);
@@ -160,8 +153,6 @@ public class ServicioEntradaTest {
 
     @Test
     public void debePoderObtenerEntradasPorId(){
-
-        Usuario usuario= new Usuario();
 
         Entrada entrada1 = new Entrada();
         entrada1.setId(1L);

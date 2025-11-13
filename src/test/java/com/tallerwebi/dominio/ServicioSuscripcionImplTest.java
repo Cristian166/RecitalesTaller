@@ -35,7 +35,7 @@ public class ServicioSuscripcionImplTest {
         servicioSuscripcion = new ServicioSuscripcionImpl(
                 repositorioUsuario,
                 repositorioInsignia,
-                servicioInsignia);
+                null, servicioInsignia);
 
         usuarioSesion = new Usuario();
         usuarioSesion.setId(1L);

@@ -1,7 +1,9 @@
 package com.tallerwebi.dominio.serviciosimpl;
 
 import com.tallerwebi.dominio.ServicioEntrada;
+import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.entidades.Entrada;
+import com.tallerwebi.dominio.entidades.Notificacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.RepositorioEntrada;
 import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
@@ -20,14 +22,26 @@ public class ServicioEntradaImpl implements ServicioEntrada {
 
     @Autowired
     private RepositorioEntrada repositorioEntrada;
+    @Autowired
+    private ServicioNotificacion servicioNotificacion;
 
-    public ServicioEntradaImpl(RepositorioEntrada repositorioEntrada){
+
+    public ServicioEntradaImpl(RepositorioEntrada repositorioEntrada,
+                                ServicioNotificacion servicioNotificacion){
         this.repositorioEntrada = repositorioEntrada;
+        this.servicioNotificacion=servicioNotificacion;
     }
 
     @Override
     public void crearEntrada(Entrada entrada, Usuario usuario) {
         repositorioEntrada.guardarEntradaPorUsuario(entrada, usuario);
+        Notificacion notificacion = new Notificacion();
+        notificacion.setNombreNotificacion("¡Creaste una nueva entrada!");
+        notificacion.setLink("/vista-entradas-recitales");
+        notificacion.setDescripcionNotificacion("Creaste una nueva entrada, vas a poder ver esta y todas las que tengas en:");
+        notificacion.setUsuario(usuario);
+        
+        servicioNotificacion.agregarNotificacion(usuario, notificacion);
     }
 
     @Override

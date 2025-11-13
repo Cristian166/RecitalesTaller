@@ -47,6 +47,7 @@ public class ServicioPerfilImpl implements ServicioPerfil {
         this.repositorioUsuarioInsignia = repositorioUsuarioInsignia;
     }
 
+
     @Override
     public List<Preferencia> consultarPreferenciaExistentes() {
         return repositorioPerfil.obtenerPreferenciaExistentes();

@@ -31,25 +31,12 @@
 
 <body class="bg-white">
 
-    <!-- ===== HEADER ===== -->
-    <header class="bg-secondary text-white p-3">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-4 text-start">
-                    <button class="btn btn-light" id="menuToggle">Menu</button>
-                </div>
-                <div class="col-4 text-center">
-                    <a href="home.html" class="text-decoration-none text-white fw-bold">Diario de Recitales</a>
-                </div>
-                <div class="col-4 text-end">
-                    <a class="btn btn-light" th:href="@{/perfil}">Perfil</a>
-                </div>
-            </div>
-        </div>
-    </header>
+<!-- HEADER -->
+<div th:replace="fragments/header :: header"></div>
 
-    <!-- ===== SIDEBAR MENU ===== -->
-    <div th:replace="fragments/sidebar :: sidebar"></div>
+<!-- ===== SIDEBAR MENU ===== -->
+<div th:replace="fragments/sidebar :: sidebar"></div>
+
     <!-- ===== MAIN CONTENT ===== -->
     <main class="container my-4">
 
@@ -59,13 +46,6 @@
             <h3 class="mb-0" th:text="${nombre} + ' ' + ${apellido}">Nombre Apellido</h3>
         </section>
 
-        <!-- Descripción -->
-        <section class="mb-4">
-            <h4>Descripcion</h4>
-            <div class="info-card">
-                <p class="mb-0" th:text="${descripcion}">Breve descripcion del usuario.</p>
-            </div>
-        </section>
 
         <!-- Información Personal -->
         <section class="mb-4">

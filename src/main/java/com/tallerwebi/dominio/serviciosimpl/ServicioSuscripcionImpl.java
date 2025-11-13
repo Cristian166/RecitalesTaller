@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import com.tallerwebi.dominio.ServicioInsignia;
 import com.tallerwebi.dominio.ServicioSuscripcion;
 import com.tallerwebi.dominio.entidades.Insignia;
+import com.tallerwebi.dominio.entidades.Notificacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.RepositorioInsignia;
+import com.tallerwebi.infraestructura.RepositorioNotificacion;
 import com.tallerwebi.infraestructura.RepositorioUsuario;
 
 @Service
@@ -24,15 +26,20 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
     @Autowired
     private RepositorioUsuario repositorioUsuario;
 
+    @Autowired
+    private RepositorioNotificacion repositorioNotificacion;
+
     public ServicioSuscripcionImpl() {
     }
 
     public ServicioSuscripcionImpl(RepositorioUsuario repositorioUsuario,
-            RepositorioInsignia repositorioInsignia,
+            RepositorioInsignia repositorioInsignia,RepositorioNotificacion repositorioNotificacion,
             ServicioInsignia servicioInsignia) {
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioInsignia = repositorioInsignia;
+        this.repositorioNotificacion=repositorioNotificacion;
         this.servicioInsignia = servicioInsignia;
+        
     }
 
     @Override
@@ -58,6 +65,13 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
             servicioInsignia.asignarInsignia(usuarioPremium, insigniaPremium);
             System.out.println("Insignia de premium asignada");
         }
+
+        Notificacion notificacion = new Notificacion();
+        notificacion.setNombreNotificacion("¡Usuario premium!");
+        notificacion.setDescripcionNotificacion("Sos nuevo usuario PREMIUM, vas a poder disfrutar de grandes beneficios!");
+        notificacion.setUsuario(usuarioPremium);
+        
+        repositorioNotificacion.agregarNotificacion(usuarioPremium, notificacion);
 
     }
 

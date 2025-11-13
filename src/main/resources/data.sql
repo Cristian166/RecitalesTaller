@@ -3,12 +3,6 @@
 INSERT IGNORE INTO Usuario(id, email, password, rol, activo, cantidad_publicaciones, es_premium) 
 VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true, 0, false);
 
-/*Comunidad*/
-INSERT IGNORE INTO Comunidad(id, nombre, descripcion, paisOrigen, idioma) VALUES (1, 'Comunidad de prueba', 'Para probar', 'Argentina', 'Español');
-
-/*Asociar usuario con comunidad*/
-INSERT IGNORE INTO comunidad_usuario(id_comunidad_fk, id_usuario_fk) VALUES (1, 1);
-
 /*Artistas*/
 INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('Duki', 'Artista'),

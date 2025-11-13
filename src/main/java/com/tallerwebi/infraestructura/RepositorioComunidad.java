@@ -7,8 +7,9 @@ import java.util.Set;
 public interface RepositorioComunidad {
 
     //metodos cortos
-    Comunidad guardar(Comunidad comunidad);
-    Set<Comunidad> obtenerMisComunidades();
-    Comunidad obtenerPorId(Long id);
+    Comunidad guardarUnaComunidad(Comunidad comunidad);
+    Comunidad obtenerComunidadPorId(Long id);
     void borrarComunidad(Long id);
+    Set<Comunidad> obtenerComunidadesUnidas(Long usuarioId);
+    Set<Comunidad> obtenerComunidadesSugeridas(Long usuarioId);
 }

@@ -42,6 +42,9 @@ public class Usuario {
     @ManyToMany(mappedBy = "usuarios")
     private Set<Comunidad> comunidades = new HashSet<>();
 
+    @OneToMany(mappedBy = "usuarioCreador")
+    private Set<Comunidad> comunidadesDelUsuario;
+
     @OneToOne(mappedBy = "usuario")
     private PreferenciaUsuario preferenciaUsuario;
     private Boolean activo = false;
@@ -193,4 +196,11 @@ public class Usuario {
         this.telefono = telefono;
     }
 
+    public Set<Comunidad> getComunidadesDelUsuario() {
+        return comunidadesDelUsuario;
+    }
+
+    public void setComunidadesDelUsuario(Set<Comunidad> comunidadesDelUsuario) {
+        this.comunidadesDelUsuario = comunidadesDelUsuario;
+    }
 }

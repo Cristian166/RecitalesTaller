@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
-import java.util.Set;
 
 @Controller
 public class ControladorComunidad {
@@ -34,12 +34,6 @@ public class ControladorComunidad {
     // mostrar comunidades
     @GetMapping("/comunidades")
     public String mostrarComunidades(Model model) {
-        Set<Comunidad> comunidades = servicioComunidad.listarTodasLasComunidades();
-        comunidades.forEach(c -> System.out.println(c.getUsuarios()));
-        model.addAttribute("comunidades", comunidades);
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-        model.addAttribute("usuario", usuario);
 
         return "comunidades";
     }
@@ -68,23 +62,46 @@ public class ControladorComunidad {
     @PostMapping("/comunidad/{id}/unirse")
     public String ingresarAUnaComunidad(@PathVariable Long id) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) {
-            return "redirect:/login";
+
+        if (usuario != null) {
+            servicioComunidad.unirseAComunidad( usuario, id);
         }
-        servicioComunidad.unirseAComunidad(usuario, id);
-        return "redirect:/comunidades/" + id;
+        return "redirect:/comunidad/"+id;
     }
 
     @PostMapping("/comunidad/{id}/abandonar")
     public String abandonarUnaComunidad(@PathVariable Long id) {
-
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-        servicioComunidad.abandonarComunidad(usuario, id);
 
+        if (usuario != null) {
+            servicioComunidad.abandonarComunidad(usuario, id);
+        }
         return "redirect:/comunidades";
     }
 
+    @GetMapping("/crear-comunidad")
+    public String mostrarFormularioCrearComunidad(Model model){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario !=null && usuario.getEsPremium()){
+            model.addAttribute("usuario", usuario);
+            model.addAttribute("nuevaComunidad", new Comunidad());
+            return "crear-comunidad";
+        }else {
+            return "redirect:/comunidades";
+        }
+    }
+
+    @PostMapping("/comunidades/crear")
+    public String crearUnaComunidad(@ModelAttribute Comunidad comunidad){
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if(usuario !=null && usuario.getEsPremium()){
+            comunidad.setUsuarioCreador(usuario);
+            comunidad.getUsuarios().add(usuario);
+            servicioComunidad.crearComunidad(comunidad);
+            return "redirect:/comunidades";
+        }
+        return "redirect:/comunidades";
+    }
 }

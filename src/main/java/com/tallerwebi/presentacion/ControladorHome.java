@@ -44,9 +44,6 @@ public class ControladorHome {
         List<EntradaDTO> entradas = servicioEntrada.obtenerEntradasPorUsuario(usuario);
         model.addAttribute("entradas", entradas);
 
-        Set<Comunidad> comunidades = servicioComunidad.listarTodasLasComunidades();
-        model.addAttribute("comunidades", comunidades);
-
         return "home";
     }
 }

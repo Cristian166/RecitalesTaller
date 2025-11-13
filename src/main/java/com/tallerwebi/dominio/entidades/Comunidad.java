@@ -34,6 +34,10 @@ public class Comunidad {
     @OneToMany(mappedBy = "comunidad", cascade = CascadeType.ALL)
     private List<Publicacion> publicaciones;
 
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuarioCreador; //admin
+
     public Comunidad(){
 
     }
@@ -91,5 +95,13 @@ public class Comunidad {
     }
     public void setPublicaciones(List<Publicacion> publicaciones) {
         this.publicaciones = publicaciones;
+    }
+
+    public Usuario getUsuarioCreador() {
+        return usuarioCreador;
+    }
+
+    public void setUsuarioCreador(Usuario usuarioCreador) {
+        this.usuarioCreador = usuarioCreador;
     }
 }

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Comunidad</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .form-container {
+            max-width: 700px;
+            margin: 40px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: #f1f3f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #adb5bd;
+            margin: 0 auto;
+        }
+        .upload-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .file-name {
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-left: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="bg-primary text-white text-center py-3">
+    <h4>Crear Comunidad</h4>
+</header>
+
+<!-- Formulario principal -->
+<main class="container">
+    <div class="form-container">
+        <h4 class="mb-2 text-center">Crear una nueva comunidad</h4>
+        <p class="text-muted text-center">Rellene los siguientes campos para crear su comunidad.</p>
+
+        <!-- Formulario Thymeleaf -->
+        <form th:action="@{/comunidades/crear}" th:object="${nuevaComunidad}" method="post">
+
+            <!-- Imagen (comentada por ahora) -->
+            <!--
+            <div class="upload-section">
+                <div class="profile-image mb-3">
+                    <i class="bi bi-image"></i>
+                </div>
+                <div class="d-flex justify-content-center align-items-center">
+                    <label for="imagen" class="btn btn-outline-secondary btn-sm">Subir imagen</label>
+                    <input type="file" id="imagen" class="d-none">
+                    <span id="file-name" class="file-name"></span>
+                </div>
+                <small class="text-muted d-block mt-2">Imagen de perfil</small>
+            </div>
+            -->
+
+            <!-- Nombre de la comunidad -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre de la comunidad</label>
+                <input th:field="*{nombre}" type="text" class="form-control" id="nombre" placeholder="Introduzca el nombre de la comunidad" required>
+            </div>
+
+            <!-- Descripción -->
+            <div class="mb-3">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea th:field="*{descripcion}" class="form-control" id="descripcion" rows="3" placeholder="Añada una descripción detallada de la comunidad" required></textarea>
+            </div>
+
+            <!-- País de Origen e Idioma -->
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="pais" class="form-label">País de Origen</label>
+                    <select th:field="*{paisOrigen}" class="form-select" id="pais" required>
+                        <option value="Argentina">Argentina</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Estados Unidos">Estados Unidos</option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="idioma" class="form-label">Idioma</label>
+                    <select th:field="*{idioma}" class="form-select" id="idioma" required>
+                        <option value="Espaniol">Espaniol</option>
+                        <option value="Ingles">Ingles</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="text-end mt-4">
+                <button type="submit" class="btn btn-primary">Crear Comunidad</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="bg-dark text-white text-center py-3 mt-4">
+    <p class="mb-0">Footer</p>
+</footer>
+
+<!-- Bootstrap y JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+<script>
+    // Mostrar el nombre del archivo seleccionado (para la imagen, aunque esté comentado)
+    const inputImagen = document.getElementById('imagen');
+    const fileNameSpan = document.getElementById('file-name');
+
+    inputImagen.addEventListener('change', () => {
+        const file = inputImagen.files[0];
+        if (file) {
+            fileNameSpan.textContent = file.name;
+        } else {
+            fileNameSpan.textContent = '';
+        }
+    });
+</script>
+</body>
+</html>

@@ -25,29 +25,42 @@ public class RepositorioComunidadImpl implements RepositorioComunidad{
     }
 
     @Override
-    public Comunidad guardar(Comunidad comunidad){
+    public Comunidad guardarUnaComunidad(Comunidad comunidad){
         getCurrentSession().saveOrUpdate(comunidad);
         return comunidad;
     }
 
     @Override
-    public Set<Comunidad> obtenerMisComunidades(){
-        List<Comunidad> comunidadList = getCurrentSession().createQuery("FROM Comunidad", Comunidad.class).list();
-        return new HashSet<>(comunidadList);
-    }
-
-    @Override
-    public Comunidad obtenerPorId(Long id) {
+    public Comunidad obtenerComunidadPorId(Long id) {
 
         return getCurrentSession().get(Comunidad.class, id);
     }
 
     @Override
     public void borrarComunidad(Long id){
-        Comunidad comunidad = obtenerPorId(id);
+        Comunidad comunidad = obtenerComunidadPorId(id);
         if(comunidad != null){
             getCurrentSession().delete(comunidad);
         }
+    }
+
+    @Override
+    public Set<Comunidad> obtenerComunidadesUnidas(Long usuarioId) {
+        List<Comunidad> comunidadList = getCurrentSession()
+                .createQuery("SELECT c FROM Comunidad c JOIN c.usuarios u WHERE u.id = :usuarioId", Comunidad.class)
+                .setParameter("usuarioId", usuarioId)
+                .list();
+        return new HashSet<>(comunidadList);
+    }
+
+    @Override
+    public Set<Comunidad> obtenerComunidadesSugeridas(Long usuarioId) {
+        List<Comunidad> comunidadList = getCurrentSession()
+                .createQuery("SELECT c FROM Comunidad c WHERE c.id NOT IN " +
+                        "(SELECT c2.id FROM Comunidad c2 JOIN c2.usuarios u WHERE u.id = :usuarioId)", Comunidad.class)
+                .setParameter("usuarioId", usuarioId)
+                .list();
+        return new HashSet<>(comunidadList);
     }
 
 }

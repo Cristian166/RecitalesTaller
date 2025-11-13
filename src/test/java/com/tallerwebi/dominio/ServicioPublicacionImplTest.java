@@ -58,7 +58,7 @@ public class ServicioPublicacionImplTest {
 
         publicacion = crearPublicacion();
 
-        when(repoComunidad.obtenerPorId(10L)).thenReturn(null);
+        when(repoComunidad.obtenerComunidadPorId(10L)).thenReturn(null);
 
         Boolean seCreo = servicio.crearPublicacion(publicacion, 10L, usuario);
 
@@ -72,7 +72,7 @@ public class ServicioPublicacionImplTest {
 
         Comunidad comunidad = new Comunidad();
 
-        when(repoComunidad.obtenerPorId(5L)).thenReturn(comunidad);
+        when(repoComunidad.obtenerComunidadPorId(5L)).thenReturn(comunidad);
         when(repoUsuario.buscarId(1L)).thenReturn(usuario);
         when(repoUsuarioInsignia.existe(1L, 2L)).thenReturn(false);
 
@@ -89,7 +89,7 @@ public class ServicioPublicacionImplTest {
         Comunidad comunidad = new Comunidad();
         Insignia insignia = new Insignia();
 
-        when(repoComunidad.obtenerPorId(3L)).thenReturn(comunidad);
+        when(repoComunidad.obtenerComunidadPorId(3L)).thenReturn(comunidad);
         when(repoUsuario.buscarId(1L)).thenReturn(usuario);
         when(repoUsuarioInsignia.existe(1L, 2L)).thenReturn(false);
         when(repoInsignia.obtenerPorId(2L)).thenReturn(insignia);
@@ -109,7 +109,7 @@ public class ServicioPublicacionImplTest {
         Comunidad comunidad = new Comunidad();
         Insignia insignia = new Insignia();
 
-        when(repoComunidad.obtenerPorId(2L)).thenReturn(comunidad);
+        when(repoComunidad.obtenerComunidadPorId(2L)).thenReturn(comunidad);
         when(repoUsuario.buscarId(1L)).thenReturn(usuario);
         when(repoUsuarioInsignia.existe(1L, 2L)).thenReturn(true);
         when(repoInsignia.obtenerPorId(2L)).thenReturn(insignia);

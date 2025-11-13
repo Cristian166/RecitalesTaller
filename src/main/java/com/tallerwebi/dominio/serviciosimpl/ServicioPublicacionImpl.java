@@ -58,7 +58,7 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
     @Override
     @Transactional
     public Boolean crearPublicacion(Publicacion publicacion, Long comunidadId, Usuario usuario) {
-        Comunidad comunidad = repositorioComunidad.obtenerPorId(comunidadId);
+        Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(comunidadId);
 
         if (comunidad == null || usuario == null || publicacion.getContenido() == null
                 || publicacion.getContenido().isEmpty()) {

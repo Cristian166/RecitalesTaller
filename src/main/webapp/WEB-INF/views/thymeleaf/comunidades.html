@@ -86,7 +86,7 @@
                             <strong th:text="${comunidad.nombre}"></strong> :
                             <span th:text="${comunidad.descripcion}"></span>
                         </div>
-                        <a th:href="@{/comunidad/{comunidad.id}/unirse}" class="btn btn-sm btn-success">Unirse</a>
+                        <a th:href="@{/comunidad/{id}/unirse(id=${comunidad.id})}" class="btn btn-sm btn-success">Unirse</a>
                     </li>
                 </ul>
 

@@ -1,11 +1,11 @@
 package com.tallerwebi.dominio.serviciosimpl;
 
 import com.tallerwebi.dominio.ServicioEntrada;
+import com.tallerwebi.dominio.ServicioNotificacion;
 import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Notificacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.RepositorioEntrada;
-import com.tallerwebi.infraestructura.RepositorioNotificacion;
 import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +23,13 @@ public class ServicioEntradaImpl implements ServicioEntrada {
     @Autowired
     private RepositorioEntrada repositorioEntrada;
     @Autowired
-    private RepositorioNotificacion repositorioNotificacion;
+    private ServicioNotificacion servicioNotificacion;
+
 
     public ServicioEntradaImpl(RepositorioEntrada repositorioEntrada,
-                                RepositorioNotificacion repositorioNotificacion){
+                                ServicioNotificacion servicioNotificacion){
         this.repositorioEntrada = repositorioEntrada;
-        this.repositorioNotificacion=repositorioNotificacion;
+        this.servicioNotificacion=servicioNotificacion;
     }
 
     @Override
@@ -40,7 +41,7 @@ public class ServicioEntradaImpl implements ServicioEntrada {
         notificacion.setDescripcionNotificacion("Creaste una nueva entrada, vas a poder ver esta y todas las que tengas en:");
         notificacion.setUsuario(usuario);
         
-        repositorioNotificacion.agregarNotificacion(usuario, notificacion);
+        servicioNotificacion.agregarNotificacion(usuario, notificacion);
     }
 
     @Override

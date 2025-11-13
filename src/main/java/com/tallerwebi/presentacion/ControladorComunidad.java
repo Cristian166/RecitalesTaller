@@ -33,7 +33,17 @@ public class ControladorComunidad {
 
     // mostrar comunidades
     @GetMapping("/comunidades")
-    public String mostrarComunidades(Model model) {
+    public String mostrarComunidades(Model model, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        model.addAttribute("usuario", usuario);
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        model.addAttribute("comunidadesUnidas", servicioComunidad.listarComunidadesUnidas(usuario.getId()));
+        model.addAttribute("comunidadesSugeridas", servicioComunidad.listarComunidadesSugeridas(usuario.getId()));
 
         return "comunidades";
     }
@@ -59,7 +69,7 @@ public class ControladorComunidad {
         return "comunidad";
     }
 
-    @PostMapping("/comunidad/{id}/unirse")
+    @GetMapping("/comunidad/{id}/unirse")
     public String ingresarAUnaComunidad(@PathVariable Long id) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 

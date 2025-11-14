@@ -115,12 +115,17 @@
             <div class="col-lg-4 col-md-12">
                 <div class="glass-panel">
                     <h5 class="mb-3">Acciones</h5>
-                    <form th:action="@{/comunidad/unirse/{id}(id=${comunidad.id})}" method="post">
+                    <form th:action="@{/comunidad/{id}/unirse(id=${comunidad.id})}" method="post">
                         <button type="submit" class="btn-glass mb-2">Unirse a comunidad</button>
                     </form>
-                    <form th:action="@{/comunidad/abandonar/{id}(id=${comunidad.id})}" method="post">
+                    <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
                         <button type="submit" class="btn-glass mb-2">Abandonar comunidad</button>
                     </form>
+                    <div th:if="${usuario.esPremium} and ${comunidad.usuarioCreador != null} and ${usuario.id} == ${comunidad.usuarioCreador.id}">
+                        <form th:action="@{/comunidad/{id}/eliminar(id=${comunidad.id})}" method="post">
+                            <button type="submit" class="btn-glass mb-2">Eliminar comunidad</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

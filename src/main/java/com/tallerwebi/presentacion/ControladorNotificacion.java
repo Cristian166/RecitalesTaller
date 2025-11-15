@@ -31,6 +31,8 @@ public class ControladorNotificacion {
             return "redirect:/login";
         }
 
+
+        model.addAttribute("usuario", usuario);
         model.addAttribute("notificaciones", servicioNotificaciones.obtenerNotificacionesPorUsuario(usuario));
 
         return "notificaciones";

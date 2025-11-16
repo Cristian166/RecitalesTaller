@@ -42,7 +42,7 @@
 
     <!-- Botones superiores -->
     <div class="mb-3">
-        <a th:href="@{/crear-entrada.html}" class="btn btn-lg btn-primary btn-block">Agregar</a>
+        <a th:href="@{/crear-entrada}" class="btn btn-lg btn-primary btn-block">Agregar</a>
     </div>
 
     <div th:if="${mensajeError}" class="alert alert-danger" th:text="${mensajeError}"></div>
@@ -63,6 +63,8 @@
                     <p th:text="${entrada.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy'))}">Fecha:</p>
                     <p th:text="${entrada.horario}">horario:</p>
                     <p th:text="${entrada.seccion}">seccion:</p>
+                    <p th:if="${entrada.validada == true}" style="font-weight: bold; color: green;">Entrada validada</p>
+                    <p th:if="${entrada.validada == false}" style="font-weight: bold; color: red;">Entrada no validada</p>
 
                     <!-- Botones de acción -->
                     <div class="actions-container">
@@ -70,7 +72,7 @@
                             <input type="hidden" th:name="id" th:value="${entrada.id}" />
                             <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
                         </form>
-                        <form th:action="@{/validar-entrada}" method="get">
+                        <form th:if="${entrada.validada == false}" th:action="@{/validar-entrada}" method="get">
                             <input type="hidden" name="id" th:value="${entrada.id}" />
                             <button type="submit" class="btn btn-success btn-sm">Validar</button>
                         </form>

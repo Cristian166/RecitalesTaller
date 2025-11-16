@@ -16,8 +16,7 @@
     <link rel="stylesheet" th:href="@{/css/comunidad.css}" />
 
     <style>
-        html,
-        body {
+        html, body {
             height: 100%;
         }
 
@@ -35,120 +34,137 @@
 
 <body>
 
-    <!-- HEADER con el botón de menú -->
-    <header class="bg-secondary text-white p-3">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-4 text-start">
-                    <button class="btn btn-light" id="menuToggle">Menu</button>
-                </div>
-                <div class="col-4 text-center">
-                    <a href="/spring/home.html" class="text-decoration-none text-white fw-bold">Diario de Recitales</a>
-                </div>
-                <div class="col-4 text-end">
-                    <a class="btn btn-light" th:href="@{/perfil}">Perfil</a>
-                </div>
+<!-- HEADER con el botón de menú -->
+<header class="bg-secondary text-white p-3">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-4 text-start">
+                <button class="btn btn-light" id="menuToggle">Menu</button>
+            </div>
+            <div class="col-4 text-center">
+                <a href="/spring/home.html" class="text-decoration-none text-white fw-bold">Diario de Recitales</a>
+            </div>
+            <div class="col-4 text-end">
+                <a class="btn btn-light" th:href="@{/perfil}">Perfil</a>
             </div>
         </div>
-    </header>
-
-
+    </div>
+</header>
 
 <!-- SIDEBAR MENU -->
-    <div th:replace="fragments/sidebar :: sidebar"></div>
+<div th:replace="fragments/sidebar :: sidebar"></div>
 
-    <!-- CONTENIDO PRINCIPAL -->
-    <div class="container my-4">
-        <div class="row g-4">
-            <!-- Izquierda -->
-            <div class="col-lg-8 col-md-12">
-                <!-- Info comunidad -->
-                <div class="glass-panel mb-4">
+<!-- CONTENIDO PRINCIPAL -->
+<div class="container my-4">
+    <div class="row g-4">
+        <!-- Izquierda -->
+        <div class="col-lg-8 col-md-12">
+            <!-- Info comunidad -->
+            <div class="glass-panel mb-4 d-flex align-items-center">
+                <!-- Imagen de la comunidad -->
+                <div class="community-image-container">
+                    <div th:if="${comunidad.imagen != null}">
+                        <img th:src="@{'/uploads/' + ${comunidad.imagen}}"
+                             class="community-image"
+                             alt="Imagen Comunidad">
+                    </div>
+                    <div th:if="${comunidad.imagen == null}" class="community-image no-image">
+                        Sin imagen
+                    </div>
+                </div>
+                <!-- Detalles de la comunidad -->
+                <div class="community-details ps-3">
                     <h4 th:text="${comunidad.nombre}">Nombre Comunidad</h4>
                     <p th:text="${comunidad.descripcion}">(descripción de la comunidad)</p>
+                    <p><strong>Pais de Origen: </strong><span th:text="${comunidad.paisOrigen}">Argentina</span></p>
+                    <p><strong>Idioma: </strong><span th:text="${comunidad.idioma}">Español</span></p>
                 </div>
-
-                <!-- Agregar publicación -->
-                <div class="glass-panel mb-4 add-post">
-                    <h5 class="mb-3">Agregar publicación</h5>
-                    <div class="d-flex gap-3">
-                        <div class="img-placeholder">img</div>
-                        <div class="flex-grow-1">
-                            <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}"
-                                th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
-                                <textarea th:field="*{contenido}" rows="3"
-                                    placeholder="Escribir publicación para publicar..." required></textarea>
-                                <div class="d-flex justify-content-between align-items-center mt-2">
-                                    <label class="btn-glass w-auto mb-0">
-                                        Cargar img
-                                        <input type="file" name="imagenArchivo">
-                                    </label>
-                                    <button type="submit" class="btn-glass w-auto">Publicar</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Publicaciones -->
-                <div>
-                    <h5 class="mb-3">Publicaciones</h5>
-                    <div class="post mb-3" th:each="publicacion : ${publicaciones}">
-                        <div class="user-info">
-                            <div class="user-img"></div>
-                            <div>
-                                <strong th:text="${publicacion.autorNombre}">Nombre Usuario</strong>
-                                <small th:text="${publicacion.fechaFormateada}"></small>
-                            </div>
-                        </div>
-                        <p th:text="${publicacion.contenido}">Texto de publicación</p>
-                        <div th:if="${publicacion.imagen != null}">
-                            <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="imagen publicación"
-                                style="max-width:300px; max-height:300px; margin-top:5px;" />
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
-            <!-- Derecha -->
-            <div class="col-lg-4 col-md-12">
-                <div class="glass-panel">
-                    <h5 class="mb-3">Acciones</h5>
-                    <form th:action="@{/comunidad/{id}/unirse(id=${comunidad.id})}" method="post">
-                        <button type="submit" class="btn-glass mb-2">Unirse a comunidad</button>
-                    </form>
-                    <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
-                        <button type="submit" class="btn-glass mb-2">Abandonar comunidad</button>
-                    </form>
-                    <div th:if="${usuario.esPremium} and ${comunidad.usuarioCreador != null} and ${usuario.id} == ${comunidad.usuarioCreador.id}">
-                        <form th:action="@{/comunidad/{id}/eliminar(id=${comunidad.id})}" method="post">
-                            <button type="submit" class="btn-glass mb-2">Eliminar comunidad</button>
+
+            <!-- Agregar publicación -->
+            <div class="glass-panel mb-4 add-post">
+                <h5 class="mb-3">Agregar publicación</h5>
+                <div class="d-flex gap-3">
+                    <div class="img-placeholder">img</div>
+                    <div class="flex-grow-1">
+                        <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}"
+                              th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
+                                <textarea th:field="*{contenido}" rows="3"
+                                          placeholder="Escribir publicación para publicar..." required></textarea>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <label class="btn-glass w-auto mb-0">
+                                    Cargar img
+                                    <input type="file" name="imagenArchivo">
+                                </label>
+                                <button type="submit" class="btn-glass w-auto">Publicar</button>
+                            </div>
                         </form>
                     </div>
                 </div>
             </div>
+
+            <!-- Publicaciones -->
+            <div>
+                <h5 class="mb-3">Publicaciones</h5>
+                <div class="post mb-3" th:each="publicacion : ${publicaciones}">
+                    <div class="user-info">
+                        <div class="user-img"></div>
+                        <div>
+                            <strong th:text="${publicacion.autorNombre}">Nombre Usuario</strong>
+                            <small th:text="${publicacion.fechaFormateada}"></small>
+                        </div>
+                    </div>
+                    <p th:text="${publicacion.contenido}">Texto de publicación</p>
+                    <div th:if="${publicacion.imagen != null}">
+                        <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="imagen publicación"
+                             style="max-width:300px; max-height:300px; margin-top:5px;" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Derecha -->
+        <div class="col-lg-4 col-md-12">
+            <div class="glass-panel">
+                <div>
+                    <p><strong>Creador de la comunidad: </strong><span th:text="${comunidad.usuarioCreador.nombre}">Nombre del Creador</span></p>
+                </div>
+                <form th:action="@{/comunidades}">
+                    <button type="submit" class="btn-glass mb-2 btn-fullwidth">Volver a comunidades</button>
+                </form>
+                <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
+                    <button type="submit" class="btn-danger-glass mb-2 btn-fullwidth">Abandonar comunidad</button>
+                </form>
+                <div th:if="${usuario.esPremium} and ${comunidad.usuarioCreador != null} and ${usuario.id} == ${comunidad.usuarioCreador.id}">
+                    <form th:action="@{/comunidad/{id}/eliminar(id=${comunidad.id})}" method="post">
+                        <button type="submit" class="btn-danger-glass mb-2 btn-fullwidth">Eliminar comunidad</button>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    <!-- FOOTER -->
-    <footer class="bg-secondary text-white text-center py-3">
-        <p>&copy; 2025 Diario Digital de Recitales</p>
-    </footer>
+<!-- FOOTER -->
+<footer class="bg-secondary text-white text-center py-3">
+    <p>&copy; 2025 Diario Digital de Recitales</p>
+</footer>
 
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Scripts del menú hamburguesa -->
-    <script>
-        // Toggle sidebar
-        document.getElementById("menuToggle").addEventListener("click", function () {
-            document.getElementById("sidebarMenu").classList.toggle("active");
-        });
-        document.getElementById("menuCerrar").addEventListener("click", function () {
-            document.getElementById("sidebarMenu").classList.remove("active");
-        });
-    </script>
+<!-- Scripts del menú hamburguesa -->
+<script>
+    // Toggle sidebar
+    document.getElementById("menuToggle").addEventListener("click", function () {
+        document.getElementById("sidebarMenu").classList.toggle("active");
+    });
+    document.getElementById("menuCerrar").addEventListener("click", function () {
+        document.getElementById("sidebarMenu").classList.remove("active");
+    });
+</script>
 
 </body>
 

@@ -10,9 +10,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,8 +43,8 @@ public class ControladorEntrada {
         if (usuario == null) {
             return "redirect:/login";
         }
-
-        model.addAttribute("entradas", servicioEntrada.obtenerEntradasPorUsuario(usuario));
+        List<EntradaDTO> entradasDTO = servicioEntrada.obtenerEntradasPorUsuario(usuario);
+        model.addAttribute("entradas", entradasDTO);
 
         if (error != null) {
             model.addAttribute("mensajeError", "No se pudo eliminar la entrada (no existe).");

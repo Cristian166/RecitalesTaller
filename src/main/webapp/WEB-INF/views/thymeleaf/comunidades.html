@@ -10,110 +10,115 @@
     <link rel="stylesheet" th:href="@{/css/mis-entradas.css}">
     <link rel="stylesheet" th:href="@{/css/fondo.css}">
     <link rel="stylesheet" th:href="@{/css/layout.css}">
-    <style>
-        .community-card {
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            background-color: #fff;
-        }
-
-        .community-button {
-            color: #fff;
-            background-color: #FF6F61;
-            border-color: #FF6F61;
-        }
-
-        html,
-        body {
-            height: 100%;
-        }
-
-        body {
-            display: flex;
-            flex-direction: column;
-
-        }
-
-        main {
-            flex: 1;
-        }
-    </style>
+    <!-- Nuevo archivo de estilos para las comunidades -->
+    <link rel="stylesheet" th:href="@{/css/comunidades.css}">
 </head>
 
 <body class="bg-white">
 
-    <!-- Header -->
-    <div th:replace="fragments/header :: header"></div>
-    <!-- Sidebar Menu -->
-    <div th:replace="fragments/sidebar :: sidebar"></div>
+<!-- Header -->
+<div th:replace="fragments/header :: header"></div>
+<!-- Sidebar Menu -->
+<div th:replace="fragments/sidebar :: sidebar"></div>
 
-    <div class="container-fluid">
+<div class="container-fluid">
 
-        <!-- Main content -->
-        <main class="container my-4">
-            <div>
-                <!-- Título Comunidades -->
-                <h3>Comunidades</h3>
+    <!-- Main content -->
+    <main class="container my-4">
+        <h3>Explora Comunidades</h3>
 
-                <!-- Barra de búsqueda -->
-                <div class="mb-4">
-                    <input type="text" class="form-control" placeholder="Buscar comunidades...">
+        <!-- Barra de búsqueda -->
+        <div class="mb-4">
+            <input type="text" class="form-control" placeholder="Buscar comunidades...">
+        </div>
+
+        <!-- Botón para crear comunidad -->
+        <a th:if="${usuario.esPremium()}"
+           th:href="@{/crear-comunidad}"
+           class="btn btn-primary mt-3 mb-4">
+            Crear Comunidad
+        </a>
+
+        <!-- Comunidades unidas (Horizontal Scroll) -->
+        <h4>Comunidades a las que te has unido</h4>
+        <div class="scrolling-wrapper">
+            <div th:each="comunidad : ${comunidadesUnidas}" class="card" style="min-width: 18rem;">
+                <div>
+                    <img th:if="${comunidad.imagen != null}"
+                         th:src="@{'/uploads/' + ${comunidad.imagen}}"
+                         class="card-img-top"
+                         alt="Imagen comunidad">
+
+                    <div th:if="${comunidad.imagen == null}" class="card-placeholder">
+                        Sin imagen
+                    </div>
                 </div>
-
-                <a th:href="@{/crear-comunidad}" class="btn btn-primary mt-3">Crear comunidad</a>
-
-                <!-- Comunidades unidas -->
-                <h5 class="mt-4">Comunidades unidas:</h5>
-                <div th:if="${#lists.isEmpty(comunidadesUnidas)}">
-                    <p>No te uniste a ninguna comunidad todavía.</p>
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${comunidad.nombre}">Comunidad Nombre</h5>
+                    <p class="card-text" th:text="${comunidad.descripcion}">Descripción de la comunidad</p>
+                    <p><strong>País Origen:</strong> <span th:text="${comunidad.paisOrigen}">País</span></p>
+                    <p><strong>Idioma:</strong> <span th:text="${comunidad.idioma}">Idioma</span></p>
+                    <a th:href="@{/comunidad/{id}(id=${comunidad.id})}" class="btn btn-custom">Ver</a>
                 </div>
-                <ul th:if="${!#lists.isEmpty(comunidadesUnidas)}" class="list-group mb-4">
-                    <li th:each="comunidad : ${comunidadesUnidas}" class="list-group-item">
-                        <strong th:text="${comunidad.nombre}"></strong> :
-                        <span th:text="${comunidad.descripcion}"></span>
-                    </li>
-                </ul>
+                <div class="card-footer">
+                    <small class="text-muted" th:text="'Miembros: ' + ${comunidad.cantidadMiembros}">Miembros</small>
 
-                 <h5>Comunidades sugeridas:</h5>
-                <div th:if="${#lists.isEmpty(comunidadesSugeridas)}">
-                    <p>No hay comunidades sugeridas en este momento.</p>
                 </div>
-                <ul th:if="${!#lists.isEmpty(comunidadesSugeridas)}" class="list-group">
-                    <li th:each="comunidad : ${comunidadesSugeridas}" class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <strong th:text="${comunidad.nombre}"></strong> :
-                            <span th:text="${comunidad.descripcion}"></span>
-                        </div>
-                        <a th:href="@{/comunidad/{id}/unirse(id=${comunidad.id})}" class="btn btn-sm btn-success">Unirse</a>
-                    </li>
-                </ul>
-
-
             </div>
-        </main>
+        </div>
 
-    </div>
+        <!-- Comunidades sugeridas -->
+        <h4 class="mt-5">Comunidades Sugeridas para ti</h4>
+        <div class="scrolling-wrapper mt-3">
+            <div th:each="comunidad : ${comunidadesSugeridas}" class="card" style="min-width: 18rem;">
+                <div class="card">
+                    <div>
+                        <img th:if="${comunidad.imagen != null}"
+                             th:src="@{'/uploads/' + ${comunidad.imagen}}"
+                             class="card-img-top"
+                             alt="Imagen comunidad">
 
-    <!-- FOOTER -->
-    <footer class="bg-secondary text-white text-center py-3">
-        <p>&copy; 2025 Diario Digital de Recitales</p>
-    </footer>
+                        <div th:if="${comunidad.imagen == null}" class="card-placeholder">
+                            Sin imagen
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${comunidad.nombre}">Comunidad Nombre</h5>
+                        <p class="card-text" th:text="${comunidad.descripcion}">Descripción de la comunidad</p>
+                        <p><strong>País Origen:</strong> <span th:text="${comunidad.paisOrigen}">País</span></p>
+                        <p><strong>Idioma:</strong> <span th:text="${comunidad.idioma}">Idioma</span></p>
+                        <a th:href="@{/comunidad/{id}/unirse(id=${comunidad.id})}" class="btn btn-unirse">Unirse</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted" th:text="'Miembros: ' + ${comunidad.cantidadMiembros}">Miembros</small>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+    </main>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</div>
 
-    <script>
-        // Toggle sidebar
-        document.getElementById("menuToggle").addEventListener("click", function () {
-            document.getElementById("sidebarMenu").classList.toggle("active");
-        });
-        document.getElementById("menuCerrar").addEventListener("click", function () {
-            document.getElementById("sidebarMenu").classList.remove("active");
-        });
-    </script>
+<!-- FOOTER -->
+<footer class="bg-secondary text-white text-center py-3">
+    <p>&copy; 2025 Diario Digital de Recitales</p>
+</footer>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Scripts del menú hamburguesa -->
+<script>
+    // Toggle sidebar
+    document.getElementById("menuToggle").addEventListener("click", function () {
+        document.getElementById("sidebarMenu").classList.toggle("active");
+    });
+    document.getElementById("menuCerrar").addEventListener("click", function () {
+        document.getElementById("sidebarMenu").classList.remove("active");
+    });
+</script>
+
 </body>
 
 </html>

@@ -1,3 +1,45 @@
+/* Contenedor de imagen cuadrada */
+.community-image-container {
+    width: 150px;  /* Ancho fijo para la imagen */
+    height: 150px; /* Alto fijo para la imagen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.community-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Asegura que la imagen ocupe todo el cuadrado */
+    border-radius: 10px; /* Bordes redondeados */
+}
+
+.community-image.no-image {
+    background-color: #d3d3d3; /* Color gris si no hay imagen */
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    border-radius: 10px; /* Bordes redondeados */
+    text-align: center;
+}
+
+/* Para los detalles de la comunidad */
+.community-details {
+    flex-grow: 1;
+    font-family: Arial, sans-serif; /* Tipografía adecuada para el texto */
+    color: black; /* Texto negro */
+}
+
+/* Estilo de las acciones */
+.community-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
 /* 🧊 Paneles glass */
 .glass-panel {
     background: rgba(255, 255, 255, 0.12);
@@ -8,6 +50,41 @@
     box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
     padding: 1.5rem;
     color: #111;
+}
+
+/* Estilo de los botones */
+.btn-glass {
+    background-color: white;
+    color: black; /* Texto negro */
+    border: none; /* Sin borde */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+.btn-glass:hover {
+    background-color: #5893df; /* Azul pastel al pasar el mouse */
+    color: black; /* Texto negro */
+}
+
+.btn-danger-glass {
+    background-color: white;  /* Fondo blanco por defecto */
+    color: black;             /* Texto negro por defecto */
+    padding: 10px 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2); /* Borde sutil */
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Transición suave */
+}
+
+.btn-danger-glass:hover {
+    background-color: #e75858;  /* Rojo pastel al pasar el mouse */
+    color: white;               /* Texto blanco al pasar el mouse */
+}
+
+.btn-fullwidth {
+    width: 75%; /* Hace que el botón ocupe todo el ancho de su contenedor */
 }
 
 /* Área de publicación */

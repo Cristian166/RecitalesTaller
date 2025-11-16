@@ -16,4 +16,7 @@ public interface RepositorioComunidad {
     Set<Comunidad> obtenerComunidadesSugeridas(Long usuarioId);
     void abandonarComunidad(Usuario usuario, Long comunidadId);
     Set<Usuario> obtenerMiembros(Long comunidadId);
+    long contarMiembrosDeComunidad(Long comunidadId);
+
+    Comunidad obtenerComunidadPorNombre(String nombre);
 }

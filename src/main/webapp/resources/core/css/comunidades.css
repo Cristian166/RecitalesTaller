@@ -1,0 +1,108 @@
+/* 🔹 Contenedor de scroll horizontal */
+.scrolling-wrapper {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.scrolling-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.scrolling-wrapper::-webkit-scrollbar-thumb {
+    background: #d3d3d3;
+    border-radius: 4px;
+}
+
+/* 🔹 CARD estilo moderno (como la 2da imagen) */
+.card {
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    background: white;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+/* 🔹 Imagen */
+.card-img-top {
+    height: 150px;
+    object-fit: cover;
+}
+
+/* 🔹 Body */
+.card-body {
+    padding: 15px;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.card-text {
+    color: #6b7280;
+    font-size: 0.9rem;
+}
+
+/* 🔹 Footer */
+.card-footer {
+    background: #fafafa;
+    border-top: 1px solid #e5e7eb;
+    padding: 10px 15px;
+}
+
+/* 🔹 Botón "Ver" */
+.btn-custom {
+    width: 100%;
+    background: white;
+    color: black;
+    border: 1px solid #d1d5db;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.btn-custom:hover {
+    background-color: #a1c4fd; /* Azul pastel */
+    color: white;
+    border-color: #a1c4fd;
+}
+
+/* 🔹 Botón "Unirse" */
+.btn-unirse {
+    width: 100%;
+    background: white;
+    color: black;
+    border: 1px solid #d1d5db;
+    padding: 8px 0;
+    border-radius: 8px;
+    font-weight: 500;
+    transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.btn-unirse:hover {
+    background-color: #b5e8d5; /* Verde pastel */
+    color: white;
+    border-color: #b5e8d5;
+}
+
+/* Imagen placeholder gris */
+.card-placeholder {
+    width: 100%;
+    height: 150px;
+    background: #e5e7eb; /* Gris suave */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    font-weight: 500;
+}

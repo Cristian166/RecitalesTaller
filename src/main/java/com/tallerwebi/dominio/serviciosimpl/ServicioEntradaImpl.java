@@ -86,15 +86,17 @@ public class ServicioEntradaImpl implements ServicioEntrada {
     }
 
     private EntradaDTO convertirADTO(Entrada entrada) {
-    return new EntradaDTO(
-        entrada.getId(),
-        entrada.getNombreRecital(),
-        entrada.getLugar(),
-        entrada.getFecha(),
-        entrada.getHorario(),
-        entrada.getSeccion(),
-        entrada.getImagen()
-    );
+        boolean validada = entrada.getValidada() != null ? entrada.getValidada() : false;
+        return new EntradaDTO(
+                entrada.getId(),
+                entrada.getNombreRecital(),
+                entrada.getLugar(),
+                entrada.getFecha(),
+                entrada.getHorario(),
+                entrada.getSeccion(),
+                entrada.getImagen(),
+                validada
+        );
 }
 
     

@@ -2,6 +2,7 @@ package com.tallerwebi.dominio;
 
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Usuario;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -12,7 +13,12 @@ public interface ServicioComunidad {
     Comunidad obtenerComunidad(Long id);
     void unirseAComunidad(Usuario usuario, Long comunidadId);
     void abandonarComunidad(Usuario usuario, Long comunidadId);
-    Comunidad crearComunidad(Comunidad comunidad);
+    Comunidad crearComunidad(Comunidad comunidad, Usuario usuario);
     void eliminarComunidad(Long id);
 
+    @Transactional
+    long contarMiembrosComunidad(Long comunidadId);
+
+    @Transactional(readOnly = true)
+    boolean existeComunidadPorNombre(String nombre);
 }

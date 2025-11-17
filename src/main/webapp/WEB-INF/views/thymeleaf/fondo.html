@@ -1,15 +1,12 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Comunidades</title>
-
-    <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concierto - The Rolling Stones</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* 🌊 Fondo tipo franjas diagonales suaves */
         body {
             margin: 0;
             height: 100vh;
@@ -22,104 +19,85 @@
             );
         }
 
-        /* ✨ Brillo suave superior */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 70%);
-            pointer-events: none;
-        }
-
-        /* 🧊 Card estilo vidrio más cristalizado */
-        .community-card {
-            width: 320px;
-            padding: 1.5rem;
-            border-radius: 15px;
-            /* Más transparencia para ver más el fondo */
-            background: rgba(255, 255, 255, 0.12);
-            /* Desenfoque más nítido */
-            backdrop-filter: blur(22px) saturate(130%);
-            -webkit-backdrop-filter: blur(22px) saturate(130%);
-            /* Borde más claro y brillante */
-            border: 1px solid rgba(255, 255, 255, 0.45);
-            /* Sombra suave y difusa */
-            box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
-            color: #111;
-            text-align: center;
-            transition: none; /* 🚫 sin animaciones */
-        }
-
-        /* Contenedor de imagen + nombre */
-        .community-info {
+        .concert-card {
             display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        /* Imagen circular */
-        .community-img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background-color: rgba(255,255,255,0.3);
-            flex-shrink: 0;
-            background-size: cover;
-            background-position: center;
-        }
-
-        /* Nombre comunidad */
-        .community-name {
-            font-weight: bold;
-            color: #111;
-        }
-
-        /* Botón */
-        .leave-btn {
-            background-color: rgba(255, 255, 255, 0.85);
-            color: #111;
-            border: none;
-            padding: 0.5rem 1rem;
+            background-color: rgba(255, 255, 255, 0.3); /* Fondo blanco con opacidad */
+            backdrop-filter: blur(10px); /* Efecto de difuminado (blur) en el fondo */
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+            max-width: 800px;
+            margin: 20px auto;
+            border: 1px solid rgba(255, 255, 255, 0.5); /* Borde sutil blanco */
         }
 
-        .leave-btn:hover {
-            background-color: rgba(255, 255, 255, 0.9);
+        .concert-card .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .concert-card .image-container img {
+            max-width: 200px;
+        }
+
+        .concert-card .details-container {
+            flex: 2;
+            margin-left: 20px;
+        }
+
+        .concert-card .details-container h5 {
+            font-size: 24px;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .concert-card .details-container p {
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        .concert-card .actions-container {
+            margin-top: 20px;
+        }
+
+        .concert-card .btn {
+            margin-right: 10px;
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo de los botones con opacidad */
+            color: #000;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .concert-card .btn:hover {
+            background-color: rgba(255, 255, 255, 1); /* Efecto hover más opaco */
         }
     </style>
 </head>
-
 <body>
 
-<div class="container py-5">
-    <h6 class="mb-4 text-secondary text-center">Comunidades unidas:</h6>
+<div class="concert-card">
+    <div class="image-container">
+        <!-- Aquí iría la imagen del concierto -->
+        <img src="path_to_your_image.png" alt="The Rolling Stones" class="img-fluid">
+    </div>
 
-    <div class="d-flex flex-wrap justify-content-center gap-4">
-        <!-- Iteración Thymeleaf -->
-        <div th:each="comunidad : ${comunidades}" class="community-card">
-            <div class="community-info">
-                <div class="community-img"
-                     th:style="'background-image: url(' + ${comunidad.imagenUrl} + ');'"></div>
-                <div>
-                    <div class="community-name" th:text="${comunidad.nombre}">Nombre comunidad</div>
-                    <small th:text="'(' + ${comunidad.miembros} + ') miembros'">(100) miembros</small>
-                </div>
-            </div>
+    <div class="details-container">
+        <h5>The Rolling Stones</h5>
+        <p>Madison Square Garden, 8:00 PM</p>
+        <p>Sector: A1 | Price: $250</p>
 
-            <form th:action="@{/comunidades/abandonar/{id}(id=${comunidad.id})}" method="post">
-                <button type="submit" class="btn leave-btn">Abandonar</button>
-            </form>
+        <div class="actions-container">
+            <button class="btn btn-primary">Editar</button>
+            <button class="btn btn-success">Descargar</button>
+            <button class="btn btn-danger">Eliminar</button>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
+<!-- Bootstrap JS and dependencies -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

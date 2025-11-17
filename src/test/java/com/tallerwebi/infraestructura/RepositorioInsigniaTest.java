@@ -45,12 +45,6 @@ public class RepositorioInsigniaTest {
 
         Long idGuardado = repositorio.guardar(insignia);
 
-        /*String hql = "FROM Insignia WHERE id = :id";
-        Query query = this.sessionfactory.getCurrentSession().createQuery(hql);
-        query.setParameter("id", 1L);
-
-        Insignia insigniaObtenida = (Insignia)query.getSingleResult();*/
-
         assertThat(idGuardado, is(notNullValue()));
     }
 

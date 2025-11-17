@@ -5,8 +5,6 @@ import com.tallerwebi.dominio.ServicioPublicacion;
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
-import com.tallerwebi.infraestructura.RepositorioUsuario;
-import com.tallerwebi.infraestructura.repositorioImpl.RepositorioPublicacionImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,27 +23,22 @@ public class ControladorPublicacion {
 
     private final ServicioPublicacion servicioPublicacion;
     private final ServicioComunidad servicioComunidad;
-    private final RepositorioUsuario repositorioUsuario;
     private final HttpSession session;
-    private final RepositorioPublicacionImpl repositorioPublicacion;
 
     @Autowired
     public ControladorPublicacion(ServicioPublicacion servicioPublicacion,
-                                  ServicioComunidad servicioComunidad,
-                                  RepositorioUsuario repositorioUsuario,
-                                  HttpSession session, RepositorioPublicacionImpl repositorioPublicacion) {
+            ServicioComunidad servicioComunidad,
+            HttpSession session) {
         this.servicioPublicacion = servicioPublicacion;
         this.servicioComunidad = servicioComunidad;
-        this.repositorioUsuario = repositorioUsuario;
         this.session = session;
-        this.repositorioPublicacion = repositorioPublicacion;
     }
 
-    //Crear una publicacion en una comunidad
+    // Crear una publicacion en una comunidad
     @PostMapping("/comunidad/{id}/publicar")
     public String publicarEnLaComunidad(@PathVariable Long id,
-                                        @ModelAttribute("nuevaPublicacion") Publicacion publicacion,
-                                        @RequestParam(value = "imagenArchivo", required = false) MultipartFile imagenArchivo) {
+            @ModelAttribute("nuevaPublicacion") Publicacion publicacion,
+            @RequestParam(value = "imagenArchivo", required = false) MultipartFile imagenArchivo) {
 
         Comunidad comunidad = servicioComunidad.obtenerComunidad(id);
         if (comunidad == null) {
@@ -80,7 +73,7 @@ public class ControladorPublicacion {
         publicacion.setComunidad(comunidad);
         publicacion.setFechaCreacion(LocalDateTime.now());
 
-        servicioPublicacion.crearPublicacion( publicacion, id, usuario);
+        servicioPublicacion.crearPublicacion(publicacion, id, usuario);
         return "redirect:/comunidad/" + id;
     }
 

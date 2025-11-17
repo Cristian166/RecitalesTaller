@@ -23,8 +23,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.hibernate.SessionFactory;
@@ -64,7 +62,6 @@ public class RepositorioUsuarioInsigniaTest {
         usuarioInsignia.setInsignia(insignia);
         repositorioUsuarioInsignia.guardar(usuarioInsignia);
 
-
         boolean resultado = servicioInsignia.asignarInsignia(usuario, insignia);
 
         assertThat(resultado, is(equalTo(true)));
@@ -74,29 +71,30 @@ public class RepositorioUsuarioInsigniaTest {
     @Transactional
     @Rollback
     public void queSePuedaObtenerInsigniasDeUnUsuario() {
-        /* 
-        Usuario usuario = crearUsuario();
-        Insignia insignia1 = crearInsignia();
-        Insignia insignia2 = crearInsignia();
-        repositorioUsuario.guardar(usuario);
-        repositorioInsignia.guardar(insignia1);
-        repositorioInsignia.guardar(insignia2);
-
-        UsuarioInsignia usuarioInsignia1 = new UsuarioInsignia();
-        usuarioInsignia1.setUsuario(usuario);
-        usuarioInsignia1.setInsignia(insignia1);
-        repositorioUsuarioInsignia.guardar(usuarioInsignia1);
-
-        UsuarioInsignia usuarioInsignia2 = new UsuarioInsignia();
-        usuarioInsignia2.setUsuario(usuario);
-        usuarioInsignia2.setInsignia(insignia2);
-        repositorioUsuarioInsignia.guardar(usuarioInsignia2);
-
-        List<Insignia> insigniasObtenidas = servicioInsignia.obtenerInsigniasDeUsuario(usuario);
-
-        assertThat(insigniasObtenidas.size(), is(equalTo(2)));
-        ERROR VERIFICAR
-        */
+        /*
+         * Usuario usuario = crearUsuario();
+         * Insignia insignia1 = crearInsignia();
+         * Insignia insignia2 = crearInsignia();
+         * repositorioUsuario.guardar(usuario);
+         * repositorioInsignia.guardar(insignia1);
+         * repositorioInsignia.guardar(insignia2);
+         * 
+         * UsuarioInsignia usuarioInsignia1 = new UsuarioInsignia();
+         * usuarioInsignia1.setUsuario(usuario);
+         * usuarioInsignia1.setInsignia(insignia1);
+         * repositorioUsuarioInsignia.guardar(usuarioInsignia1);
+         * 
+         * UsuarioInsignia usuarioInsignia2 = new UsuarioInsignia();
+         * usuarioInsignia2.setUsuario(usuario);
+         * usuarioInsignia2.setInsignia(insignia2);
+         * repositorioUsuarioInsignia.guardar(usuarioInsignia2);
+         * 
+         * List<Insignia> insigniasObtenidas =
+         * servicioInsignia.obtenerInsigniasDeUsuario(usuario);
+         * 
+         * assertThat(insigniasObtenidas.size(), is(equalTo(2)));
+         * ERROR VERIFICAR
+         */
     }
 
     @Test
@@ -116,7 +114,6 @@ public class RepositorioUsuarioInsigniaTest {
 
         assertThat(resultado, is(equalTo(false)));
     }
-    
 
     private Insignia crearInsignia() {
         Insignia insignia = new Insignia();

@@ -3,6 +3,7 @@ package com.tallerwebi.presentacion;
 import com.mercadopago.exceptions.MPApiException;
 import com.mercadopago.exceptions.MPException;
 import com.mercadopago.resources.preference.Preference;
+import com.tallerwebi.dominio.ServicioLogin;
 import com.tallerwebi.dominio.ServicioMercadoPago;
 import com.tallerwebi.dominio.ServicioSuscripcion;
 import com.tallerwebi.dominio.entidades.Usuario;
@@ -26,12 +27,23 @@ public class ControladorSuscripcion {
 
     private ServicioSuscripcion servicioSuscripcion;
 
-    @Autowired
+    private ServicioLogin servicioLogin;
+
     public ControladorSuscripcion(
             ServicioMercadoPago servicioMercadoPago,
             ServicioSuscripcion servicioSuscripcion) {
         this.servicioMercadoPago = servicioMercadoPago;
         this.servicioSuscripcion = servicioSuscripcion;
+    }
+
+    @Autowired
+    public ControladorSuscripcion(
+            ServicioMercadoPago servicioMercadoPago,
+            ServicioSuscripcion servicioSuscripcion,
+            ServicioLogin servicioLogin) {
+        this.servicioMercadoPago = servicioMercadoPago;
+        this.servicioSuscripcion = servicioSuscripcion;
+        this.servicioLogin = servicioLogin;
     }
 
     @PostMapping("/pago")
@@ -61,7 +73,7 @@ public class ControladorSuscripcion {
         } catch (MPException | MPApiException e) {
             e.printStackTrace();
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-                    "ERror al crear la preferencia de pago: " + e.getMessage());
+                    "Error al crear la preferencia de pago: " + e.getMessage());
         }
     }
 
@@ -74,14 +86,15 @@ public class ControladorSuscripcion {
             @RequestParam(name = "payment_id", required = false) String paymentId,
             Model model,
             HttpSession session) {
+
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         if (usuario == null) {
             System.out.println("Usuario null al volver de MercadoPago!");
-            usuario = new Usuario();
-            usuario.setEsPremium(false);
+            return "redirect:/login";
         }
 
+        // Datos del pago para la vista
         model.addAttribute("collectionId", collectionId);
         model.addAttribute("status", status);
         model.addAttribute("paymentType", paymentType);
@@ -96,9 +109,13 @@ public class ControladorSuscripcion {
         System.out.println("preference_id=" + preferenceId);
         System.out.println("payment_id=" + paymentId);
 
-        if (usuario.getId() != null) {
-            servicioSuscripcion.procesarPagoPremium(usuario);
-        }
+        // Procesar pago sobre el usuario que ya está en sesión
+        servicioSuscripcion.procesarPagoPremium(usuario);
+
+        // NO recargamos el usuario desde la BD
+        // NO reemplazamos el objeto en sesión
+        // Evitamos duplicados de Hibernate y rompimientos de sesión
+
         return "confirmacion";
     }
 
@@ -118,8 +135,7 @@ public class ControladorSuscripcion {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         if (usuario == null) {
-            usuario = new Usuario();
-            usuario.setEsPremium(false);
+            return new ModelAndView("redirect:/login");
         }
 
         model.addAttribute("usuario", usuario);

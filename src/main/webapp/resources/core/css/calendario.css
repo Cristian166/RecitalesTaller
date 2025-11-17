@@ -1,0 +1,85 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.content-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 20px;
+    margin: 2rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.titulo-seccion {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #333;
+}
+
+.evento-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: none;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    margin-bottom: 1rem;
+    padding: 1rem 1.5rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.evento-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.fecha-evento {
+    background-color: #eaf2ff;
+    color: #2b67f6;
+    border-radius: 12px;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    width: 80px;
+    margin-right: 1.5rem;
+}
+
+.fecha-evento .dia {
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.fecha-evento .mes {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.info-evento {
+    flex: 1;
+}
+
+.info-evento h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.info-evento p {
+    margin: 0;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.sin-eventos {
+    text-align: center;
+    color: #666;
+    margin-top: 2rem;
+}

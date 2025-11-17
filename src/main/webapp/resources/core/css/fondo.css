@@ -1,34 +1,39 @@
-/* 🌊 Fondo tipo franjas diagonales suaves */
 body {
-    min-height: 100vh;
-    margin: 0;
-    background:
-            linear-gradient(115deg, #DBEEF2 0%, #DBEEF2 5%, transparent 5%, transparent 10%),
-            linear-gradient(115deg, #D3E5EA 10%, #D3E5EA 15%, transparent 15%, transparent 20%),
-            linear-gradient(115deg, #C7D9DF 20%, #C7D9DF 25%, transparent 25%, transparent 30%),
-            linear-gradient(115deg, #BACDD5 30%, #BACDD5 35%, transparent 35%, transparent 40%),
-            linear-gradient(115deg, #AEC2CB 40%, #AEC2CB 45%, transparent 45%, transparent 50%),
-            linear-gradient(115deg, #A1B7C1 50%, #A1B7C1 55%, transparent 55%, transparent 60%),
-            linear-gradient(115deg, #95ACB8 60%, #95ACB8 65%, transparent 65%, transparent 70%),
-            linear-gradient(115deg, #8EA4A6 70%, #8EA4A6 75%, transparent 75%, transparent 80%),
-            linear-gradient(115deg, #80969B 80%, #80969B 85%, transparent 85%, transparent 90%),
-            linear-gradient(115deg, #72888F 90%, #72888F 93%, transparent 93%, transparent 96%),
-            linear-gradient(115deg, #667C84 96%, #667C84 98%, transparent 98%, transparent 100%);
-    background-color: #DBEEF2;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-    font-family: "Segoe UI", sans-serif;
+    color: #1a1a1a !important;
+    font-family: 'Inter', Arial, sans-serif !important;
+    background: transparent !important;
+    position: relative !important;
+
 }
 
-/* ✨ Brillo suave superior */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at top left, rgba(255,255,255,0.25), transparent 70%);
-    pointer-events: none;
+h4, h5 {
+    font-weight: 700 !important;
+    color: #0A2A43 !important;
+}
+.fondo-moderno {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important; 
+    height: 100% !important;
+    z-index: -1 !important;
+    background: linear-gradient(135deg, #ffffff 0%, #ccdaff 40%, #ffffff 100%) !important;
+    overflow: hidden !important;
+}
+
+.fondo-moderno::before {
+    content: "" !important;
+    position: absolute !important;
+    width: 600px !important;
+    height: 600px !important;
+    top: 10% !important;
+    left: 20% !important;
+
+    background: radial-gradient(
+        circle,
+        rgba(123, 185, 255, 0.55) 0%,
+        rgba(146, 221, 255, 0.1) 45%,
+        rgba(146, 197, 255, 0) 70% 
+    ) !important;
+    filter: blur(120px) !important;
 }

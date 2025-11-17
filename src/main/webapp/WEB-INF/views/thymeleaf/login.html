@@ -12,6 +12,7 @@
 
     <!-- Estilos extra -->
     <link rel="stylesheet" th:href="@{/css/fondo.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
 
     <style>
         body {
@@ -35,13 +36,6 @@
             font-weight: 700;
             line-height: 1.2;
         }
-
-        .footer {
-            font-size: 0.9rem;
-            padding: 25px 0;
-            color: #777;
-        }
-
         .input-group-text {
             background: none;
         }
@@ -50,15 +44,20 @@
 
 <body>
 
-    <header th:fragment="header" class="bg-secondary text-white p-3">
-        <div class="container text-center">
-            <a class="navbar-brand fw-bold" href="#">Logo</a>
-
+    <div class="fondo-moderno"></div>
+    <header th:fragment="header" class="shadow-sm"
+        style="background-color: #FFFFFF; padding: 10px 20px;">
+        <div class="flex-grow-1 text-center" style="margin-left: -40px;">
+            <a th:href="@{/home}">
+                <img src="/spring/img/logo_nombre.png"
+                     alt="Logo FANBEAT"
+                     style="height: 260px; object-fit: contain; margin-top: -103px; margin-bottom: -103px;">
+            </a>
         </div>
     </header>
 
     <!-- Contenido principal -->
-    <div class="container flex-grow-1 d-flex align-items-center py-5">
+    <div class="container flex-grow-1 d-flex align-items-center py-5" style="margin-top: 120px;">
         <div class="row w-100 justify-content-between align-items-center">
 
             <!-- Sección izquierda (texto tipo landing) -->
@@ -113,12 +112,6 @@
 
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-secondary text-white text-center py-3">
-        <p>&copy; 2025 Diario Digital de Recitales</p>
-    </footer>
-
     <!-- Bootstrap JS -->
     <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>

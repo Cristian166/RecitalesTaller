@@ -12,10 +12,9 @@ import org.springframework.ui.Model;
 
 import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.ServicioEntrada;
-import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.DTOs.EntradaDTO;
-import com.tallerwebi.dominio.entidades.Comunidad;
+
 
 @Controller
 public class ControladorHome {

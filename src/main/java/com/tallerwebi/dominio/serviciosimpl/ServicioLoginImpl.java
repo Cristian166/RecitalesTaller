@@ -23,38 +23,22 @@ public class ServicioLoginImpl implements ServicioLogin {
     private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
 
     @Autowired
-    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario, RepositorioInsignia repositorioInsignia,
-            ServicioInsignia servicioInsignia, RepositorioUsuarioInsignia repositorioUsuarioInsignia) {
+    public ServicioLoginImpl(
+            RepositorioUsuario repositorioUsuario,
+            RepositorioInsignia repositorioInsignia,
+            ServicioInsignia servicioInsignia,
+            RepositorioUsuarioInsignia repositorioUsuarioInsignia) {
+
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioInsignia = repositorioInsignia;
         this.servicioInsignia = servicioInsignia;
         this.repositorioUsuarioInsignia = repositorioUsuarioInsignia;
     }
 
-    public ServicioLoginImpl(RepositorioUsuario repositorioUsuario) {
-        this.repositorioUsuario = repositorioUsuario;
-    }
-
     @Override
     public Usuario consultarUsuario(String email, String password) {
-
-        Usuario usuario = repositorioUsuario.buscarUsuario(email, password);
-
-        if (usuario != null) {
-            Insignia insigniaLogin = repositorioInsignia.obtenerPorId(5L);
-
-            if (insigniaLogin != null) {
-                boolean yaTiene = repositorioUsuarioInsignia.existe(usuario.getId(), insigniaLogin.getId());
-
-                if (!yaTiene) {
-                    servicioInsignia.asignarInsignia(usuario, insigniaLogin);
-                    System.out.println("Insignia asignada al usuario: " + usuario.getEmail());
-                } else {
-                    System.out.println("El usuario ya tiene la insignia.");
-                }
-            }
-        }
-        return usuario;
+        // SOLO validar el usuario, sin modificar nada
+        return repositorioUsuario.buscarUsuario(email, password);
     }
 
     @Override
@@ -66,6 +50,26 @@ public class ServicioLoginImpl implements ServicioLogin {
         }
         repositorioUsuario.guardar(usuario);
         return usuario;
+    }
+
+    @Override
+    public Usuario buscarPorEmail(String email) {
+        return repositorioUsuario.buscarPorEmail(email);
+    }
+
+    @Override
+    public void asignarInsigniaLogin(Usuario usuario) {
+
+        Insignia insigniaLogin = repositorioInsignia.obtenerPorId(5L);
+
+        if (insigniaLogin != null) {
+            boolean yaTiene = repositorioUsuarioInsignia.existe(usuario.getId(), insigniaLogin.getId());
+
+            if (!yaTiene) {
+                servicioInsignia.asignarInsignia(usuario, insigniaLogin);
+                System.out.println("Insignia de login asignada a: " + usuario.getEmail());
+            }
+        }
     }
 
     private void validarCampos(Usuario usuario) {
@@ -82,10 +86,4 @@ public class ServicioLoginImpl implements ServicioLogin {
             throw new IllegalArgumentException("La contraseña debe tener al menos 6 caracteres.");
         }
     }
-
-    @Override
-    public Usuario buscarPorEmail(String email) {
-        return repositorioUsuario.buscarPorEmail(email);
-    }
-
 }

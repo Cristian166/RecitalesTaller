@@ -12,7 +12,7 @@ public interface ServicioComunidad {
     Comunidad obtenerComunidad(Long id);
     void unirseAComunidad(Usuario usuario, Long comunidadId);
     void abandonarComunidad(Usuario usuario, Long comunidadId);
-    Comunidad crearComunidad(Comunidad comunidad);
+    Comunidad crearComunidad(Comunidad comunidad, Usuario usuario);
     void eliminarComunidad(Long id);
 
 }

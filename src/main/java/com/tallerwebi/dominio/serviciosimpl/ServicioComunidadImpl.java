@@ -1,10 +1,16 @@
 package com.tallerwebi.dominio.serviciosimpl;
 
 import com.tallerwebi.dominio.ServicioComunidad;
+import com.tallerwebi.dominio.ServicioInsignia;
 import com.tallerwebi.dominio.entidades.Comunidad;
+import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.dominio.entidades.Usuario;
-
 import com.tallerwebi.infraestructura.RepositorioComunidad;
+import com.tallerwebi.infraestructura.RepositorioInsignia;
+import com.tallerwebi.infraestructura.RepositorioUsuario;
+import com.tallerwebi.infraestructura.RepositorioUsuarioInsignia;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,20 +21,37 @@ import java.util.Set;
 public class ServicioComunidadImpl implements ServicioComunidad {
 
     private final RepositorioComunidad repositorioComunidad;
+    private ServicioInsignia servicioInsignia;
+    private RepositorioInsignia repositorioInsignia;
+    private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
+    private RepositorioUsuario repositorioUsuario;
 
     public ServicioComunidadImpl(RepositorioComunidad repositorioComunidad) {
         this.repositorioComunidad = repositorioComunidad;
     }
 
+    @Autowired
+    public ServicioComunidadImpl(RepositorioComunidad repositorioComunidad,
+            RepositorioInsignia repositorioInsignia,
+            ServicioInsignia servicioInsignia,
+            RepositorioUsuario repositorioUsuario,
+            RepositorioUsuarioInsignia repositorioUsuarioInsignia) {
+        this.repositorioComunidad = repositorioComunidad;
+        this.repositorioInsignia = repositorioInsignia;
+        this.servicioInsignia = servicioInsignia;
+        this.repositorioUsuarioInsignia = repositorioUsuarioInsignia;
+        this.repositorioUsuario = repositorioUsuario;
+    }
+
     @Override
     @Transactional
-    public Set<Comunidad> listarComunidadesUnidas(Long usuarioId){
+    public Set<Comunidad> listarComunidadesUnidas(Long usuarioId) {
         return repositorioComunidad.obtenerComunidadesUnidas(usuarioId);
     }
 
     @Override
     @Transactional
-    public Set<Comunidad> listarComunidadesSugeridas(Long usuarioId){
+    public Set<Comunidad> listarComunidadesSugeridas(Long usuarioId) {
         return repositorioComunidad.obtenerComunidadesSugeridas(usuarioId);
     }
 
@@ -36,7 +59,7 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     @Transactional(readOnly = true)
     public Comunidad obtenerComunidad(Long id) {
         Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(id);
-        System.out.println("Servicio comunidad obtenido: "+comunidad);
+        System.out.println("Servicio comunidad obtenido: " + comunidad);
         return comunidad;
     }
 
@@ -45,7 +68,7 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     public void unirseAComunidad(Usuario usuario, Long comunidadId) {
         Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(comunidadId);
 
-        if(comunidad != null && usuario != null){
+        if (comunidad != null && usuario != null) {
             if (!comunidad.getUsuarios().contains(usuario)) {
                 comunidad.getUsuarios().add(usuario);
                 repositorioComunidad.guardarUnaComunidad(comunidad);
@@ -61,13 +84,25 @@ public class ServicioComunidadImpl implements ServicioComunidad {
 
     @Override
     @Transactional
-    public Comunidad crearComunidad(Comunidad comunidad) {
+    public Comunidad crearComunidad(Comunidad comunidad, Usuario usuario) {
+
+        Usuario usuarioBuscado = repositorioUsuario.buscarId(usuario.getId());
+        boolean yaTieneInsignia = repositorioUsuarioInsignia.existe(usuarioBuscado.getId(), 7L);
+
+        if (!yaTieneInsignia) {
+            Insignia insigniaCreadorComunidad = repositorioInsignia.obtenerPorId(7L);
+            if (insigniaCreadorComunidad != null) {
+                servicioInsignia.asignarInsignia(usuarioBuscado, insigniaCreadorComunidad);
+            }
+
+        }
+
         return repositorioComunidad.guardarUnaComunidad(comunidad);
     }
 
     @Override
     @Transactional
     public void eliminarComunidad(Long id) {
-         repositorioComunidad.borrarComunidad(id);
+        repositorioComunidad.borrarComunidad(id);
     }
 }

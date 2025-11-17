@@ -22,7 +22,7 @@ public class ControladorLogin {
     private ServicioLogin servicioLogin;
 
     @Autowired
-    public ControladorLogin(ServicioLogin servicioLogin){
+    public ControladorLogin(ServicioLogin servicioLogin) {
         this.servicioLogin = servicioLogin;
     }
 
@@ -42,6 +42,7 @@ public class ControladorLogin {
         if (usuarioBuscado != null) {
             request.getSession().setAttribute("ROL", usuarioBuscado.getRol());
             request.getSession().setAttribute("usuario", usuarioBuscado);
+            servicioLogin.asignarInsigniaLogin(usuarioBuscado);
             return new ModelAndView("redirect:/home");
         } else {
             model.put("error", "Usuario o clave incorrecta");
@@ -49,10 +50,10 @@ public class ControladorLogin {
         return new ModelAndView("login", model);
     }
 
-   @PostMapping("/registrar")
+    @PostMapping("/registrar")
     public String registrarUsuario(@ModelAttribute("usuario") Usuario usuario,
-                                @RequestParam("confirmPassword") String confirmPassword,
-                                Model model) {
+            @RequestParam("confirmPassword") String confirmPassword,
+            Model model) {
         try {
             if (!usuario.getPassword().equals(confirmPassword)) {
                 model.addAttribute("error", "Las contraseñas no coinciden.");
@@ -82,10 +83,12 @@ public class ControladorLogin {
     }
 
     @RequestMapping(path = "/resitalesAsistidos", method = RequestMethod.GET)
-    public ModelAndView irARecitalesProyecto() { return new ModelAndView( "resitalesAsistidos"); }
+    public ModelAndView irARecitalesProyecto() {
+        return new ModelAndView("resitalesAsistidos");
+    }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)
-    public ModelAndView inicio() { return new ModelAndView("redirect:/login");
+    public ModelAndView inicio() {
+        return new ModelAndView("redirect:/login");
     }
 }
-

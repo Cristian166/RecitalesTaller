@@ -33,13 +33,13 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
     }
 
     public ServicioSuscripcionImpl(RepositorioUsuario repositorioUsuario,
-            RepositorioInsignia repositorioInsignia,RepositorioNotificacion repositorioNotificacion,
+            RepositorioInsignia repositorioInsignia, RepositorioNotificacion repositorioNotificacion,
             ServicioInsignia servicioInsignia) {
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioInsignia = repositorioInsignia;
-        this.repositorioNotificacion=repositorioNotificacion;
+        this.repositorioNotificacion = repositorioNotificacion;
         this.servicioInsignia = servicioInsignia;
-        
+
     }
 
     @Override
@@ -50,29 +50,23 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
             return;
         }
 
-        Usuario usuarioPremium = repositorioUsuario.buscarId(usuario.getId());
-
-        if (usuarioPremium == null) {
-            return;
-        }
-
-        usuarioPremium.setEsPremium(true);
-        repositorioUsuario.modificar(usuarioPremium);
+        usuario.setEsPremium(true);
+        repositorioUsuario.modificar(usuario);
 
         Insignia insigniaPremium = repositorioInsignia.obtenerPorId(8L);
 
         if (insigniaPremium != null) {
-            servicioInsignia.asignarInsignia(usuarioPremium, insigniaPremium);
+            servicioInsignia.asignarInsignia(usuario, insigniaPremium);
             System.out.println("Insignia de premium asignada");
         }
 
         Notificacion notificacion = new Notificacion();
         notificacion.setNombreNotificacion("¡Usuario premium!");
-        notificacion.setDescripcionNotificacion("Sos nuevo usuario PREMIUM, vas a poder disfrutar de grandes beneficios!");
-        notificacion.setUsuario(usuarioPremium);
-        
-        repositorioNotificacion.agregarNotificacion(usuarioPremium, notificacion);
+        notificacion
+                .setDescripcionNotificacion("Sos nuevo usuario PREMIUM, vas a poder disfrutar de grandes beneficios!");
+        notificacion.setUsuario(usuario);
 
+        repositorioNotificacion.agregarNotificacion(usuario, notificacion);
     }
 
 }

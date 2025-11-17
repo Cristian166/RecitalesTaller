@@ -23,7 +23,7 @@ import java.util.List;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = { HibernateTestInfraestructuraConfig.class })
-public class repositorioRecitalTest {
+public class RepositorioRecitalTest {
     @Autowired
     private SessionFactory sessionFactory;
 

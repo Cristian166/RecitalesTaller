@@ -1,8 +1,10 @@
 package com.tallerwebi.presentacion;
 
 import com.tallerwebi.dominio.ServicioComunidad;
+import com.tallerwebi.dominio.ServicioEncuesta;
 import com.tallerwebi.dominio.ServicioPublicacion;
 import com.tallerwebi.dominio.entidades.Comunidad;
+import com.tallerwebi.dominio.entidades.Encuesta;
 import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.DTOs.PublicacionDTO;
@@ -24,6 +26,8 @@ public class ControladorComunidad {
 
     @Autowired
     private HttpSession session;
+    @Autowired
+    private ServicioEncuesta servicioEncuesta;
 
     @Autowired
     public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioPublicacion servicioPublicacion) {
@@ -61,11 +65,25 @@ public class ControladorComunidad {
 
         List<PublicacionDTO> publicacionesDTO = servicioPublicacion.listarPublicacionesDTOPorComunidad(id);
 
-        model.addAttribute("usuario", usuario);
+        // Obtener encuesta activa
+        Encuesta encuestaActiva = servicioEncuesta.obtenerEncuestaActiva(id);
 
+        int totalVotos = 0;
+
+        if (encuestaActiva != null && encuestaActiva.getOpciones() != null) {
+            totalVotos = encuestaActiva.getOpciones()
+                    .stream()
+                    .mapToInt(o -> o.getVotos())
+                    .sum();
+        }
+
+        model.addAttribute("usuario", usuario);
         model.addAttribute("comunidad", comunidad);
         model.addAttribute("publicaciones", publicacionesDTO);
         model.addAttribute("nuevaPublicacion", new Publicacion());
+        model.addAttribute("encuesta", encuestaActiva);
+        model.addAttribute("totalVotos", totalVotos);
+
         return "comunidad";
     }
 
@@ -74,9 +92,9 @@ public class ControladorComunidad {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         if (usuario != null) {
-            servicioComunidad.unirseAComunidad( usuario, id);
+            servicioComunidad.unirseAComunidad(usuario, id);
         }
-        return "redirect:/comunidad/"+id;
+        return "redirect:/comunidad/" + id;
     }
 
     @PostMapping("/comunidad/{id}/abandonar")
@@ -100,26 +118,26 @@ public class ControladorComunidad {
     }
 
     @GetMapping("/crear-comunidad")
-    public String mostrarFormularioCrearComunidad(Model model){
+    public String mostrarFormularioCrearComunidad(Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        if (usuario !=null && usuario.getEsPremium()){
+        if (usuario != null && usuario.getEsPremium()) {
             model.addAttribute("usuario", usuario);
             model.addAttribute("nuevaComunidad", new Comunidad());
             return "crear-comunidad";
-        }else {
+        } else {
             return "redirect:/comunidades";
         }
     }
 
     @PostMapping("/comunidades/crear")
-    public String crearUnaComunidad(@ModelAttribute Comunidad comunidad){
+    public String crearUnaComunidad(@ModelAttribute Comunidad comunidad) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        if(usuario !=null && usuario.getEsPremium()){
+        if (usuario != null && usuario.getEsPremium()) {
             comunidad.setUsuarioCreador(usuario);
             comunidad.getUsuarios().add(usuario);
-            servicioComunidad.crearComunidad(comunidad);
+            servicioComunidad.crearComunidad(comunidad, usuario);
             return "redirect:/comunidades";
         }
         return "redirect:/comunidades";

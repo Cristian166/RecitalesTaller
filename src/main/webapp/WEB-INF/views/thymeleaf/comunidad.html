@@ -16,12 +16,9 @@
     <link rel="stylesheet" th:href="@{/css/comunidad.css}" />
 
     <style>
-        .barra-contenedor {
-            background: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            height: 20px;
-            margin-top: 5px;
+        html,
+        body {
+            height: 100%;
         }
 
         .post-contenido {
@@ -30,20 +27,6 @@
             word-break: break-word;
         }
 
-        .barra-relleno {
-            background: #4a7bff;
-            height: 100%;
-            text-align: right;
-            color: white;
-            padding-right: 5px;
-            box-sizing: border-box;
-            transition: width 0.4s ease;
-        }
-
-
-        html, body {
-            height: 100%;
-        }
 
         body {
             display: flex;
@@ -59,96 +42,133 @@
 
 <body>
 
-<!-- HEADER con el botón de menú -->
-<header class="bg-secondary text-white p-3">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-4 text-start">
-                <button class="btn btn-light" id="menuToggle">Menu</button>
-            </div>
-            <div class="col-4 text-center">
-                <a href="/spring/home.html" class="text-decoration-none text-white fw-bold">Diario de Recitales</a>
-            </div>
-            <div class="col-4 text-end">
-                <a class="btn btn-light" th:href="@{/perfil}">Perfil</a>
+    <!-- HEADER con el botón de menú -->
+    <header class="bg-secondary text-white p-3">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-4 text-start">
+                    <button class="btn btn-light" id="menuToggle">Menu</button>
+                </div>
+                <div class="col-4 text-center">
+                    <a href="/spring/home.html" class="text-decoration-none text-white fw-bold">Diario de Recitales</a>
+                </div>
+                <div class="col-4 text-end">
+                    <a class="btn btn-light" th:href="@{/perfil}">Perfil</a>
+                </div>
             </div>
         </div>
-    </div>
-</header>
+    </header>
 
-<!-- SIDEBAR MENU -->
-<div th:replace="fragments/sidebar :: sidebar"></div>
+    <!-- SIDEBAR MENU -->
+    <div th:replace="fragments/sidebar :: sidebar"></div>
 
-<!-- CONTENIDO PRINCIPAL -->
-<div class="container my-4">
-    <div class="row g-4">
-        <!-- Izquierda -->
-        <div class="col-lg-8 col-md-12">
-            <!-- Info comunidad -->
-            <div class="glass-panel mb-4 d-flex align-items-center">
-                <!-- Imagen de la comunidad -->
-                <div class="community-image-container">
-                    <div th:if="${comunidad.imagen != null}">
-                        <img th:src="@{'/uploads/' + ${comunidad.imagen}}"
-                             class="community-image"
-                             alt="Imagen Comunidad">
-                    </div>
-                    <div th:if="${comunidad.imagen == null}" class="community-image no-image">
-                        Sin imagen
-                    </div>
-                </div>
-                <!-- Detalles de la comunidad -->
-                <div class="community-details ps-3">
-                    <h4 th:text="${comunidad.nombre}">Nombre Comunidad</h4>
-                    <p th:text="${comunidad.descripcion}">(descripción de la comunidad)</p>
-                    <p><strong>Pais de Origen: </strong><span th:text="${comunidad.paisOrigen}">Argentina</span></p>
-                    <p><strong>Idioma: </strong><span th:text="${comunidad.idioma}">Español</span></p>
-                </div>
-            </div>
-
-
-            <!-- Agregar publicación -->
-            <div class="glass-panel mb-4 add-post">
-                <h5 class="mb-3">Agregar publicación</h5>
-                <div class="d-flex gap-3">
-                    <div class="img-placeholder">img</div>
-                    <div class="flex-grow-1">
-                        <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}"
-                              th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
-                                <textarea th:field="*{contenido}" rows="3"
-                                          placeholder="Escribir publicación para publicar..." required></textarea>
-                            <div class="d-flex justify-content-between align-items-center mt-2">
-                                <label class="btn-glass w-auto mb-0">
-                                    Cargar img
-                                    <input type="file" name="imagenArchivo">
-                                </label>
-                                <button type="submit" class="btn-glass w-auto">Publicar</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Publicaciones -->
-            <div>
-                <h5 class="mb-3">Publicaciones</h5>
-                <div class="post mb-3" th:each="publicacion : ${publicaciones}">
-                    <div class="user-info">
-                        <div class="user-img"></div>
-                        <div>
-                            <strong th:text="${publicacion.autorNombre}">Nombre Usuario</strong>
-                            <small th:text="${publicacion.fechaFormateada}"></small>
+    <!-- CONTENIDO PRINCIPAL -->
+    <div class="container my-4">
+        <div class="row g-4">
+            <!-- Izquierda -->
+            <div class="col-lg-8 col-md-12">
+                <!-- Info comunidad -->
+                <div class="glass-panel mb-4 d-flex align-items-center">
+                    <!-- Imagen de la comunidad -->
+                    <div class="community-image-container">
+                        <div th:if="${comunidad.imagen != null}">
+                            <img th:src="@{'/uploads/' + ${comunidad.imagen}}" class="community-image"
+                                alt="Imagen Comunidad">
+                        </div>
+                        <div th:if="${comunidad.imagen == null}" class="community-image no-image">
+                            Sin imagen
                         </div>
                     </div>
-                    <p th:text="${publicacion.contenido}">Texto de publicación</p>
-                    <div th:if="${publicacion.imagen != null}">
-                        <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="imagen publicación"
-                             style="max-width:300px; max-height:300px; margin-top:5px;" />
+                    <!-- Detalles de la comunidad -->
+                    <div class="community-details ps-3">
+                        <h4 th:text="${comunidad.nombre}">Nombre Comunidad</h4>
+                        <p th:text="${comunidad.descripcion}">(descripción de la comunidad)</p>
+                        <p><strong>Pais de Origen: </strong><span th:text="${comunidad.paisOrigen}">Argentina</span></p>
+                        <p><strong>Idioma: </strong><span th:text="${comunidad.idioma}">Español</span></p>
                     </div>
                 </div>
-            </div>
 
-        </div>
+
+                <!-- Agregar publicación -->
+                <div class="glass-panel mb-4 add-post">
+                    <h5 class="mb-3">Agregar publicación</h5>
+                    <div class="d-flex gap-3">
+                        <div class="img-placeholder">img</div>
+                        <div class="flex-grow-1">
+                            <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}"
+                                th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
+                                <textarea th:field="*{contenido}" rows="3"
+                                    placeholder="Escribir publicación para publicar..." required></textarea>
+                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                    <label class="btn-glass w-auto mb-0">
+                                        Cargar img
+                                        <input type="file" name="imagenArchivo">
+                                    </label>
+                                    <button type="submit" class="btn-glass w-auto">Publicar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Encuesta activa -->
+                <div class="post" th:if="${encuesta != null}">
+                    <form th:action="@{/encuesta/votar}" method="post">
+                        <input type="hidden" name="comunidadId" th:value="${comunidad.id}" />
+
+                        <h3 th:text="${encuesta.pregunta}"></h3>
+
+                        <div th:each="opcion : ${encuesta.opciones}" style="margin-bottom: 1rem;">
+                            <label style="display: flex; align-items: center; cursor: pointer;">
+                                <input type="radio" name="opcionId" th:value="${opcion.id}" required
+                                    style="margin-right: 10px;" onchange="this.form.submit()">
+                                <span th:text="${opcion.texto}" style="flex: 1;"></span>
+                            </label>
+
+                            <div th:if="${encuesta.totalVotos > 0}" class="barra-contenedor">
+                                <div class="barra-relleno"
+                                    th:style="'width:' + ((${opcion.votos} * 100.0) / ${encuesta.totalVotos}) + '%;'">
+                                </div>
+                            </div>
+
+                            <div style="margin-top: 3px;">
+                                <small th:text="${opcion.votos} + ' votos'"></small>
+                            </div>
+                        </div>
+
+                    </form>
+                    <br>
+
+                    <!-- Botón eliminar encuesta -->
+                    <form th:if="${encuesta != null} and ${usuario.id == comunidad.usuarioCreador.id}"
+                        th:action="@{/encuesta/{id}/eliminar(id=${encuesta.id})}" method="post">
+                        <input type="hidden" name="comunidadId" th:value="${comunidad.id}" />
+                        <button type="submit" class="btn btn-danger">Eliminar encuesta</button>
+                    </form>
+
+                </div>
+
+
+                <!-- Publicaciones -->
+                <div>
+                    <h5 class="mb-3">Publicaciones</h5>
+                    <div class="post mb-3" th:each="publicacion : ${publicaciones}">
+                        <div class="user-info">
+                            <div class="user-img"></div>
+                            <div>
+                                <strong th:text="${publicacion.autorNombre}">Nombre Usuario</strong>
+                                <small th:text="${publicacion.fechaFormateada}"></small>
+                            </div>
+                        </div>
+                        <p class="post-contenido" th:text="${publicacion.contenido}">Texto de publicación</p>
+                        <div th:if="${publicacion.imagen != null}">
+                            <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="imagen publicación"
+                                style="max-width:300px; max-height:300px; margin-top:5px;" />
+                        </div>
+                    </div>
+                </div>
+
+            </div>
 
             <!-- Derecha -->
             <div class="col-lg-4 col-md-12">
@@ -157,19 +177,33 @@
                         <p><strong>Creador de la comunidad: </strong><span
                                 th:text="${comunidad.usuarioCreador.nombre}">Nombre del Creador</span></p>
                     </div>
-                    <form th:action="@{/comunidades}">
-                        <button type="submit" class="btn-glass mb-2 btn-fullwidth">Volver a comunidades</button>
-                    </form>
-                    <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
-                        <button type="submit" class="btn-danger-glass mb-2 btn-fullwidth">Abandonar comunidad</button>
-                    </form>
-                    <div
-                        th:if="${usuario.esPremium} and ${comunidad.usuarioCreador != null} and ${usuario.id} == ${comunidad.usuarioCreador.id}">
-                        <form th:action="@{/comunidad/{id}/eliminar(id=${comunidad.id})}" method="post">
-                            <button type="submit" class="btn-danger-glass mb-2 btn-fullwidth">Eliminar
+                    <div>
+                        <form th:action="@{/comunidades}">
+                            <button type="submit" class="btn-glass mb-2 w-100 text-center d-block">Volver a
+                                comunidades</button>
+                        </form>
+                    </div>
+                    <div>
+                        <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
+                            <button type="submit" class="btn-danger-glass mb-2 w-100 text-center d-block">Abandonar
                                 comunidad</button>
                         </form>
                     </div>
+                    <div
+                        th:if="${usuario.esPremium} and ${comunidad.usuarioCreador != null} and ${usuario.id} == ${comunidad.usuarioCreador.id}">
+                        <form th:action="@{/comunidad/{id}/eliminar(id=${comunidad.id})}" method="post">
+                            <button type="submit" class="btn-danger-glass mb-2 w-100 text-center d-block">Eliminar
+                                comunidad</button>
+                        </form>
+                    </div>
+
+                    <div th:if="${usuario.id == comunidad.usuarioCreador.id} and ${encuesta == null}">
+                        <a th:href="@{/comunidad/{id}/encuesta/crear(id=${comunidad.id})}"
+                            class="btn-glass mb-2 w-100 text-center d-block text-decoration-none">
+                            Crear encuesta
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>

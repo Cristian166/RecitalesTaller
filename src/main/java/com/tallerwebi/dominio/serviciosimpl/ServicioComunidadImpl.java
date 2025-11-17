@@ -70,4 +70,16 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     public void eliminarComunidad(Long id) {
          repositorioComunidad.borrarComunidad(id);
     }
+
+    @Transactional
+    @Override
+    public long contarMiembrosComunidad(Long comunidadId){
+        return repositorioComunidad.contarMiembrosDeComunidad(comunidadId);
+    }
+    @Transactional(readOnly = true)
+    @Override
+    public boolean existeComunidadPorNombre(String nombre){
+        return repositorioComunidad.obtenerComunidadPorNombre(nombre) !=null;
+    }
+
 }

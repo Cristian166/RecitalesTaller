@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Comunidad</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -17,26 +18,32 @@
             box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             padding: 30px;
         }
-        .profile-image {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            background-color: #f1f3f5;
+        .upload-section {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 40px;
-            color: #adb5bd;
-            margin: 0 auto;
-        }
-        .upload-section {
-            text-align: center;
             margin-bottom: 25px;
+        }
+        .profile-image {
+            width: 150px;
+            height: 100px;
+            border-radius: 8px;
+            background-color: #f1f3f5;
+            background-size: cover;
+            background-position: center;
+            margin-right: 20px;
+        }
+        .upload-info {
+            flex-grow: 1;
         }
         .file-name {
             font-size: 0.9rem;
             color: #6c757d;
             margin-left: 8px;
+        }
+        .error-message {
+            color: #d9534f; /* Color rojo de Bootstrap */
+            font-size: 1rem;
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -53,23 +60,23 @@
         <h4 class="mb-2 text-center">Crear una nueva comunidad</h4>
         <p class="text-muted text-center">Rellene los siguientes campos para crear su comunidad.</p>
 
-        <!-- Formulario Thymeleaf -->
-        <form th:action="@{/comunidades/crear}" th:object="${nuevaComunidad}" method="post">
+        <!-- Formulario -->
+        <form th:action="@{/comunidades/crear}" th:object="${nuevaComunidad}" method="post" enctype="multipart/form-data">
 
-            <!-- Imagen (comentada por ahora) -->
-            <!--
+            <!-- Imagen -->
             <div class="upload-section">
-                <div class="profile-image mb-3">
-                    <i class="bi bi-image"></i>
+                <div class="profile-image" id="profileImage">
+                    <!-- Imagen cargada se muestra aquí -->
                 </div>
-                <div class="d-flex justify-content-center align-items-center">
-                    <label for="imagen" class="btn btn-outline-secondary btn-sm">Subir imagen</label>
-                    <input type="file" id="imagen" class="d-none">
+                <div class="upload-info">
+                    <label class="btn btn-outline-secondary">
+                        Cargar img
+                        <input type="file" name="imagenArchivo" id="imagenInput" class="d-none">
+                    </label>
                     <span id="file-name" class="file-name"></span>
+                    <small class="text-muted d-block mt-2">Imagen de perfil</small>
                 </div>
-                <small class="text-muted d-block mt-2">Imagen de perfil</small>
             </div>
-            -->
 
             <!-- Nombre de la comunidad -->
             <div class="mb-3">
@@ -102,6 +109,11 @@
                 </div>
             </div>
 
+            <!-- Mensaje de error si existe una comunidad con el mismo nombre -->
+            <div th:if="${error}" class="error-message">
+                <p>Ya existe una comunidad con este nombre. Por favor, elige otro.</p>
+            </div>
+
             <div class="text-end mt-4">
                 <button type="submit" class="btn btn-primary">Crear Comunidad</button>
             </div>
@@ -116,18 +128,25 @@
 
 <!-- Bootstrap y JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-
 <script>
-    // Mostrar el nombre del archivo seleccionado (para la imagen, aunque esté comentado)
-    const inputImagen = document.getElementById('imagen');
+    // Obtener los elementos
+    const inputImagen = document.getElementById('imagenInput');
+    const profileImage = document.getElementById('profileImage');
     const fileNameSpan = document.getElementById('file-name');
 
+    // Escuchar el cambio en el input de la imagen
     inputImagen.addEventListener('change', () => {
         const file = inputImagen.files[0];
         if (file) {
-            fileNameSpan.textContent = file.name;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                // Actualizar la imagen de perfil con la imagen cargada
+                profileImage.style.backgroundImage = `url(${e.target.result})`;
+                fileNameSpan.textContent = file.name;
+            };
+            reader.readAsDataURL(file);
         } else {
+            profileImage.style.backgroundImage = ''; // Eliminar la imagen de perfil si no se selecciona ninguna
             fileNameSpan.textContent = '';
         }
     });

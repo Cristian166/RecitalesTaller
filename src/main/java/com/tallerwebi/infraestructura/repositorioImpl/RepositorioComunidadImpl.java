@@ -83,4 +83,20 @@ public class RepositorioComunidadImpl implements RepositorioComunidad{
         return new HashSet<>(miembros);
     }
 
+    @Override
+    public long contarMiembrosDeComunidad(Long comunidadId){
+        Long contador = (Long) getCurrentSession()
+                .createQuery("SELECT COUNT(u) FROM Comunidad c JOIN c.usuarios u WHERE c.id = :comunidadId")
+                .setParameter("comunidadId", comunidadId)
+                .uniqueResult();
+        return contador != null ? contador : 0;
+    }
+    @Override
+    public Comunidad obtenerComunidadPorNombre(String nombre){
+        return getCurrentSession()
+                .createQuery("FROM Comunidad c WHERE c.nombre = :nombre", Comunidad.class)
+                .setParameter("nombre",nombre)
+                .uniqueResult();
+    }
+
 }

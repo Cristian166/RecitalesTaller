@@ -7,6 +7,7 @@
     <title>Mis Entradas</title>
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="stylesheet" th:href="@{/css/menu.css}">
     <link rel="stylesheet" th:href="@{/css/mis-entradas.css}">
     <link rel="stylesheet" th:href="@{/css/fondo.css}">
@@ -25,108 +26,80 @@
         main {
             flex: 1;
         }
-    </style>
 
+    </style>
 </head>
 
 <body class="bg-white">
+<!-- HEADER -->
+<div th:replace="fragments/header :: header"></div>
 
-    <!-- HEADER -->
-    <div th:replace="fragments/header :: header"></div>
+<!-- SIDEBAR MENU -->
+<div th:replace="fragments/sidebar :: sidebar"></div>
 
-    <!-- SIDEBAR MENU -->
-    <div th:replace="fragments/sidebar :: sidebar"></div>
-    <!-- MAIN -->
-    <main class="container my-4">
-        <h4>Mis Entradas</h4>
+<!-- MAIN -->
+<main class="container my-4">
+    <h4>Mis Entradas</h4>
 
-        <!-- Botones superiores -->
-        <div class="mb-3">
-            <a href="crear-entrada.html" class="btn btn-lg btn-primary btn-block">Agregar</a>
-            <button class="btn btn-primary">Ordenar Por</button>
-        </div>
+    <!-- Botones superiores -->
+    <div class="mb-3">
+        <a th:href="@{/crear-entrada}" class="btn btn-lg btn-primary btn-block">Agregar</a>
+    </div>
 
-        <div th:if="${mensajeError}" class="alert alert-danger" th:text="${mensajeError}"></div>
+    <div th:if="${mensajeError}" class="alert alert-danger" th:text="${mensajeError}"></div>
 
-        <!-- PRIMERA ENTRADA HARDCODEADA -->
-        <div class="row align-items-start">
-            <div class="col-md-10">
-                <div class="ticket">
-                    <div class="ticket-left">
-                        <h5>Nombre Artista</h5>
-                        <p><em>Lugar:</em> Estadio Ejemplo</p>
-                    </div>
-                    <div class="ticket-right">
-                        <p>Fecha: 01/01/2025</p>
-                        <p>Horario: 20:00</p>
-                        <p>"Campo"</p>
+    <!-- Mostrar las entradas -->
+    <div class="row align-items-start" th:each="entrada : ${entradas}">
+        <div class="col-md-12">
+            <div class="concert-card">
+                <!-- Imagen del evento -->
+                <div class="image-container">
+                    <img th:if="${entrada.imagen != null}" th:src="@{'/uploads/' + ${entrada.imagen}}" alt="Imagen del evento">
+                </div>
+
+                <!-- Detalles del evento -->
+                <div class="details-container">
+                    <h5 th:text="${entrada.nombreRecital}">Nombre artista:</h5>
+                    <p th:text="${entrada.lugar}">Lugar:</p>
+                    <p th:text="${entrada.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy'))}">Fecha:</p>
+                    <p th:text="${entrada.horario}">horario:</p>
+                    <p th:text="${entrada.seccion}">seccion:</p>
+                    <p th:if="${entrada.validada == true}" style="font-weight: bold; color: green;">Entrada validada</p>
+                    <p th:if="${entrada.validada == false}" style="font-weight: bold; color: red;">Entrada no validada</p>
+
+                    <!-- Botones de acción -->
+                    <div class="actions-container">
+                        <form th:action="@{/eliminar-entrada}" method="post">
+                            <input type="hidden" th:name="id" th:value="${entrada.id}" />
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                        <form th:if="${entrada.validada == false}" th:action="@{/validar-entrada}" method="get">
+                            <input type="hidden" name="id" th:value="${entrada.id}" />
+                            <button type="submit" class="btn btn-success btn-sm">Validar</button>
+                        </form>
                     </div>
                 </div>
             </div>
-            <div class="col-md-2 d-flex flex-column gap-2">
-                <button class="btn btn-outline-secondary btn-sm">Editar</button>
-                <button class="btn btn-outline-secondary btn-sm">Eliminar</button>
-                <button class="btn btn-outline-secondary btn-sm">Validar</button>
-            </div>
         </div>
+    </div>
+</main>
 
-        <div class="row align-items-start" th:each=" entrada: ${entradas}">
-            <div class="col-md-10">
-                <div class="ticket">
-                    <div class="ticket-left">
-                        <h5 th:text="${entrada.nombreRecital}">Nombre Artista</h5>
-                        <p><em>Lugar:</em> <span th:text="${entrada.lugar}">rellenar</span></p>
-                        <img th:if="${entrada.imagen != null}" th:src="@{'/uploads/' + ${entrada.imagen}}"
-                            style="width:150px;height:auto;margin-top:10px;border-radius:6px;">
-                    </div>
+<!-- FOOTER -->
+<footer class="bg-secondary text-white text-center py-3">
+    <p>&copy; 2025 Diario Digital de Recitales</p>
+</footer>
 
-
-                    <div class="ticket-right">
-                        <p>Fecha: <span
-                                th:text="${entrada.fecha.format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy'))}">rellenar</span>
-                        </p>
-                        <p>Horario: <span th:text="${entrada.horario}">rellenar</span></p>
-                        <p th:text="${entrada.seccion}">Campo/Platea</p>
-                    </div>
-                </div>
-            </div>
-
-
-            <div class="col-md-2 d-flex flex-column gap-2">
-                <button class="btn btn-outline-secondary btn-sm">Editar</button>
-                <form th:action="@{/eliminar-entrada}" method="post">
-                    <input type="hidden" th:name="id" th:value="${entrada.id}" />
-                    <button type="submit" class="btn btn-outline-secondary btn-sm">Eliminar</button>
-                </form>
-                <form th:action="@{/validar-entrada}" method="get">
-                    <input type="hidden" name="id" th:value="${entrada.id}">
-                    <button type="submit" class="btn btn-outline-secondary btn-sm">Validar</button>
-                </form>
-
-            </div>
-        </div>
-
-        <div class="mb-3">
-            <a href="home.html" class="btn btn-lg btn-primary btn-block">volver</a>
-        </div>
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-secondary text-white text-center py-3">
-        <p>&copy; 2025 Diario Digital de Recitales</p>
-    </footer>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        // Toggle sidebar
-        document.getElementById("menuToggle").addEventListener("click", function () {
-            document.getElementById("sidebarMenu").classList.toggle("active");
-        });
-        document.getElementById("menuCerrar").addEventListener("click", function () {
-            document.getElementById("sidebarMenu").classList.remove("active");
-        });
-    </script>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Toggle sidebar
+    document.getElementById("menuToggle").addEventListener("click", function () {
+        document.getElementById("sidebarMenu").classList.toggle("active");
+    });
+    document.getElementById("menuCerrar").addEventListener("click", function () {
+        document.getElementById("sidebarMenu").classList.remove("active");
+    });
+</script>
 </body>
 
 </html>

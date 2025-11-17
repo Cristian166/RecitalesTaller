@@ -17,7 +17,9 @@ public class Comunidad {
     @Column(length = 60)
     private String descripcion;
 
-    @Column(length = 15)
+    private String imagen;
+
+    @Column (length = 15)
     private String paisOrigen;
 
     @Column(length = 15)
@@ -35,7 +37,10 @@ public class Comunidad {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuarioCreador; // admin
+    private Usuario usuarioCreador; //admin
+
+    @Transient  // Esto evita que se persista en la base de datos
+    private long cantidadMiembros;
 
     public Comunidad() {
 
@@ -115,5 +120,21 @@ public class Comunidad {
 
     public void setUsuarioCreador(Usuario usuarioCreador) {
         this.usuarioCreador = usuarioCreador;
+    }
+
+    public long getCantidadMiembros() {
+        return usuarios != null ? usuarios.size() : 0;
+    }
+
+    public void setCantidadMiembros(long cantidadMiembros) {
+        this.cantidadMiembros = cantidadMiembros;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }

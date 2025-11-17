@@ -59,7 +59,6 @@ public class ControladorLogin {
                 model.addAttribute("error", "Las contraseñas no coinciden.");
                 return "nuevo-usuario";
             }
-
             servicioLogin.registrar(usuario);
 
             model.addAttribute("mensaje", "Usuario registrado con éxito.");

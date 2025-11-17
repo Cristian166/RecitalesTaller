@@ -11,13 +11,11 @@ public class EntradaDTO {
     private String horario;
     private String imagen;
     private String seccion;
-
-    
-
+    private Boolean validada;
     public EntradaDTO(){
     }
 
-    public EntradaDTO(Long id, String nombreRecital,String lugar, LocalDate fecha, String horario,String seccion, String imagen){
+    public EntradaDTO(Long id, String nombreRecital,String lugar, LocalDate fecha, String horario,String seccion, String imagen, Boolean validada) {
         this.id = id;
         this.nombreRecital = nombreRecital;
         this.lugar = lugar;
@@ -25,6 +23,7 @@ public class EntradaDTO {
         this.horario = horario;
         this.seccion = seccion;
         this.imagen=imagen;
+        this.validada=validada;
     }
 
 
@@ -74,6 +73,11 @@ public class EntradaDTO {
         this.imagen = imagen;
     }
 
-    
+    public Boolean getValidada() {
+        return validada;
+    }
 
+    public void setValidada(Boolean validada) {
+        this.validada = validada;
+    }
 }

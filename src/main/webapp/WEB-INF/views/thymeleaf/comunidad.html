@@ -40,8 +40,7 @@
             transition: width 0.4s ease;
         }
 
-        html,
-        body {
+
         html, body {
             height: 100%;
         }
@@ -151,46 +150,49 @@
 
         </div>
 
-        <!-- Derecha -->
-        <div class="col-lg-4 col-md-12">
-            <div class="glass-panel">
-                <div>
-                    <p><strong>Creador de la comunidad: </strong><span th:text="${comunidad.usuarioCreador.nombre}">Nombre del Creador</span></p>
-                </div>
-                <form th:action="@{/comunidades}">
-                    <button type="submit" class="btn-glass mb-2 btn-fullwidth">Volver a comunidades</button>
-                </form>
-                <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
-                    <button type="submit" class="btn-danger-glass mb-2 btn-fullwidth">Abandonar comunidad</button>
-                </form>
-                <div th:if="${usuario.esPremium} and ${comunidad.usuarioCreador != null} and ${usuario.id} == ${comunidad.usuarioCreador.id}">
-                    <form th:action="@{/comunidad/{id}/eliminar(id=${comunidad.id})}" method="post">
-                        <button type="submit" class="btn-danger-glass mb-2 btn-fullwidth">Eliminar comunidad</button>
+            <!-- Derecha -->
+            <div class="col-lg-4 col-md-12">
+                <div class="glass-panel">
+                    <div>
+                        <p><strong>Creador de la comunidad: </strong><span
+                                th:text="${comunidad.usuarioCreador.nombre}">Nombre del Creador</span></p>
+                    </div>
+                    <form th:action="@{/comunidades}">
+                        <button type="submit" class="btn-glass mb-2 btn-fullwidth">Volver a comunidades</button>
                     </form>
+                    <form th:action="@{/comunidad/{id}/abandonar(id=${comunidad.id})}" method="post">
+                        <button type="submit" class="btn-danger-glass mb-2 btn-fullwidth">Abandonar comunidad</button>
+                    </form>
+                    <div
+                        th:if="${usuario.esPremium} and ${comunidad.usuarioCreador != null} and ${usuario.id} == ${comunidad.usuarioCreador.id}">
+                        <form th:action="@{/comunidad/{id}/eliminar(id=${comunidad.id})}" method="post">
+                            <button type="submit" class="btn-danger-glass mb-2 btn-fullwidth">Eliminar
+                                comunidad</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- FOOTER -->
-<footer class="bg-secondary text-white text-center py-3">
-    <p>&copy; 2025 Diario Digital de Recitales</p>
-</footer>
+    <!-- FOOTER -->
+    <footer class="bg-secondary text-white text-center py-3">
+        <p>&copy; 2025 Diario Digital de Recitales</p>
+    </footer>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- Scripts del menú hamburguesa -->
-<script>
-    // Toggle sidebar
-    document.getElementById("menuToggle").addEventListener("click", function () {
-        document.getElementById("sidebarMenu").classList.toggle("active");
-    });
-    document.getElementById("menuCerrar").addEventListener("click", function () {
-        document.getElementById("sidebarMenu").classList.remove("active");
-    });
-</script>
+    <!-- Scripts del menú hamburguesa -->
+    <script>
+        // Toggle sidebar
+        document.getElementById("menuToggle").addEventListener("click", function () {
+            document.getElementById("sidebarMenu").classList.toggle("active");
+        });
+        document.getElementById("menuCerrar").addEventListener("click", function () {
+            document.getElementById("sidebarMenu").classList.remove("active");
+        });
+    </script>
 
 </body>
 

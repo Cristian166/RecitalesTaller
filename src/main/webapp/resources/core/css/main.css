@@ -1,19 +1,16 @@
-body {
-  padding-top: 5rem;
-}
-.starter-template {
-  padding: 3rem 1.5rem;
-  text-align: center;
-}
 
 h1{
-	color:#0000FF;
+	color:#0A2A43;
+}
+main{
+  margin: 100px;
 }
 
-h2{
-	color:#FF0000;
-}
-
-.navbar-brand{
-    margin:0 2rem;
+footer {
+    background-color: #0A2A43 !important;
+    color: #dbe1ef !important;
+    border-top: 1px solid #dbe1ef !important;
+    text-align: center;
+    height: 50px;
+    align-content: center;
 }

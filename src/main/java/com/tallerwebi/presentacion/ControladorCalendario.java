@@ -56,6 +56,7 @@ public class ControladorCalendario {
 
         model.addAttribute("entradasFuturas", entradasFuturas);
         model.addAttribute("entradasPasadas", entradasPasadas);
+        model.addAttribute("usuario", usuario);
 
         return "calendario";
     }

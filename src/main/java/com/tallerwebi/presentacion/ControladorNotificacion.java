@@ -23,7 +23,7 @@ public class ControladorNotificacion {
     
 
     @GetMapping("/notificaciones")
-    public String mostrarNotificaciones(Model model,HttpSession session){
+    public String mostrarNotificaciones(Model modelMock,HttpSession session){
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
@@ -32,8 +32,8 @@ public class ControladorNotificacion {
         }
 
 
-        model.addAttribute("usuario", usuario);
-        model.addAttribute("notificaciones", servicioNotificaciones.obtenerNotificacionesPorUsuario(usuario));
+        modelMock.addAttribute("usuario", usuario);
+        modelMock.addAttribute("notificaciones", servicioNotificaciones.obtenerNotificacionesPorUsuario(usuario));
 
         return "notificaciones";
     }

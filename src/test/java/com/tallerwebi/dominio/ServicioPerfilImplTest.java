@@ -17,17 +17,36 @@ import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.serviciosimpl.ServicioPerfilImpl;
 import com.tallerwebi.infraestructura.RepositorioPerfil;
+import com.tallerwebi.infraestructura.RepositorioUsuario;
+import com.tallerwebi.infraestructura.RepositorioInsignia;
+import com.tallerwebi.infraestructura.RepositorioUsuarioInsignia;
 
 public class ServicioPerfilImplTest {
 
     private ServicioPerfilImpl servicioPerfil;
     private RepositorioPerfil repositorioPerfilMock;
+    private ServicioInsignia servicioInsigniaMock;
+    private RepositorioInsignia repositorioInsigniaMock;
+    private RepositorioUsuario repositorioUsuarioMock;
+    private RepositorioUsuarioInsignia repositorioUsuarioInsigniaMock;
     private Usuario usuarioMock;
 
     @BeforeEach
     public void init() {
         repositorioPerfilMock = mock(RepositorioPerfil.class);
-        servicioPerfil = new ServicioPerfilImpl(repositorioPerfilMock);
+        servicioInsigniaMock = mock(ServicioInsignia.class);
+        repositorioInsigniaMock = mock(RepositorioInsignia.class);
+        repositorioUsuarioMock = mock(RepositorioUsuario.class);
+        repositorioUsuarioInsigniaMock = mock(RepositorioUsuarioInsignia.class);
+        
+        servicioPerfil = new ServicioPerfilImpl(repositorioPerfilMock,
+            servicioInsigniaMock,
+            repositorioInsigniaMock,
+            repositorioUsuarioMock,
+            repositorioUsuarioInsigniaMock  
+        );
+
+
         usuarioMock = mock(Usuario.class);
         when(usuarioMock.getId()).thenReturn(1L);
     }

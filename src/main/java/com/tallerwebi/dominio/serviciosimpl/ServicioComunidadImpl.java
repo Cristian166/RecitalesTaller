@@ -88,7 +88,6 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     @Override
     @Transactional
     public Comunidad crearComunidad(Comunidad comunidad, Usuario usuario) {
-
         Usuario usuarioBuscado = repositorioUsuario.buscarId(usuario.getId());
         boolean yaTieneInsignia = repositorioUsuarioInsignia.existe(usuarioBuscado.getId(), 7L);
 

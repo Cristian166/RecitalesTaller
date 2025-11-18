@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -116,5 +119,26 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     public boolean existeComunidadPorNombre(String nombre){
         return repositorioComunidad.obtenerComunidadPorNombre(nombre) !=null;
     }
+
+    @Override
+    public Set<Map<String, Object>> buscarComunidadesPorNombre(String nombre, Usuario usuario) {
+        // Buscar comunidades que coincidan con el nombre y que no tengan al usuario
+        Set<Comunidad> comunidades = repositorioComunidad.buscarComunidadesPorNombreYNoUnidas(nombre, usuario);
+
+        Set<Map<String, Object>> resultado = new HashSet<>();
+
+        for (Comunidad comunidad : comunidades) {
+            Map<String, Object> comunidadData = new HashMap<>();
+            comunidadData.put("id", comunidad.getId());
+            comunidadData.put("nombre", comunidad.getNombre());
+
+            // Pasar la información de la comunidad al frontend
+            comunidadData.put("estaUnido", false);  // Siempre será false porque no estamos unidos a esta comunidad
+
+            resultado.add(comunidadData);
+        }
+        return resultado;  // Devolver las comunidades no unidas
+    }
+
 
 }

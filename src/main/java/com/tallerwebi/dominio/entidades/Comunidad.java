@@ -137,4 +137,5 @@ public class Comunidad {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+
 }

@@ -106,3 +106,48 @@
     font-size: 0.9rem;
     font-weight: 500;
 }
+/* Estilo para el área de búsqueda */
+.search-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+/* Estilo para el contenedor de sugerencias (con scroll vertical) */
+#suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    max-height: 200px;  /* Limitar altura para mostrar 2-3 resultados */
+    overflow-y: auto;   /* Habilitar scroll vertical cuando haya más de 2 sugerencias */
+    border: 1px solid #ddd;
+    background-color: #fff;
+    z-index: 100;
+    max-width: 100%;  /* Aseguramos que se ajuste al ancho del input */
+    box-sizing: border-box; /* Asegura que el padding y el borde no afecten el tamaño */
+}
+
+/* Estilo del scrollbar */
+#suggestions::-webkit-scrollbar {
+    width: 8px;
+}
+
+#suggestions::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+#suggestions::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+}
+
+/* Estilo para cada elemento de la sugerencia */
+.list-group-item {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.list-group-item:hover {
+    background-color: #f1f1f1;
+}

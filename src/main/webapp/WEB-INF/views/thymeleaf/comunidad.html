@@ -74,19 +74,23 @@
                     </div>
                 </div>
 
-
                 <!-- Agregar publicación -->
                 <div class="glass-panel mb-4 add-post">
                     <h5 class="mb-3">Agregar publicación</h5>
                     <div class="d-flex gap-3">
-                        <div class="img-placeholder">img</div>
+                        <!-- Mostrar la imagen de perfil del usuario que publica -->
+                        <div class="user-img" style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; margin-right: 10px;">
+                            <!-- Imagen del autor -->
+                            <img th:src="@{'/uploads/' + ${usuario.imagen}}"
+                                 alt="Imagen de perfil del autor"
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <div class="flex-grow-1">
                             <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}"
-                                th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
-
+                                  th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
                                 <!-- TEXTAREA con contador -->
                                 <textarea th:field="*{contenido}" id="postText" rows="3" maxlength="500"
-                                    placeholder="Escribir publicación para publicar..." required></textarea>
+                                          placeholder="Escribir publicación para publicar..." required></textarea>
 
                                 <!-- Contador de caracteres -->
                                 <small id="charCount">0 / 500</small>
@@ -102,6 +106,7 @@
                         </div>
                     </div>
                 </div>
+
 
                 <!-- Script del contador -->
                 <script>
@@ -158,17 +163,23 @@
                 <div>
                     <h5 class="mb-3">Publicaciones</h5>
                     <div class="post mb-3" th:each="publicacion : ${publicaciones}">
-                        <div class="user-info">
-                            <div class="user-img"></div>
+                        <div class="user-info d-flex align-items-center">
+                            <!-- Mostrar la imagen de perfil del autor de la publicación -->
+                            <div class="user-img" style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; margin-right: 10px;">
+                                <!-- Imagen del autor de la publicación -->
+                                <img th:src="@{'/uploads/' + ${publicacion.autorImagen}}"
+                                     alt="Imagen de perfil del autor"
+                                     style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
                             <div>
                                 <strong th:text="${publicacion.autorNombre}">Nombre Usuario</strong>
                                 <small th:text="${publicacion.fechaFormateada}"></small>
                             </div>
                         </div>
-                        <p class="post-contenido " th:text="${publicacion.contenido}">Texto de publicación</p>
+                        <p class="post-contenido" th:text="${publicacion.contenido}">Texto de publicación</p>
                         <div th:if="${publicacion.imagen != null}">
-                            <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="imagen publicación"
-                                style="max-width:300px; max-height:300px; margin-top:5px;" />
+                            <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="Imagen publicación"
+                                 style="max-width:300px; max-height:300px; margin-top:5px;" />
                         </div>
                     </div>
                 </div>

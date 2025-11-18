@@ -12,9 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 @Controller
 public class ControladorLogin {
@@ -53,12 +58,31 @@ public class ControladorLogin {
     @PostMapping("/registrar")
     public String registrarUsuario(@ModelAttribute("usuario") Usuario usuario,
             @RequestParam("confirmPassword") String confirmPassword,
+            @RequestParam("imagenArchivo") MultipartFile imagenArchivo, //para cargar imagen
             Model model) {
         try {
             if (!usuario.getPassword().equals(confirmPassword)) {
                 model.addAttribute("error", "Las contraseñas no coinciden.");
                 return "nuevo-usuario";
             }
+            
+            if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
+                try {
+                    String nombreArchivo = System.currentTimeMillis() + "_" + imagenArchivo.getOriginalFilename();
+                    Path ruta = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
+                    Files.createDirectories(ruta.getParent()); // Crea los directorios si no existen
+                    Files.write(ruta, imagenArchivo.getBytes()); // Guarda la imagen en el servidor
+
+                    // Guarda solo el nombre del archivo en la base de datos
+                    usuario.setImagen(nombreArchivo);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    model.addAttribute("error", "Error al guardar la imagen.");
+                    return "nuevo-usuario";
+                }
+            }
+
+
             servicioLogin.registrar(usuario);
 
             model.addAttribute("mensaje", "Usuario registrado con éxito.");
@@ -79,11 +103,6 @@ public class ControladorLogin {
         ModelMap model = new ModelMap();
         model.put("usuario", new Usuario());
         return new ModelAndView("nuevo-usuario", model);
-    }
-
-    @RequestMapping(path = "/resitalesAsistidos", method = RequestMethod.GET)
-    public ModelAndView irARecitalesProyecto() {
-        return new ModelAndView("resitalesAsistidos");
     }
 
     @RequestMapping(path = "/", method = RequestMethod.GET)

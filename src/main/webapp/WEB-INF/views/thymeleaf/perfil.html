@@ -96,8 +96,7 @@
     <main class="container my-4">
 
         <div class="p-4 mb-4 d-flex flex-row align-items-center gap-4">
-            <img src="https://via.placeholder.com/150" alt="Foto de perfil" class="profile-avatar">
-
+            <img th:src="@{'/uploads/' + ${usuario.imagen}}" alt="Foto de perfil" class="profile-avatar">
             <div class="text-start">
                 <h2 class="fw-bold mb-1 " style="color: #0A2A43;" th:text="${nombre} + ' ' + ${apellido}">Nombre Apellido</h2>
             </div>

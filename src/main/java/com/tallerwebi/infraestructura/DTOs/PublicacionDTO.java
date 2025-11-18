@@ -5,15 +5,17 @@ public class PublicacionDTO {
     private String fechaFormateada;
     private String autorNombre;
     private String imagen;
+    private String autorImagen;
 
     public PublicacionDTO() {
 
     }
-    public PublicacionDTO(String contenido, String fechaFormateada, String autorNombre, String imagen) {
+    public PublicacionDTO(String contenido, String fechaFormateada, String autorNombre, String imagen, String autorImagen) {
         this.contenido = contenido;
         this.fechaFormateada = fechaFormateada;
         this.autorNombre = autorNombre;
         this.imagen = imagen;
+        this.autorImagen = autorImagen;
     }
     public String getContenido() {
         return contenido;
@@ -38,5 +40,13 @@ public class PublicacionDTO {
     }
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public String getAutorImagen() {
+        return autorImagen;
+    }
+
+    public void setAutorImagen(String autorImagen) {
+        this.autorImagen = autorImagen;
     }
 }

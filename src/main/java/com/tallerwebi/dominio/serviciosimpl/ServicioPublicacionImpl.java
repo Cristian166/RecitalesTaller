@@ -124,13 +124,18 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
         return publicaciones.stream().map(pub -> {
             PublicacionDTO dto = new PublicacionDTO();
             dto.setContenido(pub.getContenido());
-            dto.setAutorNombre(
-                    pub.getAutorPublicacion() != null ? pub.getAutorPublicacion().getNombre() : "UsuarioPrueba");
+            // Obtener el nombre del autor, si existe
+            dto.setAutorNombre(pub.getAutorPublicacion() != null ? pub.getAutorPublicacion().getNombre() : "UsuarioPrueba");
+            // Formatear la fecha
             dto.setFechaFormateada(pub.getFechaCreacion() != null
                     ? pub.getFechaCreacion().format(formatter)
                     : "hace unos minutos");
+            // Obtener la imagen de la publicación (si existe)
             dto.setImagen(pub.getImagen());
+            // Añadir la imagen de perfil del autor de la publicación
+            dto.setAutorImagen(pub.getAutorPublicacion() != null ? pub.getAutorPublicacion().getImagen() : null);
             return dto;
         }).collect(Collectors.toList());
     }
+
 }

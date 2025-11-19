@@ -139,6 +139,8 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
 
             dto.setAutorImagen(pub.getAutorPublicacion() != null ? pub.getAutorPublicacion().getImagen() : null);
 
+            dto.setAutorId(pub.getAutorPublicacion().getId());
+
             listaDTO.add(dto);
         }
 

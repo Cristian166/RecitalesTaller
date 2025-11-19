@@ -19,7 +19,7 @@
                 <img src="/spring/img/logo_nombre.png"
                      alt="Logo FANBEAT"
                      style="height: 260px; object-fit: contain; margin-top: -103px; margin-bottom: -103px;">
-            </a>
+            </a>s
         </div>
 
         <div class="d-flex align-items-center">
@@ -33,9 +33,8 @@
                 </span>
             </a>
 
-            <a th:href="@{/perfil}"
-               style="color: #0A2A43; font-weight: 600; text-decoration: none;">
-                <span th:text="${usuario.nombre}">Usuario</span>
+            <a th:href="@{/perfil}" style="color: #0A2A43; font-weight: 600; text-decoration: none;">
+                <span th:text="${usuario != null ? usuario.nombre : 'Invitado'}">Usuario</span>
             </a>
         </div>
 

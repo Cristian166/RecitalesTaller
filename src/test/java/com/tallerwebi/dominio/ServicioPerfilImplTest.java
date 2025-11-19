@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.List;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -129,5 +130,20 @@ public class ServicioPerfilImplTest {
         // validación
         verify(repositorioPerfilMock, times(1))
                 .guardarPreferenciasPorUsuario(usuarioMock.getId(), generos, artistas, regiones, epocas);
+    }
+
+    @Test
+    public void debeObtenerUsuarioPorId(){
+        Usuario usuarioMock = mock(Usuario.class);
+        Long idUsuario = 1L;
+        when(usuarioMock.getId()).thenReturn(idUsuario);
+
+        when(repositorioPerfilMock.obtenerUsuarioPorId(idUsuario)).thenReturn(usuarioMock);
+
+        Usuario usuarioRecuperado = servicioPerfil.obtenerUsuarioPorId(idUsuario);
+
+        verify(repositorioPerfilMock, times(1)).obtenerUsuarioPorId(idUsuario);
+        
+        assertThat(usuarioRecuperado,is(equalTo(usuarioMock)));
     }
 }

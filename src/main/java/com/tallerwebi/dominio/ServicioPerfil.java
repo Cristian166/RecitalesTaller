@@ -30,4 +30,5 @@ public interface ServicioPerfil {
 
     List<String> obtenerEpocas();
 
+    Usuario obtenerUsuarioPorId(Long id);
 }

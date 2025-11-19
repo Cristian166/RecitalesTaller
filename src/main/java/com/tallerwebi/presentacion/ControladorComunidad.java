@@ -226,7 +226,4 @@ public class ControladorComunidad {
 
         return new ArrayList<>(comunidades);  // Convertimos el Set a una lista para devolverla como JSON
     }
-
-
-
 }

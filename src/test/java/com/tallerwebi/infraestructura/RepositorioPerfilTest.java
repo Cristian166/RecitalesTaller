@@ -143,4 +143,23 @@ public class RepositorioPerfilTest {
         assertThat(actualizada.getEpocasSeleccionadas(), contains("90s"));
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void obtenerUsuarioPorId(){
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Carlos");
+        usuario.setApellido("Gomez");
+        usuario.setEmail("carlos@example.com");
+        sessionFactory.getCurrentSession().save(usuario);
+
+        Usuario usuarioRecuperado = repositorio.obtenerUsuarioPorId(usuario.getId());
+
+        assertThat(usuarioRecuperado, is(notNullValue()));
+        assertThat(usuarioRecuperado.getId(), is(equalTo(usuario.getId())));
+        assertThat(usuarioRecuperado.getNombre(), is(equalTo("Carlos")));
+        assertThat(usuarioRecuperado.getApellido(), is(equalTo("Gomez")));
+        assertThat(usuarioRecuperado.getEmail(), is(equalTo("carlos@example.com")));
+    }
+
 }

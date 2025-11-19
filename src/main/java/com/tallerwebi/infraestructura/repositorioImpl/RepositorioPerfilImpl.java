@@ -71,10 +71,8 @@ public class RepositorioPerfilImpl implements RepositorioPerfil {
         }
     }
 
-
-    
-
-
-
-
+    @Override
+    public Usuario obtenerUsuarioPorId(Long id){
+         return sessionfactory.getCurrentSession().get(Usuario.class, id);
+    }
 }

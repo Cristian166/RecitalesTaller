@@ -8,19 +8,20 @@ public class PublicacionDTO {
     private Long id;
     private Boolean destacada;
     private String autorImagen;
-
+    private Long autorId;
     public PublicacionDTO() {
 
     }
 
     public PublicacionDTO(String contenido, String fechaFormateada,
-            String autorNombre, String imagen,String autorImagen, Long id) {
+            String autorNombre, String imagen,String autorImagen, Long id, Long autorId) {
         this.contenido = contenido;
         this.fechaFormateada = fechaFormateada;
         this.autorNombre = autorNombre;
         this.imagen = imagen;
         this.id = id;
         this.autorImagen = autorImagen;
+        this.autorId = autorId;
     }
 
     public String getContenido() {
@@ -77,5 +78,13 @@ public class PublicacionDTO {
 
     public void setAutorImagen(String autorImagen) {
         this.autorImagen = autorImagen;
+    }
+
+    public Long getAutorId() {
+        return autorId;
+    }
+
+    public void setAutorId(Long autorId) {
+        this.autorId = autorId;
     }
 }

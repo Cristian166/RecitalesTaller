@@ -213,7 +213,9 @@
                                      style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div>
-                                <strong th:text="${publicacion.autorNombre}">Nombre Usuario</strong>
+                                <a th:href="@{/perfil-visitado/{id}(id=${publicacion.autorId})}">
+                                    <strong th:text="${publicacion.autorNombre}"></strong>
+                                </a>
                                 <small th:text="${publicacion.fechaFormateada}"></small>
                             </div>
                         </div>

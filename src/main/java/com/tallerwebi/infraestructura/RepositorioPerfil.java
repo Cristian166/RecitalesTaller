@@ -17,4 +17,5 @@ public interface RepositorioPerfil {
     void guardarPreferenciasPorUsuario(Long idUsuario, List<String> generosSeleccionados,
             List<String> artistasSeleccionados, List<String> regionesSeleccionadas, List<String> epocasSeleccionadas);
 
+    Usuario obtenerUsuarioPorId(Long id);
 }

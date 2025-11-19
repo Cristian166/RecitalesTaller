@@ -102,4 +102,10 @@ public class ServicioPerfilImpl implements ServicioPerfil {
         }
     }
 
+    @Override
+    public Usuario obtenerUsuarioPorId(Long id) {
+        return repositorioPerfil.obtenerUsuarioPorId(id);
+    }
+
+
 }

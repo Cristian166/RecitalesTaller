@@ -65,9 +65,6 @@ public class ControladorPerfil {
         return new ModelAndView("perfil", model);
     }
 
-
-  
-
     @GetMapping("/editar-preferencias")
     public ModelAndView irAEditar(HttpSession session) {
 
@@ -126,9 +123,11 @@ public class ControladorPerfil {
         Usuario usuarioVisitado = servicioPerfil.obtenerUsuarioPorId(id);
         Usuario usuarioActual = (Usuario) session.getAttribute("usuario");
 
-        if (usuarioVisitado == null){
+        if (usuarioVisitado == null) {
             return "redirect:/perfil";
         }
+
+        servicioPerfil.asignarInsigniaPorVisitarPerfil(usuarioActual, usuarioVisitado);
 
         PreferenciaUsuario preferenciasVisitado = servicioPerfil.obtenerPreferenciasPorUsuario(usuarioVisitado);
         List<Insignia> insignias = servicioInsignia.obtenerInsigniasDeUsuario(usuarioVisitado);
@@ -137,21 +136,21 @@ public class ControladorPerfil {
         model.addAttribute("usuarioActual", usuarioActual);
         model.addAttribute("usuario", usuarioActual);
 
-        model.addAttribute("nombre",usuarioVisitado.getNombre());
-        model.addAttribute("apellido",usuarioVisitado.getApellido());
-        model.addAttribute("email",usuarioVisitado.getEmail());
-        model.addAttribute("provincia",usuarioVisitado.getProvincia());
-        model.addAttribute("direccion",usuarioVisitado.getDireccion());
-        model.addAttribute("telefono",usuarioVisitado.getTelefono());
+        model.addAttribute("nombre", usuarioVisitado.getNombre());
+        model.addAttribute("apellido", usuarioVisitado.getApellido());
+        model.addAttribute("email", usuarioVisitado.getEmail());
+        model.addAttribute("provincia", usuarioVisitado.getProvincia());
+        model.addAttribute("direccion", usuarioVisitado.getDireccion());
+        model.addAttribute("telefono", usuarioVisitado.getTelefono());
 
-        model.addAttribute("insignias",insignias);
+        model.addAttribute("insignias", insignias);
 
-        if (preferenciasVisitado !=null){
-            model.addAttribute("generos",preferenciasVisitado.getGenerosSeleccionados());
-            model.addAttribute("artistas",preferenciasVisitado.getArtistasSeleccionados());
-            model.addAttribute("regiones",preferenciasVisitado.getRegionesSeleccionadas());
-            model.addAttribute("epocas",preferenciasVisitado.getEpocasSeleccionadas());
-        }else {
+        if (preferenciasVisitado != null) {
+            model.addAttribute("generos", preferenciasVisitado.getGenerosSeleccionados());
+            model.addAttribute("artistas", preferenciasVisitado.getArtistasSeleccionados());
+            model.addAttribute("regiones", preferenciasVisitado.getRegionesSeleccionadas());
+            model.addAttribute("epocas", preferenciasVisitado.getEpocasSeleccionadas());
+        } else {
             model.addAttribute("generos", List.of());
             model.addAttribute("artistas", List.of());
             model.addAttribute("regiones", List.of());

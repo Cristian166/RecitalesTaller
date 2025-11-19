@@ -1,35 +1,29 @@
-<header th:fragment="header"
-        class="shadow-sm"
-        style=" padding: 10px 20px; background-color: white;">
+<header th:fragment="header" class="shadow-sm" style=" padding: 10px 20px; background-color: white;">
 
     <div class="d-flex justify-content-between align-items-center w-100">
 
 
 
         <div class="col-4 text-start" style="width: 118px;">
-                <button class="btn btn-light" 
-                    id="menuToggle" 
-                    style="background-color: #0A2A43; color: white; border-radius: 8px;">
-                    <i class="bi bi-list" style="font-size: 1.6rem;"></i>
-                </button>
-            </div>
+            <button class="btn btn-light" id="menuToggle"
+                style="background-color: #0A2A43; color: white; border-radius: 8px;">
+                <i class="bi bi-list" style="font-size: 1.6rem;"></i>
+            </button>
+        </div>
 
         <div class="flex-grow-1 text-center" style="margin-left: -40px;">
             <a th:href="@{/home}">
-                <img src="/spring/img/logo_nombre.png"
-                     alt="Logo FANBEAT"
-                     style="height: 260px; object-fit: contain; margin-top: -103px; margin-bottom: -103px;">
-            </a>s
+                <img src="/spring/img/logo_nombre.png" alt="Logo FANBEAT"
+                    style="height: 260px; object-fit: contain; margin-top: -103px; margin-bottom: -103px;">
+            </a>
         </div>
 
         <div class="d-flex align-items-center">
 
             <a th:href="@{/notificaciones}" class="position-relative" style="margin-right: 1.25rem">
                 <i class="bi bi-bell-fill text-primary" style="font-size: 2rem; color: #0A2A43;"></i>
-                <span class="badge bg-danger"
-                    th:if="${notificaciones != null and notificaciones.?[!vista].size() > 0}"
-                    style="top: -8px; margin-left: -20px;"
-                    th:text="${notificaciones.?[!vista].size()}">
+                <span class="badge bg-danger" th:if="${notificaciones != null and notificaciones.?[!vista].size() > 0}"
+                    style="top: -8px; margin-left: -20px;" th:text="${notificaciones.?[!vista].size()}">
                 </span>
             </a>
 

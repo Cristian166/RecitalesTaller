@@ -9,24 +9,21 @@ import com.tallerwebi.dominio.entidades.Usuario;
 public interface ServicioPerfil {
 
     List<Preferencia> consultarPreferenciaExistentes();
-    
 
     void guardarPreferencias(Long idUsuario, List<String> generosSeleccionados,
-                             List<String> artistasSeleccionados,
-                             List<String> regionesSeleccionadas,
-                             List<String> epocasSeleccionadas);
+            List<String> artistasSeleccionados,
+            List<String> regionesSeleccionadas,
+            List<String> epocasSeleccionadas);
 
     PreferenciaUsuario obtenerPreferenciasPorUsuario(Usuario usuario);
 
-
     List<String> obtenerGeneros();
-
 
     List<String> obtenerArtistas();
 
+    void asignarInsigniaPorVisitarPerfil(Usuario visitante, Usuario visitado);
 
     List<String> obtenerRegiones();
-
 
     List<String> obtenerEpocas();
 

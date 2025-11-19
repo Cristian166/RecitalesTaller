@@ -63,7 +63,7 @@ INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
 ('Actual', 'Epoca');
 
 INSERT IGNORE INTO Insignia (DTYPE, nombre, descripcion, imagen, efectoVisual) VALUES
-('Insignia', 'Participante', 'Participaste en tu primer recital', '/img/insignias/participante.png', NULL),
+('Insignia', 'Visitante', 'Visitaste otro perfil', '/img/insignias/visitante.png', NULL),
 ('Insignia', 'Activo', 'Hiciste 5 publicaciones', '/img/insignias/activo.png', NULL),
 ('Insignia', 'Top Poster', 'Tu publicacion quedo como destacada', '/img/insignias/top_poster.png', NULL),
 ('Insignia', 'Fanático', 'Marcaste a un artista como favorito', '/img/insignias/fanatico.png', NULL),

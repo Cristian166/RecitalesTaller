@@ -32,7 +32,6 @@ public class ServicioPerfilImpl implements ServicioPerfil {
 
     private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
 
-
     @Autowired
     public ServicioPerfilImpl(RepositorioPerfil repositorioPerfil, ServicioInsignia servicioInsignia,
             RepositorioInsignia repositorioInsignia, RepositorioUsuario repositorioUsuario,
@@ -43,7 +42,6 @@ public class ServicioPerfilImpl implements ServicioPerfil {
         this.repositorioUsuario = repositorioUsuario;
         this.repositorioUsuarioInsignia = repositorioUsuarioInsignia;
     }
-
 
     @Override
     public List<Preferencia> consultarPreferenciaExistentes() {
@@ -107,5 +105,23 @@ public class ServicioPerfilImpl implements ServicioPerfil {
         return repositorioPerfil.obtenerUsuarioPorId(id);
     }
 
+    @Override
+    public void asignarInsigniaPorVisitarPerfil(Usuario visitante, Usuario visitado) {
+
+        if (visitante.getId().equals(visitado.getId())) {
+            return;
+        }
+
+        Long idInsigniaVisita = 1L;
+
+        boolean yaTiene = repositorioUsuarioInsignia.existe(visitante.getId(), idInsigniaVisita);
+
+        if (!yaTiene) {
+            Insignia insignia = repositorioInsignia.obtenerPorId(idInsigniaVisita);
+            if (insignia != null) {
+                servicioInsignia.asignarInsignia(visitante, insignia);
+            }
+        }
+    }
 
 }

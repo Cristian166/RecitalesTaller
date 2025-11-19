@@ -19,8 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Controller
 public class ControladorComunidad {
@@ -33,9 +32,11 @@ public class ControladorComunidad {
     private ServicioEncuesta servicioEncuesta;
 
     @Autowired
-    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioPublicacion servicioPublicacion) {
+    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioPublicacion servicioPublicacion,ServicioEncuesta servicioEncuesta, HttpSession session) {
         this.servicioComunidad = servicioComunidad;
         this.servicioPublicacion = servicioPublicacion;
+        this.servicioEncuesta = servicioEncuesta;
+        this.session = session;
     }
 
     // mostrar comunidades
@@ -209,5 +210,23 @@ public class ControladorComunidad {
 
         return "redirect:/comunidad/" + id;
     }
+
+
+    @GetMapping("/buscar-comunidad")
+    @ResponseBody
+    public List<Map<String, Object>> buscarComunidad(@RequestParam String query) {
+        // Obtener el usuario de la sesión
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return new ArrayList<>();  // Si no hay usuario, retornar una lista vacía
+        }
+
+        // Buscar las comunidades que no tienen al usuario
+        Set<Map<String, Object>> comunidades = servicioComunidad.buscarComunidadesPorNombre(query, usuario);
+
+        return new ArrayList<>(comunidades);  // Convertimos el Set a una lista para devolverla como JSON
+    }
+
+
 
 }

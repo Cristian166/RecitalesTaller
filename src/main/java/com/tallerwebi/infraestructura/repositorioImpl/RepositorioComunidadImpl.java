@@ -98,5 +98,13 @@ public class RepositorioComunidadImpl implements RepositorioComunidad{
                 .setParameter("nombre",nombre)
                 .uniqueResult();
     }
+    @Override
+    public Set<Comunidad> buscarComunidadesPorNombreYNoUnidas(String nombre, Usuario usuario) {
+        return new HashSet<>(getCurrentSession()
+                .createQuery("FROM Comunidad c WHERE c.nombre LIKE :nombre AND :usuario NOT IN (SELECT u FROM c.usuarios u)")
+                .setParameter("nombre", "%" + nombre + "%")
+                .setParameter("usuario", usuario)
+                .list());
+    }
 
 }

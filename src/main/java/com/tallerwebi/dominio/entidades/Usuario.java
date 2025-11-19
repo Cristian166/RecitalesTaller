@@ -26,6 +26,7 @@ public class Usuario {
     private String direccion;
     private String telefono;
     private String rol;
+    private String imagen;
 
     @Column(name = "cantidad_publicaciones")
     private Integer cantidadPublicaciones = 0;
@@ -202,5 +203,13 @@ public class Usuario {
 
     public void setComunidadesCreadasPorElUsuario(Set<Comunidad> comunidadesCreadasPorElUsuario) {
         this.comunidadesCreadasPorElUsuario = comunidadesCreadasPorElUsuario;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }

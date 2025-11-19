@@ -25,7 +25,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -137,6 +136,8 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
             dto.setId(pub.getId());
 
             dto.setDestacada(pub.getDestacada());
+
+            dto.setAutorImagen(pub.getAutorPublicacion() != null ? pub.getAutorPublicacion().getImagen() : null);
 
             listaDTO.add(dto);
         }

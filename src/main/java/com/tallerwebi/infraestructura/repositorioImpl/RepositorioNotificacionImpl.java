@@ -21,7 +21,7 @@ public class RepositorioNotificacionImpl implements RepositorioNotificacion{
     }
 
     @Override
-    public List<Notificacion> obtenerEntradasPorUsuario(Usuario usuario) {
+    public List<Notificacion> obtenerNotificacionesPorUsuario(Usuario usuario) {
        return this.sessionFactory.getCurrentSession()
         .createQuery("FROM Notificacion WHERE usuario.id = :idUsuario ORDER BY id  DESC")
         .setParameter("idUsuario", usuario.getId())

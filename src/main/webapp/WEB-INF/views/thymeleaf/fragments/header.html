@@ -24,11 +24,14 @@
 
         <div class="d-flex align-items-center">
 
-            <a th:href="@{/notificaciones}" class="me-3">
-                <i class="bi bi-bell-fill"
-                   style="font-size: 1.5rem; color: #0A2A43;"></i>
+            <a th:href="@{/notificaciones}" class="position-relative" style="margin-right: 1.25rem">
+                <i class="bi bi-bell-fill text-primary" style="font-size: 2rem; color: #0A2A43;"></i>
+                <span class="badge bg-danger"
+                    th:if="${notificaciones != null and notificaciones.?[!vista].size() > 0}"
+                    style="top: -8px; margin-left: -20px;"
+                    th:text="${notificaciones.?[!vista].size()}">
+                </span>
             </a>
-
 
             <a th:href="@{/perfil}"
                style="color: #0A2A43; font-weight: 600; text-decoration: none;">

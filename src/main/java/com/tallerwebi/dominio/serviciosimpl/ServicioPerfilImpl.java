@@ -32,9 +32,6 @@ public class ServicioPerfilImpl implements ServicioPerfil {
 
     private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
 
-    public ServicioPerfilImpl(RepositorioPerfil repositorioPerfil) {
-        this.repositorioPerfil = repositorioPerfil;
-    }
 
     @Autowired
     public ServicioPerfilImpl(RepositorioPerfil repositorioPerfil, ServicioInsignia servicioInsignia,

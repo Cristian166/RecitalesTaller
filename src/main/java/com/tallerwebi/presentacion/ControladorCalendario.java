@@ -8,10 +8,7 @@ import com.tallerwebi.dominio.ServicioCalendario;
 import com.tallerwebi.dominio.entidades.Entrada;
 import com.tallerwebi.dominio.entidades.Usuario;
 
-import java.time.LocalDate;
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -39,20 +36,9 @@ public class ControladorCalendario {
         if (usuario == null) {
             return "redirect:/login";
         }
-
-        List<Entrada> entradas = servicioCalendario.obtenerEventos(usuario);
-        LocalDate hoy = LocalDate.now();
-
-        List<Entrada> entradasFuturas = entradas.stream()
-                .filter(entrada -> entrada.getFecha() != null &&
-                            (entrada.getFecha().isAfter(hoy) || entrada.getFecha().isEqual(hoy)))
-                .sorted(Comparator.comparing(Entrada::getFecha))
-                .collect(Collectors.toList());
-
-        List<Entrada> entradasPasadas = entradas.stream()
-                .filter(e -> e.getFecha() != null && e.getFecha().isBefore(hoy))
-                .sorted(Comparator.comparing(Entrada::getFecha).reversed())
-                .collect(Collectors.toList());
+        List<Entrada> entradasFuturas = servicioCalendario.obtenerEntradasFuturas(usuario);
+        List<Entrada> entradasPasadas = servicioCalendario.obtenerEntradasPasadas(usuario);
+       
 
         model.addAttribute("entradasFuturas", entradasFuturas);
         model.addAttribute("entradasPasadas", entradasPasadas);

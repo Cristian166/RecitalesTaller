@@ -47,7 +47,7 @@
 }
 
 .concert-card .btn {
-    background-color: rgba(255, 255, 255, 0.8); /* Fondo de los botones con opacidad */
+    background-color: #ffffff; /* Fondo de los botones con opacidad */
     color: #000;
     border: 1px solid rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease; /* Transición para animación */
@@ -58,18 +58,12 @@
     background-color: rgba(255, 255, 255, 1); /* Efecto hover más opaco */
 }
 
-.concert-card .btn-danger {
-    /* Rojo para eliminar */
-}
 
 .concert-card .btn-danger:hover {
     background-color: #f44336; /* Rojo para eliminar */
     color: white;
 }
 
-.concert-card .btn-success {
-    /* Verde para validar */
-}
 
 .concert-card .btn-success:hover {
     background-color: #28a745; /* Verde para validar */

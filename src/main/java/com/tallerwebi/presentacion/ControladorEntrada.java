@@ -32,7 +32,7 @@ public class ControladorEntrada {
         this.servicioEntrada = servicioEntrada;
     }
 
-    @GetMapping("/vista-entradas-recitales")
+    @GetMapping("/mis-entradas")
     public String mostrarMisEntradas(@RequestParam(required = false) String error,
             Model model,
             HttpSession session) {
@@ -50,7 +50,7 @@ public class ControladorEntrada {
             model.addAttribute("mensajeError", "No se pudo eliminar la entrada (no existe).");
         }
 
-        return "vista-entradas-recitales";
+        return "mis-entradas";
     }
 
     @GetMapping("/crear-entrada")
@@ -95,22 +95,24 @@ public class ControladorEntrada {
             }
         }
         servicioEntrada.crearEntrada(entrada, usuario);
-        return "redirect:/vista-entradas-recitales";
+        return "redirect:/mis-entradas";
     }
 
     @PostMapping("/eliminar-entrada")
     public String eliminarEntrada(@RequestParam Long id) {
         try {
             servicioEntrada.eliminarEntrada(id);
-            return "redirect:/vista-entradas-recitales";
+            return "redirect:/mis-entradas";
         } catch (IllegalArgumentException e) {
-            return "redirect:/vista-entradas-recitales?error";
+            return "redirect:/mis-entradas?error";
         }
     }
 
     @GetMapping("/validar-entrada")
-    public ModelAndView mostrarFormularioValidarEntrada(@RequestParam("id") Long id) {
+    public ModelAndView mostrarFormularioValidarEntrada(@RequestParam("id") Long id, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
         ModelAndView modelAndView = new ModelAndView("validar-entrada");
+        modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("entrada", servicioEntrada.buscarPorId(id));
         return modelAndView;
     }

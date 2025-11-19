@@ -25,7 +25,7 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
 
     @Override
     public List<Notificacion> obtenerNotificacionesPorUsuario(Usuario usuario) {
-      return  repositorioNotificacion.obtenerEntradasPorUsuario(usuario);
+      return  repositorioNotificacion.obtenerNotificacionesPorUsuario(usuario);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class ServicioNotificacionImpl implements ServicioNotificacion {
 
     @Override
     public void marcarTodasComoLeidas(Usuario usuario) {
-      List<Notificacion> notificaciones = repositorioNotificacion.obtenerEntradasPorUsuario(usuario);
+      List<Notificacion> notificaciones = repositorioNotificacion.obtenerNotificacionesPorUsuario(usuario);
         for (Notificacion notificacion : notificaciones) {
             notificacion.setVista(true);
         }

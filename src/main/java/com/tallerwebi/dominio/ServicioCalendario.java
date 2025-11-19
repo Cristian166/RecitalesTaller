@@ -8,6 +8,7 @@ import com.tallerwebi.dominio.entidades.Usuario;
 public interface ServicioCalendario {
 
      List<Entrada> obtenerEventos(Usuario usuario);
-
+     List<Entrada> obtenerEntradasFuturas(Usuario usuario);
+     List<Entrada> obtenerEntradasPasadas(Usuario usuario);
     
 }

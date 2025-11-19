@@ -62,7 +62,7 @@ public class ControladorEntradaTest {
         verify(servicioMock).obtenerEntradasPorUsuario(usuario);
         verify(modelMock).addAttribute("entradas", entradasSimuladas);
 
-        assertEquals("vista-entradas-recitales", vistaRetornada);
+        assertEquals("mis-entradas", vistaRetornada);
     }
 
     @Test
@@ -87,7 +87,7 @@ public class ControladorEntradaTest {
         String vistaDevuelta = controlador.agregarEntrada(entrada1, null, sessionMock, modelMock);
 
         verify(servicioMock).crearEntrada(entrada1, usuario);
-        assertEquals("redirect:/vista-entradas-recitales", vistaDevuelta);
+        assertEquals("redirect:/mis-entradas", vistaDevuelta);
 
     }
 
@@ -202,7 +202,7 @@ public class ControladorEntradaTest {
 
         String vista = controlador.eliminarEntrada(999L);
 
-        assertEquals("redirect:/vista-entradas-recitales?error", vista);
+        assertEquals("redirect:/mis-entradas?error", vista);
         verify(servicioMock).eliminarEntrada(999L);
     }
 

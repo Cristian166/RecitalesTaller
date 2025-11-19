@@ -19,7 +19,7 @@ public class Comunidad {
 
     private String imagen;
 
-    @Column (length = 15)
+    @Column(length = 15)
     private String paisOrigen;
 
     @Column(length = 15)
@@ -35,11 +35,14 @@ public class Comunidad {
     @OneToMany(mappedBy = "comunidad", cascade = CascadeType.REMOVE)
     private List<Encuesta> encuestas;
 
+    @OneToOne
+    private Publicacion publicacionDestacada;
+
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    private Usuario usuarioCreador; //admin
+    private Usuario usuarioCreador; // admin
 
-    @Transient  // Esto evita que se persista en la base de datos
+    @Transient // Esto evita que se persista en la base de datos
     private long cantidadMiembros;
 
     public Comunidad() {
@@ -92,6 +95,14 @@ public class Comunidad {
 
     public String getIdioma() {
         return idioma;
+    }
+
+    public Publicacion getPublicacionDestacada() {
+        return publicacionDestacada;
+    }
+
+    public void setPublicacionDestacada(Publicacion publicacionDestacada) {
+        this.publicacionDestacada = publicacionDestacada;
     }
 
     public void setIdioma(String idioma) {

@@ -33,7 +33,9 @@ public class RepositorioPublicacionImpl implements RepositorioPublicacion {
     @Override
     public List<Publicacion> obtenerPorComunidad(Long comunidadId) {
         return getCurrentSession()
-                .createQuery("FROM Publicacion p WHERE p.comunidad.id = :id ORDER BY p.fechaCreacion DESC",
+                .createQuery(
+                        "FROM Publicacion p WHERE p.comunidad.id = :id " +
+                                "ORDER BY p.destacada DESC, p.fechaCreacion DESC",
                         Publicacion.class)
                 .setParameter("id", comunidadId)
                 .list();

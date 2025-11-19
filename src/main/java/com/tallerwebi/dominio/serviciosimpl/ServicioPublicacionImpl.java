@@ -22,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -50,7 +51,8 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
     public ServicioPublicacionImpl(RepositorioPublicacion repositorioPublicacion,
             RepositorioComunidad repositorioComunidad,
             RepositorioUsuario repositorioUsuario, RepositorioInsignia repositorioInsignia,
-            ServicioInsignia servicioInsignia, RepositorioUsuarioInsignia repositorioUsuarioInsignia, RepositorioNotificacion repositorioNotificacion) {
+            ServicioInsignia servicioInsignia, RepositorioUsuarioInsignia repositorioUsuarioInsignia,
+            RepositorioNotificacion repositorioNotificacion) {
         this.repositorioPublicacion = repositorioPublicacion;
         this.repositorioComunidad = repositorioComunidad;
         this.repositorioUsuario = repositorioUsuario;
@@ -87,7 +89,6 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
             }
         }
 
-
         Set<Usuario> miembros = repositorioComunidad.obtenerMiembros(comunidadId);
 
         for (Usuario miembro : miembros) {
@@ -96,15 +97,13 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
                 Notificacion notificacion = new Notificacion();
                 notificacion.setNombreNotificacion("Nueva publicación en " + comunidad.getNombre());
                 notificacion.setDescripcionNotificacion(
-                    usuario.getNombre() + " publicó algo nuevo en la comunidad ");
-                notificacion.setLink("/comunidad/"+comunidadId);
+                        usuario.getNombre() + " publicó algo nuevo en la comunidad ");
+                notificacion.setLink("/comunidad/" + comunidadId);
                 notificacion.setUsuario(miembro);
 
                 repositorioNotificacion.agregarNotificacion(miembro, notificacion);
             }
         }
-        
-            
 
         repositorioUsuario.modificar(usuarioActualizado);
 
@@ -117,20 +116,38 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
         return repositorioPublicacion.obtenerPorComunidad(comunidadId);
     }
 
+    @Override
     public List<PublicacionDTO> listarPublicacionesDTOPorComunidad(Long comunidadId) {
         List<Publicacion> publicaciones = repositorioPublicacion.obtenerPorComunidad(comunidadId);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
-        return publicaciones.stream().map(pub -> {
+        List<PublicacionDTO> listaDTO = new ArrayList<>();
+
+        for (Publicacion pub : publicaciones) {
             PublicacionDTO dto = new PublicacionDTO();
+
             dto.setContenido(pub.getContenido());
             dto.setAutorNombre(
                     pub.getAutorPublicacion() != null ? pub.getAutorPublicacion().getNombre() : "UsuarioPrueba");
-            dto.setFechaFormateada(pub.getFechaCreacion() != null
-                    ? pub.getFechaCreacion().format(formatter)
-                    : "hace unos minutos");
+
+            dto.setFechaFormateada(
+                    pub.getFechaCreacion() != null ? pub.getFechaCreacion().format(formatter) : "hace unos minutos");
+
             dto.setImagen(pub.getImagen());
-            return dto;
-        }).collect(Collectors.toList());
+            dto.setId(pub.getId());
+
+            dto.setDestacada(pub.getDestacada());
+
+            listaDTO.add(dto);
+        }
+
+        return listaDTO;
+    }
+
+    @Override
+    public Publicacion buscarPublicacionPorId(Long pubId) {
+
+        return repositorioPublicacion.obtenerPorId(pubId);
+
     }
 }

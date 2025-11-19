@@ -11,7 +11,7 @@
 
     <!-- Enlace a los archivos CSS -->
     <link rel="stylesheet" th:href="@{/css/menu.css}">
-    <link rel="stylesheet" th:href="@{/css/fondo.css}" >
+    <link rel="stylesheet" th:href="@{/css/fondo.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
     <link rel="stylesheet" th:href="@{/css/comunidad.css}" />
 
@@ -21,12 +21,53 @@
             height: 100%;
         }
 
+        .estrella-destacada {
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            background: gold;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .post-destacada {
+            border: 2px solid gold;
+            border-radius: 8px;
+            padding: 10px;
+        }
+
         .post-contenido {
             white-space: pre-wrap;
             overflow-wrap: break-word;
             word-break: break-word;
         }
 
+        .post {
+            position: relative;
+        }
+
+        .menu-dots {
+            background: transparent;
+            border: none !important;
+            font-size: 22px;
+            color: #666;
+        }
+
+        .menu-dots:hover {
+            color: #333;
+        }
+
+        .dropdown-menu {
+            min-width: 150px;
+            border-radius: 8px;
+        }
 
         body {
             display: flex;
@@ -41,7 +82,9 @@
 </head>
 
 <body>
-<div class="fondo-moderno"></div>
+
+    <div class="fondo-moderno"></div>
+
     <!-- HEADER con el botón de menú -->
     <header class="bg-secondary text-white p-3">
         <div class="container">
@@ -97,12 +140,8 @@
                         <div class="flex-grow-1">
                             <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}"
                                 th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
-
-                                <!-- TEXTAREA con contador -->
-                                <textarea th:field="*{contenido}" id="postText" rows="3" maxlength="500"
+                                <textarea th:field="*{contenido}" rows="3" maxlength="500"
                                     placeholder="Escribir publicación para publicar..." required></textarea>
-
-                                <!-- Contador de caracteres -->
                                 <small id="charCount">0 / 500</small>
 
                                 <div class="d-flex justify-content-between align-items-center mt-2">
@@ -116,8 +155,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Script del contador -->
                 <script>
                     const textarea = document.getElementById("postText");
                     const counter = document.getElementById("charCount");
@@ -127,7 +164,6 @@
                         counter.textContent = textarea.value.length + " / " + max;
                     });
                 </script>
-
 
 
                 <!-- Encuesta activa -->
@@ -171,7 +207,11 @@
                 <!-- Publicaciones -->
                 <div>
                     <h5 class="mb-3">Publicaciones</h5>
-                    <div class="post mb-3" th:each="publicacion : ${publicaciones}">
+                    <div class="post mb-3" th:each="publicacion : ${publicaciones}"
+                        th:classappend="${publicacion.destacada} ? ' post-destacada'">
+                        <div th:if="${publicacion.destacada}" class="estrella-destacada">
+                            &#9733;
+                        </div>
                         <div class="user-info">
                             <div class="user-img"></div>
                             <div>
@@ -184,17 +224,53 @@
                             <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="imagen publicación"
                                 style="max-width:300px; max-height:300px; margin-top:5px;" />
                         </div>
+                        <!-- MENU DE OPCIONES (solo creador) -->
+                        <div class="dropdown" th:if="${usuario.id == comunidad.usuarioCreador.id}"
+                            style="position: absolute; right: 10px; top: 10px;">
+
+                            <button class="btn btn-sm menu-dots" type="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                ...
+                            </button>
+
+                            <ul class="dropdown-menu dropdown-menu-end">
+
+                                <!-- Destacar -->
+                                <li th:if="${!(publicacion.destacada ?: false)}">
+                                    <form
+                                        th:action="@{'/comunidad/' + ${comunidad.id} + '/destacar/' + ${publicacion.id}}"
+                                        method="post">
+                                        <button class="dropdown-item text-warning" type="submit">&#9733;
+                                            Destacar</button>
+                                    </form>
+                                </li>
+
+                                <!-- Quitar destacado -->
+                                <li th:if="${publicacion.destacada ?: false}">
+                                    <form
+                                        th:action="@{'/comunidad/' + ${comunidad.id} + '/quitar-destacado/' + ${publicacion.id}}"
+                                        method="post">
+                                        <button class="dropdown-item text-danger" type="submit">&#10006; Quitar
+                                            destacado</button>
+                                    </form>
+                                </li>
+
+                            </ul>
+                        </div>
+
+
                     </div>
                 </div>
 
             </div>
 
             <!-- Derecha -->
-            <div class="col-lg-4 col-md-12">
+            <div class=" col-lg-4 col-md-12">
                 <div class="glass-panel">
                     <div>
                         <p><strong>Creador de la comunidad: </strong><span
-                                th:text="${comunidad.usuarioCreador.nombre}">Nombre del Creador</span></p>
+                                th:text="${comunidad.usuarioCreador.nombre}">Nombre del Creador</span>
+                        </p>
                     </div>
                     <div>
                         <form th:action="@{/comunidades}">

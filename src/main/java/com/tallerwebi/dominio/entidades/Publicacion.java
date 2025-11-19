@@ -9,7 +9,7 @@ public class Publicacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column (length = 500)
+    @Column(length = 500)
     private String contenido;
 
     private LocalDateTime fechaCreacion;
@@ -18,6 +18,8 @@ public class Publicacion {
 
     @Transient
     private String fechaFormateada;
+
+    private Boolean destacada = false;
 
     @ManyToOne
     @JoinColumn(name = "id_usuario_fk")
@@ -30,54 +32,75 @@ public class Publicacion {
     public Publicacion() {
 
     }
+
     public Publicacion(String contenido, Usuario autorPublicacion, Comunidad comunidad) {
         this.contenido = contenido;
         this.autorPublicacion = autorPublicacion;
         this.comunidad = comunidad;
     }
 
-    //getters y setters
+    // getters y setters
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getContenido(){
+    public String getContenido() {
         return contenido;
     }
-    public void setContenido(String contenido){
+
+    public void setContenido(String contenido) {
         this.contenido = contenido;
     }
-    public LocalDateTime getFechaCreacion(){
+
+    public LocalDateTime getFechaCreacion() {
         return fechaCreacion;
     }
-    public void setFechaCreacion(LocalDateTime fechaCreacion){
+
+    public void setFechaCreacion(LocalDateTime fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
-    public String getImagen(){
+
+    public String getImagen() {
         return imagen;
     }
-    public void setImagen(String imagen){
+
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
-    public String getFechaFormateada(){
+
+    public String getFechaFormateada() {
         return fechaFormateada;
     }
-    public void setFechaFormateada(String fechaFormateada){
+
+    public void setFechaFormateada(String fechaFormateada) {
         this.fechaFormateada = fechaFormateada;
     }
-    public Usuario getAutorPublicacion(){
+
+    public Usuario getAutorPublicacion() {
         return autorPublicacion;
     }
+
     public void setAutorPublicacion(Usuario usuario) {
         this.autorPublicacion = usuario;
     }
-    public Comunidad getComunidad(){
+
+    public Comunidad getComunidad() {
         return comunidad;
     }
-    public void setComunidad(Comunidad comunidad){
+
+    public void setComunidad(Comunidad comunidad) {
         this.comunidad = comunidad;
+    }
+
+    public Boolean getDestacada() {
+        return destacada;
+    }
+
+    public void setDestacada(Boolean destacada) {
+        this.destacada = destacada;
     }
 }

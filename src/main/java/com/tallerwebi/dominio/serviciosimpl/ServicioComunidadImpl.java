@@ -4,9 +4,11 @@ import com.tallerwebi.dominio.ServicioComunidad;
 import com.tallerwebi.dominio.ServicioInsignia;
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Insignia;
+import com.tallerwebi.dominio.entidades.Publicacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.infraestructura.RepositorioComunidad;
 import com.tallerwebi.infraestructura.RepositorioInsignia;
+import com.tallerwebi.infraestructura.RepositorioPublicacion;
 import com.tallerwebi.infraestructura.RepositorioUsuario;
 import com.tallerwebi.infraestructura.RepositorioUsuarioInsignia;
 
@@ -25,6 +27,7 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     private RepositorioInsignia repositorioInsignia;
     private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
     private RepositorioUsuario repositorioUsuario;
+    private RepositorioPublicacion repositorioPublicacion;
 
     public ServicioComunidadImpl(RepositorioComunidad repositorioComunidad) {
         this.repositorioComunidad = repositorioComunidad;
@@ -35,12 +38,14 @@ public class ServicioComunidadImpl implements ServicioComunidad {
             RepositorioInsignia repositorioInsignia,
             ServicioInsignia servicioInsignia,
             RepositorioUsuario repositorioUsuario,
-            RepositorioUsuarioInsignia repositorioUsuarioInsignia) {
+            RepositorioUsuarioInsignia repositorioUsuarioInsignia,
+            RepositorioPublicacion repositorioPublicacion) {
         this.repositorioComunidad = repositorioComunidad;
         this.repositorioInsignia = repositorioInsignia;
         this.servicioInsignia = servicioInsignia;
         this.repositorioUsuarioInsignia = repositorioUsuarioInsignia;
         this.repositorioUsuario = repositorioUsuario;
+        this.repositorioPublicacion = repositorioPublicacion;
     }
 
     @Override
@@ -108,13 +113,63 @@ public class ServicioComunidadImpl implements ServicioComunidad {
 
     @Transactional
     @Override
-    public long contarMiembrosComunidad(Long comunidadId){
+    public long contarMiembrosComunidad(Long comunidadId) {
         return repositorioComunidad.contarMiembrosDeComunidad(comunidadId);
     }
+
     @Transactional(readOnly = true)
     @Override
-    public boolean existeComunidadPorNombre(String nombre){
-        return repositorioComunidad.obtenerComunidadPorNombre(nombre) !=null;
+    public boolean existeComunidadPorNombre(String nombre) {
+        return repositorioComunidad.obtenerComunidadPorNombre(nombre) != null;
+    }
+
+    @Override
+    @Transactional
+    public void destacarPublicacion(Long idComunidad, Long idPublicacion, Usuario actual) {
+        Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(idComunidad);
+        Publicacion publicacion = repositorioPublicacion.obtenerPorId(idPublicacion);
+
+        if (comunidad == null) {
+            throw new RuntimeException("La comunidad no existe");
+        }
+
+        if (comunidad.getPublicacionDestacada() != null) {
+            Publicacion anterior = comunidad.getPublicacionDestacada();
+            anterior.setDestacada(false);
+            repositorioPublicacion.guardar(anterior);
+        }
+
+        publicacion.setDestacada(true);
+
+        comunidad.setPublicacionDestacada(publicacion);
+
+        repositorioPublicacion.guardar(publicacion);
+        repositorioComunidad.guardarUnaComunidad(comunidad);
+    }
+
+    @Override
+    @Transactional
+    public void quitarDestacado(Long idComunidad, Long idPublicacion, Usuario actual) {
+        Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(idComunidad);
+        Publicacion publicacion = repositorioPublicacion.obtenerPorId(idPublicacion);
+
+        if (comunidad == null) {
+            throw new RuntimeException("La comunidad no existe");
+        }
+
+        if (!comunidad.getUsuarioCreador().getId().equals(actual.getId())) {
+            throw new RuntimeException("No tenés permiso para quitar destacados");
+        }
+
+        if (comunidad.getPublicacionDestacada() != null &&
+                comunidad.getPublicacionDestacada().getId().equals(idPublicacion)) {
+
+            comunidad.setPublicacionDestacada(null);
+            publicacion.setDestacada(false);
+
+            repositorioPublicacion.guardar(publicacion);
+            repositorioComunidad.guardarUnaComunidad(comunidad);
+        }
     }
 
 }

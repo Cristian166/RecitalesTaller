@@ -144,16 +144,31 @@ public class ControladorComunidad {
         }
     }
 
+    @PostMapping("/comunidad/{id}/quitar-destacado/{pubId}")
+    public String quitarDestacado(
+            @PathVariable Long id,
+            @PathVariable Long pubId) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null)
+            return "redirect:/login";
+
+        servicioComunidad.quitarDestacado(id, pubId, usuario);
+
+        return "redirect:/comunidad/" + id;
+    }
+
     @PostMapping("/comunidades/crear")
-    public String crearUnaComunidad(@ModelAttribute Comunidad comunidad, @RequestParam("imagenArchivo") MultipartFile imagenArchivo, Model model){
+    public String crearUnaComunidad(@ModelAttribute Comunidad comunidad,
+            @RequestParam("imagenArchivo") MultipartFile imagenArchivo, Model model) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
         if (usuario != null && usuario.getEsPremium()) {
 
             if (servicioComunidad.existeComunidadPorNombre(comunidad.getNombre())) {
                 model.addAttribute("error", "Ya existe una comunidad con este nombre.");
-                model.addAttribute("nuevaComunidad",comunidad);
-                return "crear-comunidad";  // Devolver la misma vista con el mensaje de error.
+                model.addAttribute("nuevaComunidad", comunidad);
+                return "crear-comunidad"; // Devolver la misma vista con el mensaje de error.
             }
 
             if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
@@ -178,4 +193,21 @@ public class ControladorComunidad {
         }
         return "redirect:/comunidades";
     }
+
+    @PostMapping("/comunidad/{id}/destacar/{pubId}")
+    public String destacarPublicacion(
+            @PathVariable Long id,
+            @PathVariable Long pubId) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        servicioComunidad.destacarPublicacion(id, pubId, usuario);
+
+        return "redirect:/comunidad/" + id;
+    }
+
 }

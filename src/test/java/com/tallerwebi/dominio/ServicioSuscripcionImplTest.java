@@ -1,7 +1,5 @@
 package com.tallerwebi.dominio;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -13,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.hamcrest.CoreMatchers.is;
 
 import com.tallerwebi.dominio.entidades.Insignia;
-import com.tallerwebi.dominio.entidades.Notificacion;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.serviciosimpl.ServicioSuscripcionImpl;
 import com.tallerwebi.infraestructura.RepositorioInsignia;
@@ -59,13 +56,15 @@ public class ServicioSuscripcionImplTest {
     @Test
     public void dadoQueElUsuarioPagaEntoncesQuedaMarcadoComoPremium() {
 
-        when(usuarioSesion.getId()).thenReturn(1L); 
+        usuarioSesion = new Usuario();
+        usuarioSesion.setId(1L);
+        usuarioSesion.setEsPremium(false);
+
         when(repositorioInsignia.obtenerPorId(8L)).thenReturn(insigniaPremium);
 
         servicioSuscripcion.procesarPagoPremium(usuarioSesion);
 
-        assertTrue(usuarioSesion.getEsPremium());
-        verify(repositorioUsuario).modificar(usuarioSesion);
+        assertTrue(usuarioSesion.getEsPremium(),"El usuario deberia ser premium despues de pagar.");
     }
 
     @Test
@@ -88,12 +87,19 @@ public class ServicioSuscripcionImplTest {
     @Test
     public void siNoExisteLaInsigniaIgualSeMarcaPremium() {
 
-        when(repositorioUsuario.buscarId(1L)).thenReturn(usuarioBD);
+        usuarioSesion = new Usuario();
+        usuarioSesion.setId(1L);
+        usuarioSesion.setEsPremium(false); 
+
+        when(repositorioUsuario.buscarId(1L)).thenReturn(usuarioSesion);
+
         when(repositorioInsignia.obtenerPorId(8L)).thenReturn(null);
 
         servicioSuscripcion.procesarPagoPremium(usuarioSesion);
+        
+        assertThat(usuarioSesion.getEsPremium(), is(true));
 
-        assertThat(usuarioBD.getEsPremium(), is(true));
+        verify(repositorioUsuario).modificar(usuarioSesion);
     }
 
 }

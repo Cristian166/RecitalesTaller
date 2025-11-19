@@ -5,6 +5,7 @@ import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.excepcion.UsuarioExistente;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,10 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class ControladorLoginTest {
 
@@ -72,29 +73,36 @@ public class ControladorLoginTest {
 
 	@Test
 	public void registrarUsuarioSiNoExisteDeberiaCrearUsuarioYRedirigirAlLogin() throws UsuarioExistente {
-		/*
+		
 		// preparacion
 		Usuario usuarioMock = new Usuario();
 		usuarioMock.setEmail("test@correo.com");
 		usuarioMock.setPassword("123456");
 		
+		MockMultipartFile imagenArchivo = new MockMultipartFile(
+            "imagenArchivo", 
+            "testimagen.jpg", 
+            "image/jpeg", 
+            "contenido de imagen".getBytes()
+        );
+
 		when(servicioLoginMock.registrar(usuarioMock)).thenReturn(usuarioMock);
 		
 
 		Model model = new ExtendedModelMap(); // esto simula el Model de Spring
 
 		// ejecucion
-		String vista = controladorLogin.registrarUsuario(usuarioMock, "123456", model);
+		String vista = controladorLogin.registrarUsuario(usuarioMock, "123456", imagenArchivo, model);
 
 		// validacion
 		assertThat(vista, equalToIgnoringCase("redirect:/login"));
-		verify(servicioLoginMock, times(1)).registrar(usuarioMock);*/
+		verify(servicioLoginMock, times(1)).registrar(usuarioMock);
 	}
 
 
 	@Test
 	public void registrarUsuarioSiUsuarioExisteDeberiaVolverAlFormularioConError() throws UsuarioExistente {
-		/*
+		
 		// preparación
 		Usuario usuarioMock = new Usuario();
 		usuarioMock.setEmail("test@correo.com");
@@ -104,15 +112,21 @@ public class ControladorLoginTest {
 		doThrow(new UsuarioExistente("El usuario ya existe"))
 			.when(servicioLoginMock).registrar(usuarioMock);
 
+		MockMultipartFile imagenArchivo = new MockMultipartFile(
+            "imagenArchivo", 
+            "",  // nombre vacío
+            "image/jpeg", 
+            new byte[0]  // contenido vacío
+        );
+
 		Model model = new ExtendedModelMap();
 
 		// ejecución
-		String vista = controladorLogin.registrarUsuario(usuarioMock, "123456", model);
+		String vista = controladorLogin.registrarUsuario(usuarioMock,"123456", imagenArchivo, model);
 
 		// validación
-		assertThat(vista, equalToIgnoringCase("registro"));
-		assertThat(model.getAttribute("error").toString(), equalTo(("El usuario ya existe")));
-		ERROR VERIFICAR 
-		*/
+		assertThat(vista, equalToIgnoringCase("nuevo-usuario"));
+		assertThat(model.getAttribute("error").toString(), equalTo("El usuario ya existe"));
+
 	}
 }

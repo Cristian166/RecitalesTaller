@@ -113,6 +113,7 @@ public class ServicioComunidadImpl implements ServicioComunidad {
     public long contarMiembrosComunidad(Long comunidadId){
         return repositorioComunidad.contarMiembrosDeComunidad(comunidadId);
     }
+    
     @Transactional(readOnly = true)
     @Override
     public boolean existeComunidadPorNombre(String nombre){

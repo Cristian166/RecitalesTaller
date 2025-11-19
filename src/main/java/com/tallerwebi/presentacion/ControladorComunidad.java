@@ -25,16 +25,18 @@ import java.util.*;
 public class ControladorComunidad {
     private final ServicioComunidad servicioComunidad;
     private final ServicioPublicacion servicioPublicacion;
-
-    @Autowired
-    private HttpSession session;
     @Autowired
     private ServicioEncuesta servicioEncuesta;
+    @Autowired
+    private HttpSession session;
+
 
     @Autowired
-    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioPublicacion servicioPublicacion) {
+    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioPublicacion servicioPublicacion,ServicioEncuesta servicioEncuesta, HttpSession session) {
         this.servicioComunidad = servicioComunidad;
         this.servicioPublicacion = servicioPublicacion;
+        this.servicioEncuesta = servicioEncuesta;
+        this.session = session;
     }
 
     // mostrar comunidades

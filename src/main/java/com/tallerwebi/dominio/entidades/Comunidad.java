@@ -3,6 +3,7 @@ package com.tallerwebi.dominio.entidades;
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -138,4 +139,15 @@ public class Comunidad {
         this.imagen = imagen;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comunidad comunidad = (Comunidad) o;
+        return Objects.equals(id, comunidad.id);  // Comparar por ID, o por nombre si es lo que se desea
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);  // O por nombre, dependiendo de lo que sea único en la comunidad
+    }
 }

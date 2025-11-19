@@ -140,8 +140,21 @@ public class ServicioComunidadImpl implements ServicioComunidad {
         }
 
         publicacion.setDestacada(true);
-
         comunidad.setPublicacionDestacada(publicacion);
+
+        Usuario autor = publicacion.getAutorPublicacion();
+
+        Long idInsigniaDestacado = 3L;
+
+        boolean yaLaTiene = repositorioUsuarioInsignia.existe(autor.getId(), idInsigniaDestacado);
+
+        if (!yaLaTiene) {
+            Insignia insignia = repositorioInsignia.obtenerPorId(idInsigniaDestacado);
+
+            if (insignia != null) {
+                servicioInsignia.asignarInsignia(autor, insignia);
+            }
+        }
 
         repositorioPublicacion.guardar(publicacion);
         repositorioComunidad.guardarUnaComunidad(comunidad);

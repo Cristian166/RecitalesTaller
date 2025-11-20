@@ -13,10 +13,8 @@ public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String nombre;
     private String apellido;
-    
 
     @Column(unique = true)
     private String email;
@@ -212,4 +210,19 @@ public class Usuario {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
+    public boolean isEmailvalido() {
+        return email != null && email.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@[a-zA-Z0-9-]+\\.com$");
+    }
+
+    public boolean isTelefonoValido(){
+        return telefono != null && telefono.matches("^\\+?[0-9]*$");
+    }
+
+    public boolean isPasswordValido(){
+        return password !=null && password.length() >= 6;
+    }
+    public boolean esValido(){
+        return isEmailvalido() && isTelefonoValido() && isPasswordValido();
+    }
+
 }

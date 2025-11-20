@@ -10,6 +10,7 @@
     <link rel="stylesheet" th:href="@{/css/menu.css}">
     <link rel="stylesheet" th:href="@{/css/fondo.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+
     <style>
         body {
             background-color: #f8f9fa;
@@ -55,6 +56,25 @@
             /* Color rojo de Bootstrap */
             font-size: 1rem;
             margin-top: 20px;
+        }
+
+        .btn-glass {
+            background-color: white;
+            color: black;
+            /* Texto negro */
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            /* Sin borde */
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            /* Transición suave */
+        }
+
+        .btn-glass:hover {
+            background-color: #5893df;
+            /* Azul pastel al pasar el mouse */
+            color: black;
+            /* Texto negro */
         }
     </style>
 </head>
@@ -133,7 +153,7 @@
                 </div>
 
                 <div class="text-end mt-4">
-                    <button type="submit" class="btn btn-primary">Crear Comunidad</button>
+                    <button type="submit" class="btn btn-primary btn-glass">Crear Comunidad</button>
                 </div>
             </form>
         </div>

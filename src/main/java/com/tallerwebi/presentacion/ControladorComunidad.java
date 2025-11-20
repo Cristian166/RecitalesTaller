@@ -32,7 +32,8 @@ public class ControladorComunidad {
     private ServicioEncuesta servicioEncuesta;
 
     @Autowired
-    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioPublicacion servicioPublicacion,ServicioEncuesta servicioEncuesta, HttpSession session) {
+    public ControladorComunidad(ServicioComunidad servicioComunidad, ServicioPublicacion servicioPublicacion,
+            ServicioEncuesta servicioEncuesta, HttpSession session) {
         this.servicioComunidad = servicioComunidad;
         this.servicioPublicacion = servicioPublicacion;
         this.servicioEncuesta = servicioEncuesta;
@@ -210,19 +211,40 @@ public class ControladorComunidad {
         return "redirect:/comunidad/" + id;
     }
 
-
     @GetMapping("/buscar-comunidad")
     @ResponseBody
     public List<Map<String, Object>> buscarComunidad(@RequestParam String query) {
         // Obtener el usuario de la sesión
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
-            return new ArrayList<>();  // Si no hay usuario, retornar una lista vacía
+            return new ArrayList<>(); // Si no hay usuario, retornar una lista vacía
         }
 
         // Buscar las comunidades que no tienen al usuario
         Set<Map<String, Object>> comunidades = servicioComunidad.buscarComunidadesPorNombre(query, usuario);
 
-        return new ArrayList<>(comunidades);  // Convertimos el Set a una lista para devolverla como JSON
+        return new ArrayList<>(comunidades); // Convertimos el Set a una lista para devolverla como JSON
     }
+
+    @PostMapping("/comunidad/{id}/eliminar-publicacion/{publicacionId}")
+    public String eliminarPublicacion(@PathVariable Long id,
+            @PathVariable Long publicacionId) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        Publicacion publicacion = servicioPublicacion.buscarPublicacionPorId(publicacionId);
+        Comunidad comunidad = servicioComunidad.obtenerComunidad(id);
+
+        if (!usuario.getId().equals(comunidad.getUsuarioCreador().getId()) &&
+                !usuario.getId().equals(publicacion.getAutorPublicacion().getId())) {
+            throw new RuntimeException("No tenés permiso para eliminar esta publicación");
+        }
+
+        servicioComunidad.eliminarPublicacion(comunidad.getId(), publicacionId, usuario);
+
+        return "redirect:/comunidad/" + id;
+    }
+
 }

@@ -25,7 +25,7 @@ public class ControladorEncuesta {
     private HttpSession session;
 
     @Autowired
-    public ControladorEncuesta( ServicioEncuesta servicioEncuesta,
+    public ControladorEncuesta(ServicioEncuesta servicioEncuesta,
             ServicioComunidad servicioComunidad,
             HttpSession session) {
         this.servicioEncuesta = servicioEncuesta;
@@ -43,6 +43,7 @@ public class ControladorEncuesta {
         }
 
         model.addAttribute("comunidad", comunidad);
+        model.addAttribute("usuario", usuario);
         return "crear-encuesta";
     }
 

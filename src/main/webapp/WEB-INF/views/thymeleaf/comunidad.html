@@ -228,19 +228,18 @@
                             <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="Imagen publicación"
                                 style="max-width:300px; max-height:300px; margin-top:5px;" />
                         </div>
-                        <!-- MENU DE OPCIONES (solo creador) -->
-                        <div class="dropdown" th:if="${usuario.id == comunidad.usuarioCreador.id}"
+                        <!-- MENU DE OPCIONES (mostrado para el creador de la comunidad o el autor de la publicación) -->
+                        <div class="dropdown"
+                            th:if="${usuario.id == comunidad.usuarioCreador.id or usuario.id == publicacion.autorId}"
                             style="position: absolute; right: 10px; top: 10px;">
-
                             <button class="btn btn-sm menu-dots" type="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 ...
                             </button>
-
                             <ul class="dropdown-menu dropdown-menu-end">
-
-                                <!-- Destacar -->
-                                <li th:if="${!(publicacion.destacada ?: false)}">
+                                <!-- Destacar (solo visible para el creador de la comunidad) -->
+                                <li
+                                    th:if="${usuario.id == comunidad.usuarioCreador.id and !(publicacion.destacada ?: false)}">
                                     <form
                                         th:action="@{'/comunidad/' + ${comunidad.id} + '/destacar/' + ${publicacion.id}}"
                                         method="post">
@@ -249,8 +248,9 @@
                                     </form>
                                 </li>
 
-                                <!-- Quitar destacado -->
-                                <li th:if="${publicacion.destacada ?: false}">
+                                <!-- Quitar destacado (solo visible para el creador de la comunidad) -->
+                                <li
+                                    th:if="${usuario.id == comunidad.usuarioCreador.id and publicacion.destacada ?: false}">
                                     <form
                                         th:action="@{'/comunidad/' + ${comunidad.id} + '/quitar-destacado/' + ${publicacion.id}}"
                                         method="post">
@@ -259,10 +259,18 @@
                                     </form>
                                 </li>
 
+                                <!-- Eliminar publicación (visible para el creador de la comunidad o el autor de la publicación) -->
+                                <li>
+                                    <form
+                                        th:action="@{'/comunidad/' + ${comunidad.id} + '/eliminar-publicacion/' + ${publicacion.id}}"
+                                        method="post">
+                                        <button class="dropdown-item text-danger" type="submit">&#128465; Eliminar
+                                            publicación</button>
+                                    </form>
+                                </li>
+
                             </ul>
                         </div>
-
-
                     </div>
                 </div>
 

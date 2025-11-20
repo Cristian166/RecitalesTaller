@@ -75,9 +75,7 @@
 
 /* 🧊 Paneles glass */
 .glass-panel {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(22px) saturate(130%);
-    -webkit-backdrop-filter: blur(22px) saturate(130%);
+    background: white;
     border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 15px;
     box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
@@ -90,7 +88,7 @@
     background-color: white;
     color: black;
     /* Texto negro */
-    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     /* Sin borde */
     padding: 10px 20px;
     border-radius: 5px;
@@ -159,9 +157,7 @@
 
 /* Publicaciones */
 .post {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: white;
     border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 15px;
     padding: 1rem;
@@ -248,20 +244,24 @@ body::before {
 }
 
 .glass-panel {
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(22px) saturate(130%);
-    -webkit-backdrop-filter: blur(22px) saturate(130%);
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    background: white;
+    /* fondo blanco */
+    border: 1px solid #ccc;
+    /* borde sutil */
     border-radius: 15px;
-    box-shadow: 0 8px 35px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* sombra suave */
     padding: 1.5rem;
     color: #111;
+    backdrop-filter: none;
+    /* quitamos el blur */
+    -webkit-backdrop-filter: none;
 }
 
 .btn-glass {
     background-color: white;
     color: black;
-    border: none;
+    border: 1px solid rgba(0, 0, 0, 0.2);
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
@@ -315,9 +315,7 @@ body::before {
 
 
 .post {
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+    background: white;
     border: 1px solid rgba(255, 255, 255, 0.35);
     border-radius: 15px;
     padding: 1rem;
@@ -336,4 +334,34 @@ body::before {
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.4);
     flex-shrink: 0;
+}
+
+#postText {
+    border: 2px solid #4a7bff;
+    /* azul */
+    border-radius: 8px;
+    /* bordes redondeados */
+    padding: 0.5rem;
+    /* un poquito de espacio interno */
+    width: 100%;
+    resize: none;
+    /* mantenerlo sin resize si querés */
+    outline: none;
+    /* quitar el borde por defecto al hacer focus */
+    transition: border-color 0.3s ease;
+}
+
+#postText:focus {
+    border-color: #2e5fcc;
+    /* azul más intenso al enfocar */
+}
+
+.dropdown-item.bg-grey {
+    background-color: #f8f9fa !important;
+    /* Gris claro */
+}
+
+.dropdown-item.bg-grey:hover {
+    background-color: #e2e6ea !important;
+    /* Gris más oscuro al pasar el mouse */
 }

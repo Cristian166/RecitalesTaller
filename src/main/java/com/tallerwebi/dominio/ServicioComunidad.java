@@ -26,4 +26,5 @@ public interface ServicioComunidad {
 
     void quitarDestacado(Long idComunidad, Long idPublicacion, Usuario actual);
     Set<Map<String, Object>> buscarComunidadesPorNombre(String nombre, Usuario usuario);
+    void eliminarPublicacion(Long idComunidad, Long idPublicacion, Usuario actual);
 }

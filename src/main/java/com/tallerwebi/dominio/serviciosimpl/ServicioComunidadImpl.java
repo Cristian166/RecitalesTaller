@@ -109,6 +109,36 @@ public class ServicioComunidadImpl implements ServicioComunidad {
 
     @Override
     @Transactional
+    public void eliminarPublicacion(Long idComunidad, Long idPublicacion, Usuario actual) {
+        Comunidad comunidad = repositorioComunidad.obtenerComunidadPorId(idComunidad);
+        Publicacion publicacion = repositorioPublicacion.obtenerPorId(idPublicacion);
+
+        if (comunidad == null) {
+            throw new RuntimeException("La comunidad no existe");
+        }
+
+        if (publicacion == null) {
+            throw new RuntimeException("La publicación no existe");
+        }
+
+        // Solo puede eliminar el autor de la publicación o el creador de la comunidad
+        if (!publicacion.getAutorPublicacion().getId().equals(actual.getId()) &&
+                !comunidad.getUsuarioCreador().getId().equals(actual.getId())) {
+            throw new RuntimeException("No tenés permiso para eliminar esta publicación");
+        }
+
+        // Si la publicación estaba destacada, quitarla de la comunidad
+        if (comunidad.getPublicacionDestacada() != null &&
+                comunidad.getPublicacionDestacada().getId().equals(idPublicacion)) {
+            comunidad.setPublicacionDestacada(null);
+            repositorioComunidad.guardarUnaComunidad(comunidad);
+        }
+
+        repositorioPublicacion.eliminar(idPublicacion);
+    }
+
+    @Override
+    @Transactional
     public void eliminarComunidad(Long id) {
         repositorioComunidad.borrarComunidad(id);
     }
@@ -186,6 +216,7 @@ public class ServicioComunidadImpl implements ServicioComunidad {
             repositorioComunidad.guardarUnaComunidad(comunidad);
         }
     }
+
     @Override
     public Set<Map<String, Object>> buscarComunidadesPorNombre(String nombre, Usuario usuario) {
         // Buscar comunidades que coincidan con el nombre y que no tengan al usuario
@@ -199,12 +230,11 @@ public class ServicioComunidadImpl implements ServicioComunidad {
             comunidadData.put("nombre", comunidad.getNombre());
 
             // Pasar la información de la comunidad al frontend
-            comunidadData.put("estaUnido", false);  // Siempre será false porque no estamos unidos a esta comunidad
+            comunidadData.put("estaUnido", false); // Siempre será false porque no estamos unidos a esta comunidad
 
             resultado.add(comunidadData);
         }
-        return resultado;  // Devolver las comunidades no unidas
+        return resultado; // Devolver las comunidades no unidas
     }
-
 
 }

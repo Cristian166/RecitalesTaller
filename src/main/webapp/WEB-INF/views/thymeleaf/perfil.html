@@ -45,6 +45,74 @@
             object-fit: cover;
             border-radius: 50%;
         }
+        /* Contenedor premium */
+        .premium-glass-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .premium-glass-content {
+            background: #0a2a4320;  /* Igual al color de fondo en Información Personal */
+            border-radius: 18px;
+            padding: 25px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #33445555;  /* Borde suave como en Información Personal */
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  /* Sombra suave */
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        /* Textos */
+        .premium-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #0A2A43;  /* Color del texto */
+        }
+
+        .premium-subtitle {
+            margin-top: -5px;
+            font-size: 14px;
+            color: #333;
+            opacity: 0.7;
+        }
+        /* Estilo del botón por defecto (blanco con borde blanco) */
+        .btn-premium-upgrade {
+            background: white;
+            border: 2px solid #ffffff;  /* Borde blanco por defecto */
+            color: #0A2A43;  /* Color del texto */
+            padding: 8px 22px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s; /* Transición suave */
+        }
+
+        /* Efecto hover para cuando el usuario no es Premium */
+        .btn-premium-upgrade:hover {
+            background-color: #a1c4fd;  /* Fondo azul pastel cuando es false */
+            border-color: #a1c4fd;  /* Borde azul pastel */
+            color: white;  /* Texto blanco al pasar el mouse */
+        }
+
+        /* Estilo del botón para los usuarios Premium */
+        .btn-premium-upgrade-premium {
+            background: white;
+            border: 2px solid #ffffff;  /* Borde blanco por defecto */
+            color: #0A2A43;  /* Color del texto */
+        }
+
+        /* Efecto hover para cuando el usuario es Premium */
+        .btn-premium-upgrade-premium:hover {
+            background-color: #28a745;  /* Fondo verde cuando es Premium */
+            border-color: #28a745;  /* Borde verde */
+            color: white;  /* Texto blanco al pasar el mouse */
+        }
+
     </style>
 </head>
 
@@ -234,6 +302,48 @@
         <a th:href="@{/elegir-tipo-plan}" class="btn btn-edit-profile mt-2">Unirse a premium</a>
 
     </main>
+    <!-- === INSIGNIAS === -->
+    <section class="mb-5">
+        <h4 class="fw-bold mb-3">Insignias</h4>
+        <div class="badges-scroll">
+            <div class="badge-card" th:each="insignia : ${insignias}">
+                <div class="badge-inner">
+                    <div class="badge-front">
+                        <img class="badge-img" th:src="@{${insignia.imagen}}" alt="Insignia">
+                        <div class="badge-label" th:text="${insignia.nombre}">Nombre</div>
+                    </div>
+                    <div class="badge-back">
+                        <span th:text="${insignia.descripcion}">Descripción de la insignia</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="premium-glass-container mb-5">
+        <div class="premium-glass-content">
+            <!-- IZQUIERDA -->
+            <div class="premium-texts">
+                <!-- Mostrar si esPremium es false -->
+                <h4 class="premium-title" th:if="${not usuario.esPremium}">Únete al plan Premium</h4>
+                <p class="premium-subtitle" th:if="${not usuario.esPremium}">Desbloquea nuevas funcionalidades</p>
+
+                <!-- Mostrar si esPremium es true -->
+                <h4 class="premium-title" th:if="${usuario.esPremium}">Ya eres usuario Premium</h4>
+                <p class="premium-subtitle" th:if="${usuario.esPremium}">Disfruta de todas las ventajas exclusivas</p>
+            </div>
+
+            <!-- DERECHA -->
+            <div class="premium-action">
+                <!-- Botón cambia de color según esPremium -->
+                <a th:href="@{/elegir-tipo-plan}" class="btn-premium-upgrade"
+                   th:classappend="${usuario.esPremium} ? 'btn-premium-upgrade-premium' : ''">
+                    <span th:if="${not usuario.esPremium}">Ir a planes</span>
+                    <span th:if="${usuario.esPremium}">Ir a planes</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
 
     <!-- FOOTER -->
     <div th:replace="fragments/footer :: footer"></div>
@@ -267,5 +377,4 @@
     </script>
 
 </body>
-
 </html>

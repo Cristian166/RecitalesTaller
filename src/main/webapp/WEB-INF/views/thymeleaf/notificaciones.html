@@ -51,7 +51,13 @@
                 <div>
                     <strong th:text="${notificacion.nombreNotificacion}">Título</strong><br>
                     <small th:text="${notificacion.descripcionNotificacion}">Mensaje</small>
-                    <a th:href="@{${notificacion.link}}">Ver aquí</a>
+
+                    <div th:class="${#strings.equalsIgnoreCase(notificacion.nombreNotificacion.trim(), '¡Nuevo codigo de descuento!')} 
+                                ? 'ocultar' 
+                                : ''">
+                        <a th:href="@{${notificacion.link}}">Ver aquí</a>
+                    </div>
+
                 </div>
             </div>
         </div>

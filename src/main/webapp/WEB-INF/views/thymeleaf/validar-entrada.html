@@ -25,44 +25,46 @@
 <div th:replace="fragments/sidebar :: sidebar"></div>
 
 
-<main class="container">
-    <div class="form-card">
-        <h3 class="text-center mb-4">Validar mi entrada</h3>
+<main class="container d-flex justify-content-center mt-5">
 
-      
-        <div th:if="${mensajeExito}" class="alert alert-success text-center" role="alert">
-            <span th:text="${mensajeExito}">Entrada validada correctamente.</span>
-        </div>
+    <div class="col-lg-5">
+        <div class="login-card p-4">
 
-       
-        <div th:if="${mensajeError}" class="alert alert-danger text-center" role="alert">
-            <span th:text="${mensajeError}">Error al validar la entrada. Verifique los datos.</span>
-        </div>
+            <h3 class="text-center mb-1 fw-bold">Validar mi entrada</h3>
+            <p class="text-center text-secondary mb-4">Completá tus datos para validar tu entrada.</p>
 
-        <form th:action="@{/validar-entrada}" method="post">
-             <input type="hidden" name="id" th:value="${entrada.id}">
-         
-            <div class="mb-3">
-                <label for="nombre" class="form-label">Nombre</label>
-                <input type="text" id="nombre" name="nombre" class="form-control" required>
+
+            <!-- Éxito -->
+            <div th:if="${mensajeExito}" class="alert alert-success text-center" role="alert">
+                <span th:text="${mensajeExito}"></span>
             </div>
 
-        
-            <div class="mb-3">
-                <label for="apellido" class="form-label">Apellido</label>
-                <input type="text" id="apellido" name="apellido" class="form-control" required>
+            <!-- Error -->
+            <div th:if="${mensajeError}" class="alert alert-danger text-center" role="alert">
+                <span th:text="${mensajeError}"></span>
             </div>
 
-         
-            <div class="mb-3">
-                <label for="dni" class="form-label">DNI</label>
-                <input type="number" id="dni" name="dni" class="form-control" required>
-            </div>
+            <form th:action="@{/validar-entrada}" method="post">
+                <input type="hidden" name="id" th:value="${entrada.id}">
 
-          
-            <div class="mb-3">
-                <label for="plataforma" class="form-label">Plataforma de entradas</label>
-                <select id="plataforma" name="plataforma" class="form-select" required>
+                <!-- Nombre -->
+                <label for="nombre" class="form-label fw-semibold">Nombre</label>
+                <input type="text" id="nombre" name="nombre" class="form-control mb-3"
+                       placeholder="Tu nombre" required>
+
+                <!-- Apellido -->
+                <label for="apellido" class="form-label fw-semibold">Apellido</label>
+                <input type="text" id="apellido" name="apellido" class="form-control mb-3"
+                       placeholder="Tu apellido" required>
+
+                <!-- DNI -->
+                <label for="dni" class="form-label fw-semibold">DNI</label>
+                <input type="number" id="dni" name="dni" class="form-control mb-3"
+                       placeholder="Ej: 40888999" required>
+
+                <!-- Plataforma -->
+                <label for="plataforma" class="form-label fw-semibold">Plataforma de entradas</label>
+                <select id="plataforma" name="plataforma" class="form-select mb-4" required>
                     <option value="">Seleccione...</option>
                     <option value="Ticketek">Ticketek</option>
                     <option value="Passline">Passline</option>
@@ -70,21 +72,26 @@
                     <option value="AllAccess">AllAccess</option>
                     <option value="Otra">Otra</option>
                 </select>
+
+                <!-- Botón validar -->
+                <button type="submit" class="btn btn-primary w-100 py-2 mb-3">VALIDAR</button>
+            </form>
+
+            <!-- Volver -->
+            <div class="text-center mt-2">
+                <a href="/spring/mis-entradas" class="text-primary text-decoration-none">
+                    Volver a mis entradas
+                </a>
             </div>
 
-       
-            <div class="text-center mt-4">
-                <button type="submit" class="btn-validate">VALIDAR</button>
-            </div>
-        </form>
-        <div class="text-center mt-4">
-            <a href="/spring/mis-entradas"><button class="btn-validate">VOLVER</button></a>
         </div>
     </div>
+
 </main>
 
+
 <!-- ===== FOOTER ===== -->
-<footer class="text-center py-3 mt-4">
+<footer >
     <p class="mb-0">&copy; 2025 Diario Digital de Recitales</p>
 </footer>
 

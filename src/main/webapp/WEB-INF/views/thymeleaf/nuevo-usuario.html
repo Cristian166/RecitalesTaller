@@ -36,11 +36,11 @@
 
         <div class="d-flex justify-content-between align-items-center w-100">
 
-            <div class="flex-grow-1 text-start" style="margin-left: -40px;">
+            <div class="flex-grow-1 text-start" style=" height: 50px;">
                 <a th:href="@{/home}">
                     <img src="/spring/img/logo_nombre.png"
                         alt="Logo FANBEAT"
-                        style="height: 260px; object-fit: contain; margin-top: -103px; margin-bottom: -103px;">
+                        style="height: 60px; object-fit: contain; margin-top: -83px; margin-bottom: -103px;">
                 </a>
             </div>
 
@@ -171,9 +171,10 @@
             </form>
         </div>
     </main>
-    <footer>
-    <p class="m-0">&copy; 2025 Diario Digital de Recitales</p>
-</footer>
+
+
+<div th:replace="fragments/footer :: footer"></div>
+
 
 <script>
     // Mostrar/ocultar contrasenas

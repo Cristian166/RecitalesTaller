@@ -33,4 +33,19 @@ footer {
   /* Azul pastel al pasar el mouse */
   color: black;
   /* Texto negro */
+    background-color: #0A2A43 !important;
+    color: #dbe1ef !important;
+    border-top: 1px solid #dbe1ef !important;
+    text-align: center;
+    height: 50px;
+    align-content: center;
+}
+
+/* Opcional: para pantallas pequeñas reduce logos */
+@media (max-width: 576px) {
+  footer.site-footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
 }

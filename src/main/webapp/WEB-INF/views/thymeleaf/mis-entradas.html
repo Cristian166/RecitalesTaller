@@ -55,11 +55,13 @@
     <!-- SIDEBAR MENU -->
     <div th:replace="fragments/sidebar :: sidebar"></div>
 
+
     <!-- MAIN -->
     <main class="container my-4">
-        <h4>Mis Entradas</h4>
-        <br>
-        <span class="fs-5">Crea una entrada para no perderte tus recitales!</span>
+        <h2 class="titulo-seccion">Mis entradas</h2>
+        <div th:if="${#lists.isEmpty(entradas)}" class="sin-eventos">
+            <p>No tenés entradas cargadas todavía.</p>
+        </div>
 
 
         <!-- Botones superiores -->
@@ -108,11 +110,12 @@
                 </div>
             </div>
         </div>
+
+        </div>
     </main>
     <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2025 Diario Digital de Recitales</p>
-    </footer>
+    <div th:replace="fragments/footer :: footer"></div>
+    >>>>>>> 20cf4b092d3bd32066bad28bda802499ae6b2ac9
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

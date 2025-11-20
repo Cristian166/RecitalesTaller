@@ -113,13 +113,23 @@
 
 
     <!-- FOOTER -->
-    <footer class="bg-secondary text-white text-center py-3">
-        <p>&copy; 2025 Diario Digital de Recitales</p>
-    </footer>
+    <div style="margin-top: 109px">
+        <div th:replace="fragments/footer :: footer"></div>
+    </div>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Script para vista previa -->
+
+    <script>
+        // Toggle sidebar
+        document.getElementById("menuToggle").addEventListener("click", function () {
+            document.getElementById("sidebarMenu").classList.toggle("active");
+        });
+        document.getElementById("menuCerrar").addEventListener("click", function () {
+            document.getElementById("sidebarMenu").classList.remove("active");
+        });
+    </script>
     <script>
         // Actualizar texto en tiempo real
         document.getElementById("nombreRecital").addEventListener("input", e => {

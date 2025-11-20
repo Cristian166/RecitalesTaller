@@ -299,26 +299,9 @@
             </div>
         </section>
 
-        <a th:href="@{/elegir-tipo-plan}" class="btn btn-edit-profile mt-2">Unirse a premium</a>
 
     </main>
-    <!-- === INSIGNIAS === -->
-    <section class="mb-5">
-        <h4 class="fw-bold mb-3">Insignias</h4>
-        <div class="badges-scroll">
-            <div class="badge-card" th:each="insignia : ${insignias}">
-                <div class="badge-inner">
-                    <div class="badge-front">
-                        <img class="badge-img" th:src="@{${insignia.imagen}}" alt="Insignia">
-                        <div class="badge-label" th:text="${insignia.nombre}">Nombre</div>
-                    </div>
-                    <div class="badge-back">
-                        <span th:text="${insignia.descripcion}">Descripción de la insignia</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+
     <section class="premium-glass-container mb-5">
         <div class="premium-glass-content">
             <!-- IZQUIERDA -->

@@ -65,7 +65,7 @@ public class ServicioSuscripcionImpl implements ServicioSuscripcion {
         notificacion
                 .setDescripcionNotificacion("Sos nuevo usuario PREMIUM, vas a poder disfrutar de grandes beneficios!");
         notificacion.setUsuario(usuario);
-
+        notificacion.setLink("/elegir-tipo-plan");
         repositorioNotificacion.agregarNotificacion(usuario, notificacion);
     }
 

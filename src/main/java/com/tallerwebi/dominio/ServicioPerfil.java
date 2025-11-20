@@ -28,4 +28,10 @@ public interface ServicioPerfil {
     List<String> obtenerEpocas();
 
     Usuario obtenerUsuarioPorId(Long id);
+
+    void actualizarPerfil(Long idUsuario, String nombre, String apellido, String telefono,
+                          String email, String direccion, String pais, String provincia,
+                          String imagen);
+
+    void actualizarImagenPerfil(Long id, String nombreArchivo);
 }

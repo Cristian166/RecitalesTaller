@@ -124,4 +124,41 @@ public class ServicioPerfilImpl implements ServicioPerfil {
         }
     }
 
+    @Override
+    public void actualizarPerfil(Long idUsuario, String nombre, String apellido, String telefono,
+                                 String email, String direccion, String pais, String provincia,
+                                 String imagen) {
+        // Buscar el usuario por su ID
+        Usuario usuario = repositorioUsuario.buscarId(idUsuario);
+
+        if (usuario != null) {
+            // Actualizar los campos del usuario
+            usuario.setNombre(nombre);       // Actualizar nombre
+            usuario.setApellido(apellido);   // Actualizar apellido
+            usuario.setTelefono(telefono);   // Actualizar teléfono
+            usuario.setEmail(email);         // Actualizar email
+            usuario.setDireccion(direccion); // Actualizar dirección
+            usuario.setPais(pais);           // Actualizar país
+            usuario.setProvincia(provincia); // Actualizar provincia
+
+            // Si se ha proporcionado una nueva imagen, actualizarla
+            if (imagen != null && !imagen.isEmpty()) {
+                usuario.setImagen(imagen);  // Guardar la nueva imagen en el campo correspondiente
+            }
+
+            // Guardar los cambios en la base de datos
+            repositorioUsuario.modificar(usuario);
+        } else {
+            throw new RuntimeException("Usuario no encontrado");
+        }
+    }
+
+    @Override
+    public void actualizarImagenPerfil(Long id, String nombreArchivo) {
+        Usuario usuario = repositorioUsuario.buscarId(id);
+        if (usuario != null){
+            usuario.setImagen(nombreArchivo);
+            repositorioUsuario.modificar(usuario);
+        }
+    }
 }

@@ -82,7 +82,6 @@ public class ControladorLogin {
                 }
             }
 
-
             servicioLogin.registrar(usuario);
 
             model.addAttribute("mensaje", "Usuario registrado con éxito.");

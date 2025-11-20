@@ -1,5 +1,6 @@
 package com.tallerwebi.dominio;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -9,9 +10,12 @@ import java.util.Arrays;
 import java.util.List;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Spy;
 
 import com.tallerwebi.dominio.entidades.Preferencia;
 import com.tallerwebi.dominio.entidades.PreferenciaUsuario;
@@ -30,6 +34,8 @@ public class ServicioPerfilImplTest {
     private RepositorioInsignia repositorioInsigniaMock;
     private RepositorioUsuario repositorioUsuarioMock;
     private RepositorioUsuarioInsignia repositorioUsuarioInsigniaMock;
+    
+    @Spy
     private Usuario usuarioMock;
 
     @BeforeEach
@@ -47,9 +53,9 @@ public class ServicioPerfilImplTest {
             repositorioUsuarioInsigniaMock  
         );
 
-
-        usuarioMock = mock(Usuario.class);
-        when(usuarioMock.getId()).thenReturn(1L);
+        usuarioMock = new Usuario();
+        usuarioMock.setId(1L);
+  
     }
 
     @Test
@@ -145,5 +151,59 @@ public class ServicioPerfilImplTest {
         verify(repositorioPerfilMock, times(1)).obtenerUsuarioPorId(idUsuario);
         
         assertThat(usuarioRecuperado,is(equalTo(usuarioMock)));
+    }
+
+    @Test
+    public void debePoderActualizarMiInformacion(){
+        Long idUsuario = 1L;
+        String nuevoNombre = "Carlos";
+        String nuevoApellido = "Lopez";
+        String nuevoTelefono = "987654321";
+        String nuevoEmail = "carlos.lopez@example.com";
+        String nuevaDireccion = "Nueva Calle 789";
+        String nuevoPais = "España";
+        String nuevaProvincia = "Madrid";
+        String nuevaImagen = "nueva-imagen.jpg";
+    
+        when(repositorioUsuarioMock.buscarId(idUsuario)).thenReturn(usuarioMock);
+
+        servicioPerfil.actualizarPerfil(idUsuario, nuevoNombre, nuevoApellido, nuevoTelefono, nuevoEmail,
+                nuevaDireccion, nuevoPais, nuevaProvincia, nuevaImagen);
+
+        verify(repositorioUsuarioMock, times(1)).buscarId(idUsuario);
+        verify(repositorioUsuarioMock, times(1)).modificar(usuarioMock);
+
+        assertEquals(nuevoNombre, usuarioMock.getNombre());
+        assertEquals(nuevoApellido, usuarioMock.getApellido());
+        assertEquals(nuevoTelefono, usuarioMock.getTelefono());
+        assertEquals(nuevoEmail, usuarioMock.getEmail());
+        assertEquals(nuevaDireccion, usuarioMock.getDireccion());
+        assertEquals(nuevoPais, usuarioMock.getPais());
+        assertEquals(nuevaProvincia, usuarioMock.getProvincia());
+        assertEquals(nuevaImagen, usuarioMock.getImagen());
+    }
+
+    @Test
+    public void debeLanzarExcepcionSiUsuarioNoExisteAlActualizar(){
+        Long idUsuarioInvalido = 99L;
+        String nuevoNombre = "Carlos";
+        String nuevoApellido = "Lopez";
+        String nuevoTelefono = "987654321";
+        String nuevoEmail = "carlos.lopez@example.com";
+        String nuevaDireccion = "Nueva Calle 789";
+        String nuevoPais = "España";
+        String nuevaProvincia = "Madrid";
+        String nuevaImagen = "nueva-imagen.jpg";
+
+        when(repositorioUsuarioMock.buscarId(idUsuarioInvalido)).thenReturn(null);
+
+        assertThrows(RuntimeException.class, () -> {
+        servicioPerfil.actualizarPerfil(idUsuarioInvalido, nuevoNombre, nuevoApellido, nuevoTelefono, nuevoEmail,
+                nuevaDireccion, nuevoPais, nuevaProvincia, nuevaImagen);
+        });
+
+        verify(repositorioUsuarioMock, times(1)).buscarId(idUsuarioInvalido);
+
+        verify(repositorioUsuarioMock, times(0)).modificar(any(Usuario.class));
     }
 }

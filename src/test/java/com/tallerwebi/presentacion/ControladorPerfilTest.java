@@ -8,17 +8,17 @@ import com.tallerwebi.dominio.entidades.Usuario;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.ModelAndView;
-
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import javax.servlet.http.HttpSession;
-
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
@@ -28,7 +28,6 @@ public class ControladorPerfilTest {
     private ServicioInsignia servicioInsigniaMock;
     private ControladorPerfil controladorPerfil;
     private HttpSession sessionMock;
-    private Model model;
     @BeforeEach
     public void init() {
         servicioPerfilMock = mock(ServicioPerfil.class);
@@ -39,16 +38,19 @@ public class ControladorPerfilTest {
 
     @Test
     public void irAPerfilSinUsuarioEnSesionDeberiaRedirigirALogin() {
+        
         // no hay usuario en la sesión
         when(sessionMock.getAttribute("usuario")).thenReturn(null);
 
-        ModelAndView modelAndView = controladorPerfil.irAPerfil(sessionMock);
+        ModelAndView modelAndView = controladorPerfil.irAPerfil("false",sessionMock);
 
         assertEquals("redirect:/login", modelAndView.getViewName());
+         
     }
 
     @Test
     public void irAPerfilConUsuarioEnSesionDeberiaDevolverVistaPerfil() {
+        
         Usuario usuario = new Usuario();
         usuario.setNombre("Nicolas");
         usuario.setApellido("Oliverio");
@@ -56,11 +58,12 @@ public class ControladorPerfilTest {
 
         when(sessionMock.getAttribute("usuario")).thenReturn(usuario);
 
-        ModelAndView modelAndView = controladorPerfil.irAPerfil(sessionMock);
+        ModelAndView modelAndView = controladorPerfil.irAPerfil("false",sessionMock);
 
         assertEquals("perfil", modelAndView.getViewName());
         assertEquals("Nicolas", modelAndView.getModel().get("nombre"));
         assertEquals("nico@mail.com", modelAndView.getModel().get("email"));
+         
     }
 
     @Test
@@ -102,7 +105,7 @@ public class ControladorPerfilTest {
 
     @Test
     public void debePoderVerseLasInsigniasConseguidasEnElPerfil(){
-
+        
         Usuario usuario = new Usuario();
         usuario.setNombre("Nico");
         usuario.setApellido("Oliverio");
@@ -118,7 +121,7 @@ public class ControladorPerfilTest {
         when(servicioPerfilMock.obtenerPreferenciasPorUsuario(usuario)).thenReturn(null);
 
 
-        ModelAndView modelAndView = controladorPerfil.irAPerfil(sessionMock);
+        ModelAndView modelAndView = controladorPerfil.irAPerfil("false",sessionMock);
         assertEquals("perfil", modelAndView.getViewName());
 
         List<Insignia> insigniasEnModelo = (List<Insignia>) modelAndView.getModel().get("insignias");

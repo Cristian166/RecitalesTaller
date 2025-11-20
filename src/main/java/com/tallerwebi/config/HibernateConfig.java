@@ -19,22 +19,30 @@ public class HibernateConfig {
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        
+
         String dbHost = System.getenv("DB_HOST");
         String dbPort = System.getenv("DB_PORT");
         String dbName = System.getenv("DB_NAME");
         String dbUser = System.getenv("DB_USER");
         String dbPassword = System.getenv("DB_PASSWORD");
-        
-        if (dbHost == null) dbHost = "localhost";
-        if (dbPort == null) dbPort = "3306";
-        if (dbName == null) dbName = "tallerwebi";
-        if (dbUser == null) dbUser = "user";
-        if (dbPassword == null) dbPassword = "user";
-        
-        String url = String.format("jdbc:mysql://%s:%s/%s?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", 
-                                 dbHost, dbPort, dbName);
-        
+
+        if (dbHost == null)
+            dbHost = "localhost";
+        if (dbPort == null)
+            dbPort = "3306";
+        if (dbName == null)
+            dbName = "tallerwebi";
+        if (dbUser == null)
+            dbUser = "user";
+        if (dbPassword == null)
+            dbPassword = "user";
+
+        String url = String.format(
+                "jdbc:mysql://%s:%s/%s?useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8_general_ci&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true",
+                dbHost,
+                dbPort,
+                dbName);
+
         dataSource.setUrl(url);
         dataSource.setUsername(dbUser);
         dataSource.setPassword(dbPassword);
@@ -57,6 +65,7 @@ public class HibernateConfig {
         transactionManager.setSessionFactory(sessionFactory);
         return transactionManager;
     }
+
     private Properties hibernateProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");

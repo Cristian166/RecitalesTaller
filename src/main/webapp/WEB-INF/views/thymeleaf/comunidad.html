@@ -50,6 +50,18 @@
             word-break: break-word;
         }
 
+        .descripcion {
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
+        .titulo {
+            white-space: pre-wrap;
+            overflow-wrap: break-word;
+            word-break: break-word;
+        }
+
         .post {
             position: relative;
         }
@@ -110,8 +122,8 @@
                     </div>
                     <!-- Detalles de la comunidad -->
                     <div class="community-details ps-3">
-                        <h4 th:text="${comunidad.nombre}">Nombre Comunidad</h4>
-                        <p th:text="${comunidad.descripcion}">(descripción de la comunidad)</p>
+                        <h4 class="titulo" th:text="${comunidad.nombre}">Nombre Comunidad</h4>
+                        <p class="descripcion" th:text="${comunidad.descripcion}">(descripción de la comunidad)</p>
                         <p><strong>Pais de Origen: </strong><span th:text="${comunidad.paisOrigen}">Argentina</span></p>
                         <p><strong>Idioma: </strong><span th:text="${comunidad.idioma}">Español</span></p>
                     </div>
@@ -123,16 +135,16 @@
                     <h5 class="mb-3">Agregar publicación</h5>
                     <div class="d-flex gap-3">
                         <!-- Mostrar la imagen de perfil del usuario que publica -->
-                        <div class="user-img" style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; margin-right: 10px;">
+                        <div class="user-img"
+                            style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; margin-right: 10px;">
                             <!-- Imagen del autor -->
-                            <img th:src="@{'/uploads/' + ${usuario.imagen}}"
-                                 alt="Imagen de perfil del autor"
-                                 style="width: 100%; height: 100%; object-fit: cover;">
+                            <img th:src="@{'/uploads/' + ${usuario.imagen}}" alt="Imagen de perfil del autor"
+                                style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                         <div class="flex-grow-1">
                             <form th:action="@{/comunidad/{id}/publicar(id=${comunidad.id})}"
                                 th:object="${nuevaPublicacion}" method="post" enctype="multipart/form-data">
-                                <textarea th:field="*{contenido}" rows="3" maxlength="500"
+                                <textarea id="postText" th:field="*{contenido}" rows="3" maxlength="500"
                                     placeholder="Escribir publicación para publicar..." required></textarea>
                                 <small id="charCount">0 / 500</small>
 
@@ -147,15 +159,6 @@
                         </div>
                     </div>
                 </div>
-                <script>
-                    const textarea = document.getElementById("postText");
-                    const counter = document.getElementById("charCount");
-                    const max = 500;
-
-                    textarea.addEventListener("input", () => {
-                        counter.textContent = textarea.value.length + " / " + max;
-                    });
-                </script>
 
 
                 <!-- Encuesta activa -->
@@ -206,11 +209,12 @@
                         </div>
                         <div class="user-info d-flex align-items-center">
                             <!-- Mostrar la imagen de perfil del autor de la publicación -->
-                            <div class="user-img" style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; margin-right: 10px;">
+                            <div class="user-img"
+                                style="width: 50px; height: 50px; overflow: hidden; border-radius: 50%; margin-right: 10px;">
                                 <!-- Imagen del autor de la publicación -->
                                 <img th:src="@{'/uploads/' + ${publicacion.autorImagen}}"
-                                     alt="Imagen de perfil del autor"
-                                     style="width: 100%; height: 100%; object-fit: cover;">
+                                    alt="Imagen de perfil del autor"
+                                    style="width: 100%; height: 100%; object-fit: cover;">
                             </div>
                             <div>
                                 <a th:href="@{/perfil-visitado/{id}(id=${publicacion.autorId})}">
@@ -222,7 +226,7 @@
                         <p class="post-contenido" th:text="${publicacion.contenido}">Texto de publicación</p>
                         <div th:if="${publicacion.imagen != null}">
                             <img th:src="@{'/uploads/' + ${publicacion.imagen}}" alt="Imagen publicación"
-                                 style="max-width:300px; max-height:300px; margin-top:5px;" />
+                                style="max-width:300px; max-height:300px; margin-top:5px;" />
                         </div>
                         <!-- MENU DE OPCIONES (solo creador) -->
                         <div class="dropdown" th:if="${usuario.id == comunidad.usuarioCreador.id}"
@@ -305,7 +309,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer >
+    <footer>
         <p>&copy; 2025 Diario Digital de Recitales</p>
     </footer>
 
@@ -322,6 +326,17 @@
             document.getElementById("sidebarMenu").classList.remove("active");
         });
     </script>
+
+    <script>
+        const textarea = document.getElementById("postText");
+        const counter = document.getElementById("charCount");
+        const max = 500;
+
+        textarea.addEventListener("input", () => {
+            counter.textContent = textarea.value.length + " / " + max;
+        });
+    </script>
+
 
 </body>
 

@@ -8,6 +8,7 @@
 
     <!-- Bootstrap -->
     <link rel="stylesheet" th:href="@{/webjars/bootstrap/5.2.0/css/bootstrap.min.css}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Estilos extra -->
     <link rel="stylesheet" th:href="@{/css/fondo.css}" />
@@ -40,7 +41,8 @@
             background: none;
         }
 
-        .purpose-section, .faq-section {
+        .purpose-section,
+        .faq-section {
             margin-top: 50px;
         }
 
@@ -98,107 +100,117 @@
 
 <body>
 
-<div class="fondo-moderno"></div>
-<header th:fragment="header" class="shadow-sm" style="background-color: #FFFFFF; padding: 10px 20px;">
-    <div class="flex-grow-1 text-center" style="margin-left: -40px; height: 50px;">
-        <a th:href="@{/home}">
-            <img src="/spring/img/logo_nombre.png" alt="Logo FANBEAT" style="height: 60px; object-fit: contain; margin-top: -83px; margin-bottom: -103px;">
-        </a>
-    </div>
-</header>
-
-<!-- Contenido principal -->
-<div class="container flex-grow-1 d-flex align-items-center py-5" style="margin-top: 120px;">
-    <div class="row w-100 justify-content-between align-items-center">
-
-        <!-- Sección izquierda (texto tipo landing) -->
-        <div class="col-lg-6 hero-text mb-5">
-            <h1 class="hero-title">Forma parte de la comunidad de tu artista favorito.</h1>
-            <p class="mt-3 text-secondary">
-                Accede a tu cuenta para gestionar tus recitales y comunidades de manera eficiente.
-            </p>
+    <div class="fondo-moderno"></div>
+    <header th:fragment="header" class="shadow-sm" style="background-color: #FFFFFF; padding: 10px 20px;">
+        <div class="flex-grow-1 text-center" style="margin-left: -40px; height: 50px;">
+            <a th:href="@{/home}">
+                <img src="/spring/img/logo_nombre.png" alt="Logo FANBEAT"
+                    style="height: 60px; object-fit: contain; margin-top: -83px; margin-bottom: -103px;">
+            </a>
         </div>
+    </header>
 
-        <!-- CARD DE LOGIN -->
-        <div class="col-lg-4">
-            <div class="login-card">
-                <h3 class="text-center mb-1 fw-bold">Bienvenido!</h3>
-                <p class="text-center text-secondary mb-4">Ingresa tus datos para acceder.</p>
+    <!-- Contenido principal -->
+    <div class="container flex-grow-1 d-flex align-items-center py-5" style="margin-top: 120px;">
+        <div class="row w-100 justify-content-between align-items-center">
 
-                <form th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
+            <!-- Sección izquierda (texto tipo landing) -->
+            <div class="col-lg-6 hero-text mb-5">
+                <h1 class="hero-title">Forma parte de la comunidad de tu artista favorito.</h1>
+                <p class="mt-3 text-secondary">
+                    Accede a tu cuenta para gestionar tus recitales y comunidades de manera eficiente.
+                </p>
+            </div>
 
-                    <!-- Email -->
-                    <label for="email" class="form-label fw-semibold">Correo electrónico</label>
-                    <input th:field="*{email}" type="email" id="email" class="form-control mb-3" placeholder="tu@email.com" required>
+            <!-- CARD DE LOGIN -->
+            <div class="col-lg-4">
+                <div class="login-card">
+                    <h3 class="text-center mb-1 fw-bold">Bienvenido!</h3>
+                    <p class="text-center text-secondary mb-4">Ingresa tus datos para acceder.</p>
 
-                    <!-- Password -->
-                    <label for="password" class="form-label fw-semibold">Contraseña</label>
-                    <div class="input-group mb-4">
-                        <input th:field="*{password}" type="password" id="password" class="form-control" placeholder="Tu contraseña" required>
+                    <form th:action="@{/validar-login}" method="POST" th:object="${datosLogin}">
+
+                        <!-- Email -->
+                        <label for="email" class="form-label fw-semibold">Correo electrónico</label>
+                        <input th:field="*{email}" type="email" id="email" class="form-control mb-3"
+                            placeholder="tu@email.com" required>
+
+                        <!-- Password -->
+                        <label for="password" class="form-label fw-semibold">Contraseña</label>
+                        <div class="input-group mb-4">
+                            <input th:field="*{password}" type="password" id="password" class="form-control"
+                                placeholder="Tu contraseña" required>
+                        </div>
+
+                        <!-- Error -->
+                        <p th:if="${error != null}" class="alert alert-danger text-center"
+                            th:text="'Error: ' + ${error}"></p>
+
+                        <!-- Botón login -->
+                        <button class="btn btn-primary w-100 py-2 mb-3" type="submit">Iniciar Sesión</button>
+
+                    </form>
+
+                    <div class="text-center mt-2">
+                        <span class="text-secondary">¿No tienes cuenta?</span>
+                        <a th:href="@{/nuevo-usuario}" class="text-primary text-decoration-none">
+                            Regístrate aquí
+                        </a>
                     </div>
+                </div>
+            </div>
 
-                    <!-- Error -->
-                    <p th:if="${error != null}" class="alert alert-danger text-center" th:text="'Error: ' + ${error}"></p>
+        </div>
+    </div>
 
-                    <!-- Botón login -->
-                    <button class="btn btn-primary w-100 py-2 mb-3" type="submit">Iniciar Sesión</button>
-
-                </form>
-
-                <div class="text-center mt-2">
-                    <span class="text-secondary">¿No tienes cuenta?</span>
-                    <a th:href="@{/nuevo-usuario}" class="text-primary text-decoration-none">
-                        Regístrate aquí
-                    </a>
+    <!-- Sección de Nuestros Propósitos -->
+    <div class="container purpose-section">
+        <h2 class="purpose-title">Nuestros Propósitos</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="purpose-card">
+                    <p class="purpose-description">Nos dedicamos a mejorar y supervisar la implementación de las mejores
+                        herramientas para facilitar tu trabajo.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="purpose-card">
+                    <p class="purpose-description">Eficiencia a través de soluciones automatizadas que mejoran tu
+                        productividad.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="purpose-card">
+                    <p class="purpose-description">Seguridad confiable en todos nuestros servicios, protegiendo siempre
+                        tus datos.</p>
                 </div>
             </div>
         </div>
-
     </div>
-</div>
 
-<!-- Sección de Nuestros Propósitos -->
-<div class="container purpose-section">
-    <h2 class="purpose-title">Nuestros Propósitos</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <div class="purpose-card">
-                <p class="purpose-description">Nos dedicamos a mejorar y supervisar la implementación de las mejores herramientas para facilitar tu trabajo.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="purpose-card">
-                <p class="purpose-description">Eficiencia a través de soluciones automatizadas que mejoran tu productividad.</p>
-            </div>
-        </div>
-        <div class="col-md-4">
-            <div class="purpose-card">
-                <p class="purpose-description">Seguridad confiable en todos nuestros servicios, protegiendo siempre tus datos.</p>
-            </div>
+    <!-- Sección de Preguntas Frecuentes -->
+    <div class="container faq-section">
+        <h2 class="purpose-title">Preguntas Frecuentes</h2>
+        <div>
+            <details>
+                <summary>¿Cómo puedo empezar a usar el servicio?</summary>
+                <p>Puedes comenzar registrándote a través del formulario de registro. Después de completar tu perfil,
+                    podrás acceder a todas las funciones de la plataforma.</p>
+            </details>
+            <details>
+                <summary>¿Qué incluye mi suscripción?</summary>
+                <p>Tu suscripción te da acceso a todos nuestros servicios premium, incluyendo funciones avanzadas,
+                    soporte prioritario y mucho más.</p>
+            </details>
+            <details>
+                <summary>¿Puedo cancelar mi suscripción en cualquier momento?</summary>
+                <p>Sí, puedes cancelar tu suscripción en cualquier momento desde tu cuenta.</p>
+            </details>
         </div>
     </div>
-</div>
 
-<!-- Sección de Preguntas Frecuentes -->
-<div class="container faq-section">
-    <h2 class="purpose-title">Preguntas Frecuentes</h2>
-    <div>
-        <details>
-            <summary>¿Cómo puedo empezar a usar el servicio?</summary>
-            <p>Puedes comenzar registrándote a través del formulario de registro. Después de completar tu perfil, podrás acceder a todas las funciones de la plataforma.</p>
-        </details>
-        <details>
-            <summary>¿Qué incluye mi suscripción?</summary>
-            <p>Tu suscripción te da acceso a todos nuestros servicios premium, incluyendo funciones avanzadas, soporte prioritario y mucho más.</p>
-        </details>
-        <details>
-            <summary>¿Puedo cancelar mi suscripción en cualquier momento?</summary>
-            <p>Sí, puedes cancelar tu suscripción en cualquier momento desde tu cuenta.</p>
-        </details>
-    </div>
-</div>
-
-<!-- Bootstrap JS -->
-<script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
+    <!-- Bootstrap JS -->
+    <script th:src="@{/webjars/bootstrap/5.2.0/js/bootstrap.min.js}"></script>
 </body>
+
 </html>

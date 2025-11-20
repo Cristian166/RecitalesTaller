@@ -9,6 +9,7 @@
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <!-- Tus estilos -->
     <link rel="stylesheet" th:href="@{/css/menu.css}">
@@ -49,219 +50,221 @@
 
 <body class="bg-white">
 
-<div class="fondo-moderno"></div>
+    <div class="fondo-moderno"></div>
 
-<!-- SIDEBAR + HEADER EXISTENTES -->
-<div th:replace="fragments/header :: header"></div>
-<div th:replace="fragments/sidebar :: sidebar"></div>
+    <!-- SIDEBAR + HEADER EXISTENTES -->
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
 
-<!-- MAIN CONTENT -->
-<main class="container py-5">
+    <!-- MAIN CONTENT -->
+    <main class="container py-5">
 
-    <!-- FOTO + NOMBRE -->
-    <div class="text-center mb-5">
-        <img th:src="@{'/uploads/' + ${usuario.imagen}}" class="profile-avatar-lg" alt="Foto de perfil">
-        <h2 class="profile-title mt-3" th:text="${usuario.nombre} + ' ' + ${usuario.apellido}">Nombre Apellido</h2>
-        <a th:href="@{/perfil?edit=true}" class="btn btn-edit-profile mt-2">Editar Perfil</a>
-    </div>
+        <!-- FOTO + NOMBRE -->
+        <div class="text-center mb-5">
+            <img th:src="@{'/uploads/' + ${usuario.imagen}}" class="profile-avatar-lg" alt="Foto de perfil">
+            <h2 class="profile-title mt-3" th:text="${usuario.nombre} + ' ' + ${usuario.apellido}">Nombre Apellido</h2>
+            <a th:href="@{/perfil?edit=true}" class="btn btn-edit-profile mt-2">Editar Perfil</a>
+        </div>
 
-    <!-- INFORMACIÓN PERSONAL -->
-    <section class="mb-5">
-        <h4 class="fw-bold mb-3">Información Personal</h4>
+        <!-- INFORMACIÓN PERSONAL -->
+        <section class="mb-5">
+            <h4 class="fw-bold mb-3">Información Personal</h4>
 
-        <!-- Formulario de edición de perfil con carga personalizada de imagen -->
-        <div th:if="${modoEditar == true}">
-            <form th:action="@{/actualizar-perfil}" method="post" th:object="${usuario}" enctype="multipart/form-data">
-                <!-- Campo oculto para enviar el ID del usuario -->
-                <input type="hidden" th:field="*{id}"/> <!-- Este campo oculta el ID del usuario -->
+            <!-- Formulario de edición de perfil con carga personalizada de imagen -->
+            <div th:if="${modoEditar == true}">
+                <form th:action="@{/actualizar-perfil}" method="post" th:object="${usuario}"
+                    enctype="multipart/form-data">
+                    <!-- Campo oculto para enviar el ID del usuario -->
+                    <input type="hidden" th:field="*{id}" /> <!-- Este campo oculta el ID del usuario -->
 
-                <div class="row g-3 section-box">
+                    <div class="row g-3 section-box">
 
-                    <!-- Nombre -->
-                    <div class="col-md-6">
-                        <strong>Nombre:</strong>
-                        <input th:field="*{nombre}" class="form-control" />
-                    </div>
+                        <!-- Nombre -->
+                        <div class="col-md-6">
+                            <strong>Nombre:</strong>
+                            <input th:field="*{nombre}" class="form-control" />
+                        </div>
 
-                    <!-- Apellido -->
-                    <div class="col-md-6">
-                        <strong>Apellido:</strong>
-                        <input th:field="*{apellido}" class="form-control" />
-                    </div>
+                        <!-- Apellido -->
+                        <div class="col-md-6">
+                            <strong>Apellido:</strong>
+                            <input th:field="*{apellido}" class="form-control" />
+                        </div>
 
-                    <!-- Teléfono -->
-                    <div class="col-md-6">
-                        <strong>Teléfono:</strong>
-                        <input th:field="*{telefono}" class="form-control" />
-                    </div>
+                        <!-- Teléfono -->
+                        <div class="col-md-6">
+                            <strong>Teléfono:</strong>
+                            <input th:field="*{telefono}" class="form-control" />
+                        </div>
 
-                    <!-- Email -->
-                    <div class="col-md-6">
-                        <strong>Email:</strong>
-                        <input th:field="*{email}" class="form-control" />
-                    </div>
+                        <!-- Email -->
+                        <div class="col-md-6">
+                            <strong>Email:</strong>
+                            <input th:field="*{email}" class="form-control" />
+                        </div>
 
-                    <!-- País -->
-                    <div class="col-md-6">
-                        <strong>País:</strong>
-                        <input th:field="*{pais}" class="form-control" />
-                    </div>
+                        <!-- País -->
+                        <div class="col-md-6">
+                            <strong>País:</strong>
+                            <input th:field="*{pais}" class="form-control" />
+                        </div>
 
-                    <!-- Provincia -->
-                    <div class="col-md-6">
-                        <strong>Provincia:</strong>
-                        <input th:field="*{provincia}" class="form-control" />
-                    </div>
+                        <!-- Provincia -->
+                        <div class="col-md-6">
+                            <strong>Provincia:</strong>
+                            <input th:field="*{provincia}" class="form-control" />
+                        </div>
 
-                    <!-- Dirección -->
-                    <div class="col-12">
-                        <strong>Dirección:</strong>
-                        <input th:field="*{direccion}" class="form-control" />
-                    </div>
+                        <!-- Dirección -->
+                        <div class="col-12">
+                            <strong>Dirección:</strong>
+                            <input th:field="*{direccion}" class="form-control" />
+                        </div>
 
-                    <!-- Imagen de perfil con carga personalizada -->
-                    <div class="col-12">
-                        <strong>Imagen de Perfil:</strong>
-                        <div class="upload-section">
-                            <div class="profile-image" id="profileImage">
-                                <!-- Imagen cargada se muestra aquí -->
-                                <img th:src="@{'/uploads/' + ${usuario.imagen}}" alt="Imagen de perfil" class="profile-avatar-sm" id="previewImage"/>
-                            </div>
-                            <div class="upload-info">
-                                <label class="btn btn-outline-secondary">
-                                    Cargar img
-                                    <input type="file" name="imagenArchivo" id="imagenInput" class="d-none">
-                                </label>
-                                <span id="file-name" class="file-name"></span>
-                                <small class="text-muted d-block mt-2">Imagen de perfil</small>
+                        <!-- Imagen de perfil con carga personalizada -->
+                        <div class="col-12">
+                            <strong>Imagen de Perfil:</strong>
+                            <div class="upload-section">
+                                <div class="profile-image" id="profileImage">
+                                    <!-- Imagen cargada se muestra aquí -->
+                                    <img th:src="@{'/uploads/' + ${usuario.imagen}}" alt="Imagen de perfil"
+                                        class="profile-avatar-sm" id="previewImage" />
+                                </div>
+                                <div class="upload-info">
+                                    <label class="btn btn-outline-secondary">
+                                        Cargar img
+                                        <input type="file" name="imagenArchivo" id="imagenInput" class="d-none">
+                                    </label>
+                                    <span id="file-name" class="file-name"></span>
+                                    <small class="text-muted d-block mt-2">Imagen de perfil</small>
+                                </div>
                             </div>
                         </div>
+
                     </div>
 
-                </div>
-
-                <button type="submit" class="btn btn-success mt-3">Actualizar Datos</button>
-                <a th:href="@{/perfil}" class="btn btn-secondary mt-3">Cancelar</a>
-            </form>
-        </div>
-
-        <!-- Mostramos los datos si no estamos en modo edición -->
-        <div th:if="${modoEditar == false}">
-            <div class="row g-3 section-box">
-                <div class="col-md-6">
-                    <strong>Teléfono:</strong>
-                    <p th:text="${usuario.telefono}">11 1234-5678</p>
-                </div>
-                <div class="col-md-6">
-                    <strong>Email:</strong>
-                    <p th:text="${usuario.email}">usuario@mail.com</p>
-                </div>
-                <div class="col-md-6">
-                    <strong>País:</strong>
-                    <p th:text="${usuario.pais}">Argentina</p>
-                </div>
-                <div class="col-md-6">
-                    <strong>Provincia:</strong>
-                    <p th:text="${usuario.provincia}">Buenos Aires</p>
-                </div>
-                <div class="col-12">
-                    <strong>Dirección:</strong>
-                    <p th:text="${usuario.direccion}">Calle Falsa 123</p>
-                </div>
+                    <button type="submit" class="btn btn-success mt-3">Actualizar Datos</button>
+                    <a th:href="@{/perfil}" class="btn btn-secondary mt-3">Cancelar</a>
+                </form>
             </div>
-        </div>
 
-    </section>
-
-    <!-- === PREFERENCIAS MUSICALES === -->
-    <section class="mb-5">
-        <h4 class="fw-bold mb-4">Preferencias Musicales</h4>
-        <div class="row g-4">
-            <!-- Artistas Favoritos -->
-            <div class="col-md-3">
-                <h6 class="fw-semibold mb-2">Artistas Favoritos</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="chip" th:each="a : ${artistas}" th:text="${a}"></span>
-                </div>
-            </div>
-            <!-- Géneros -->
-            <div class="col-md-3">
-                <h6 class="fw-semibold mb-2">Géneros</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="chip" th:each="g : ${generos}" th:text="${g}"></span>
-                </div>
-            </div>
-            <!-- Época Musical -->
-            <div class="col-md-3">
-                <h6 class="fw-semibold mb-2">Época Musical</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="chip" th:each="e : ${epocas}" th:text="${e}"></span>
-                </div>
-            </div>
-            <!-- Región -->
-            <div class="col-md-3">
-                <h6 class="fw-semibold mb-2">Región</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="chip" th:each="r : ${regiones}" th:text="${r}"></span>
-                </div>
-            </div>
-        </div>
-
-        <a th:href="@{/editar-preferencias}" class="btn btn-primary mt-4">Editar</a>
-    </section>
-
-    <!-- === INSIGNIAS === -->
-    <section class="mb-5">
-        <h4 class="fw-bold mb-3">Insignias</h4>
-        <div class="badges-scroll">
-            <div class="badge-card" th:each="insignia : ${insignias}">
-                <div class="badge-inner">
-                    <div class="badge-front">
-                        <img class="badge-img" th:src="@{${insignia.imagen}}" alt="Insignia">
-                        <div class="badge-label" th:text="${insignia.nombre}">Nombre</div>
+            <!-- Mostramos los datos si no estamos en modo edición -->
+            <div th:if="${modoEditar == false}">
+                <div class="row g-3 section-box">
+                    <div class="col-md-6">
+                        <strong>Teléfono:</strong>
+                        <p th:text="${usuario.telefono}">11 1234-5678</p>
                     </div>
-                    <div class="badge-back">
-                        <span th:text="${insignia.descripcion}">Descripción de la insignia</span>
+                    <div class="col-md-6">
+                        <strong>Email:</strong>
+                        <p th:text="${usuario.email}">usuario@mail.com</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>País:</strong>
+                        <p th:text="${usuario.pais}">Argentina</p>
+                    </div>
+                    <div class="col-md-6">
+                        <strong>Provincia:</strong>
+                        <p th:text="${usuario.provincia}">Buenos Aires</p>
+                    </div>
+                    <div class="col-12">
+                        <strong>Dirección:</strong>
+                        <p th:text="${usuario.direccion}">Calle Falsa 123</p>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <a th:href="@{/elegir-tipo-plan}" class="btn btn-edit-profile mt-2">Unirse a premium</a>
+        </section>
 
-</main>
+        <!-- === PREFERENCIAS MUSICALES === -->
+        <section class="mb-5">
+            <h4 class="fw-bold mb-4">Preferencias Musicales</h4>
+            <div class="row g-4">
+                <!-- Artistas Favoritos -->
+                <div class="col-md-3">
+                    <h6 class="fw-semibold mb-2">Artistas Favoritos</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="chip" th:each="a : ${artistas}" th:text="${a}"></span>
+                    </div>
+                </div>
+                <!-- Géneros -->
+                <div class="col-md-3">
+                    <h6 class="fw-semibold mb-2">Géneros</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="chip" th:each="g : ${generos}" th:text="${g}"></span>
+                    </div>
+                </div>
+                <!-- Época Musical -->
+                <div class="col-md-3">
+                    <h6 class="fw-semibold mb-2">Época Musical</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="chip" th:each="e : ${epocas}" th:text="${e}"></span>
+                    </div>
+                </div>
+                <!-- Región -->
+                <div class="col-md-3">
+                    <h6 class="fw-semibold mb-2">Región</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="chip" th:each="r : ${regiones}" th:text="${r}"></span>
+                    </div>
+                </div>
+            </div>
 
-<!-- FOOTER -->
-<div th:replace="fragments/footer :: footer"></div>
+            <a th:href="@{/editar-preferencias}" class="btn btn-primary mt-4">Editar</a>
+        </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.getElementById("menuToggle").addEventListener("click", () => {
-        document.getElementById("sidebarMenu").classList.add("active");
-    });
-    document.getElementById("menuCerrar").addEventListener("click", () => {
-        document.getElementById("sidebarMenu").classList.remove("active");
-    });
-</script>
+        <!-- === INSIGNIAS === -->
+        <section class="mb-5">
+            <h4 class="fw-bold mb-3">Insignias</h4>
+            <div class="badges-scroll">
+                <div class="badge-card" th:each="insignia : ${insignias}">
+                    <div class="badge-inner">
+                        <div class="badge-front">
+                            <img class="badge-img" th:src="@{${insignia.imagen}}" alt="Insignia">
+                            <div class="badge-label" th:text="${insignia.nombre}">Nombre</div>
+                        </div>
+                        <div class="badge-back">
+                            <span th:text="${insignia.descripcion}">Descripción de la insignia</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-<script>
-    // Captura el evento de selección de archivo
-    document.getElementById("imagenInput").addEventListener("change", function(event) {
-        const file = event.target.files[0];  // Obtener el archivo seleccionado
-        if (file) {
-            const reader = new FileReader();
+        <a th:href="@{/elegir-tipo-plan}" class="btn btn-edit-profile mt-2">Unirse a premium</a>
 
-            reader.onload = function(e) {
-                // Mostrar la imagen cargada en el div "profileImage"
-                document.getElementById("previewImage").setAttribute("src", e.target.result);
-            };
+    </main>
 
-            // Leer el archivo como una URL de imagen
-            reader.readAsDataURL(file);
-        }
-    });
-</script>
+    <!-- FOOTER -->
+    <div th:replace="fragments/footer :: footer"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("menuToggle").addEventListener("click", () => {
+            document.getElementById("sidebarMenu").classList.add("active");
+        });
+        document.getElementById("menuCerrar").addEventListener("click", () => {
+            document.getElementById("sidebarMenu").classList.remove("active");
+        });
+    </script>
+
+    <script>
+        // Captura el evento de selección de archivo
+        document.getElementById("imagenInput").addEventListener("change", function (event) {
+            const file = event.target.files[0];  // Obtener el archivo seleccionado
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    // Mostrar la imagen cargada en el div "profileImage"
+                    document.getElementById("previewImage").setAttribute("src", e.target.result);
+                };
+
+                // Leer el archivo como una URL de imagen
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 
 </body>
 

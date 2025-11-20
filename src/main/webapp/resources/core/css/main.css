@@ -15,6 +15,16 @@ footer {
   align-content: center;
 }
 
+
+/* Opcional: para pantallas pequeñas reduce logos */
+@media (max-width: 576px) {
+  footer.site-footer {
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+  }
+}
+
 /* Estilo de los botones */
 .btn-glass {
   background-color: white;
@@ -22,6 +32,7 @@ footer {
   /* Texto negro */
   border: 1px solid rgba(0, 0, 0, 0.2);
   /* Sin borde */
+  padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -33,19 +44,4 @@ footer {
   /* Azul pastel al pasar el mouse */
   color: black;
   /* Texto negro */
-    background-color: #0A2A43 !important;
-    color: #dbe1ef !important;
-    border-top: 1px solid #dbe1ef !important;
-    text-align: center;
-    height: 50px;
-    align-content: center;
-}
-
-/* Opcional: para pantallas pequeñas reduce logos */
-@media (max-width: 576px) {
-  footer.site-footer {
-    flex-direction: column;
-    gap: 8px;
-    text-align: center;
-  }
 }

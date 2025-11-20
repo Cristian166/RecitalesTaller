@@ -365,3 +365,24 @@ body::before {
     background-color: #e2e6ea !important;
     /* Gris más oscuro al pasar el mouse */
 }
+
+/* Estilo de los botones */
+.btn-glass {
+    background-color: white;
+    color: black;
+    /* Texto negro */
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    /* Sin borde */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    /* Transición suave */
+}
+
+.btn-glass:hover {
+    background-color: #5893df;
+    /* Azul pastel al pasar el mouse */
+    color: black;
+    /* Texto negro */
+}

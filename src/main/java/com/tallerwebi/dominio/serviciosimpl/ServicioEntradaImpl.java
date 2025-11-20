@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -37,7 +38,7 @@ public class ServicioEntradaImpl implements ServicioEntrada {
         repositorioEntrada.guardarEntradaPorUsuario(entrada, usuario);
         Notificacion notificacion = new Notificacion();
         notificacion.setNombreNotificacion("¡Creaste una nueva entrada!");
-        notificacion.setLink("/vista-entradas-recitales");
+        notificacion.setLink("/mis-entradas");
         notificacion.setDescripcionNotificacion("Creaste una nueva entrada, vas a poder ver esta y todas las que tengas en:");
         notificacion.setUsuario(usuario);
         
@@ -59,17 +60,44 @@ public class ServicioEntradaImpl implements ServicioEntrada {
     @Override
     public void validarEntrada(Long id, Usuario usuario) {
         validarEntrada(id, usuario, (int) (Math.random() * 10));
+        
     }
 
 
 
     public void validarEntrada(Long id, Usuario usuario, int random) {
         Entrada entradaEncontrada = repositorioEntrada.buscarPorId(id);
+        
 
         if (entradaEncontrada != null && random >= 4) {
             entradaEncontrada.setValidada(true);
             repositorioEntrada.guardarEntradaPorUsuario(entradaEncontrada, usuario);
         }
+
+        List<Entrada> entradasValidadas = repositorioEntrada.obtenerEntradasValidadas();
+        Integer contadorAsistenciaALugar=0;
+        for(Entrada entradaValidada : entradasValidadas){
+
+            if (entradaValidada.getUsuario().getId().equals(usuario.getId())) {
+
+                if (entradaValidada.getLugar().equals(entradaEncontrada.getLugar())) {
+                    contadorAsistenciaALugar++;
+                }
+            }
+        }
+
+        // Si asistió más de 3 veces
+        if (contadorAsistenciaALugar % 3 == 0){
+            Notificacion notificacion = new Notificacion();
+            notificacion.setNombreNotificacion("¡Nuevo codigo de descuento!");
+            notificacion.setDescripcionNotificacion("Asististe " + contadorAsistenciaALugar +" veces a " + entradaEncontrada.getLugar()+" .Tu codigo de descuento es: " + codigoRandom()+ " podes ingresarlo en tu próxima compra en cualquier ticketera.");
+            notificacion.setLink("/mis-entradas");
+            notificacion.setUsuario(usuario);
+            
+            servicioNotificacion.agregarNotificacion(usuario, notificacion);
+        }
+
+
     }
 
     @Override
@@ -97,7 +125,19 @@ public class ServicioEntradaImpl implements ServicioEntrada {
                 entrada.getImagen(),
                 validada
         );
-}
+    }
+
+    public String codigoRandom() {
+    String caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    Random random = new Random();
+    char[] codigo = new char[6];
+
+        for (int i = 0; i < 6; i++) {
+            codigo[i] = caracteres.charAt(random.nextInt(caracteres.length()));
+        }
+
+    return new String(codigo);
+    }
 
     
 }

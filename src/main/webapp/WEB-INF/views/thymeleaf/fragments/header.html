@@ -28,7 +28,7 @@
             </a>
 
             <a th:href="@{/perfil}" style="color: #0A2A43; font-weight: 600; text-decoration: none;">
-                <span th:text="${usuario != null ? usuario.nombre : 'Invitado'}">Usuario</span>
+                <span th:text="${usuario != null ? usuario.nombre + ' ' + usuario.apellido : 'Invitado'}"></span>
             </a>
         </div>
 

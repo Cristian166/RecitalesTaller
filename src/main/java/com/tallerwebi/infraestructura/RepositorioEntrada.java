@@ -9,6 +9,8 @@ public interface RepositorioEntrada {
 
     List<Entrada> obtenerEntradas();
 
+    List<Entrada> obtenerEntradasValidadas();
+
     List<Entrada> obtenerEntradasPorUsuario(Usuario usuario);
 
     void guardarEntradaPorUsuario(Entrada entrada, Usuario usuario);

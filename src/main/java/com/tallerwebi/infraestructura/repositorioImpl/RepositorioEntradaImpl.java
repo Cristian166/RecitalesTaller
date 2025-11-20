@@ -55,6 +55,12 @@ public class RepositorioEntradaImpl implements RepositorioEntrada {
         .list();
     }
 
+    @Override
+    public List<Entrada> obtenerEntradasValidadas() {
+        return sessionFactory.getCurrentSession()
+            .createQuery("FROM Entrada WHERE validada = true", Entrada.class)
+            .list();
+    }
 
     
 }

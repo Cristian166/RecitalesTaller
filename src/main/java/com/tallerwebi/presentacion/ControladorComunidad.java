@@ -210,7 +210,6 @@ public class ControladorComunidad {
         return "redirect:/comunidad/" + id;
     }
 
-
     @GetMapping("/buscar-comunidad")
     @ResponseBody
     public List<Map<String, Object>> buscarComunidad(@RequestParam String query) {

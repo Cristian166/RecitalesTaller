@@ -12,5 +12,4 @@ public interface ServicioLogin {
     Usuario registrar(Usuario usuario) throws UsuarioExistente;
 
     void asignarInsigniaLogin(Usuario usuario);
-
 }

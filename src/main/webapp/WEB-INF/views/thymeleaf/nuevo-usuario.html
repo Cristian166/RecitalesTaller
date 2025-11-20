@@ -61,12 +61,12 @@
         </div>
     </header>
 
-    <main >
+    <main>
         <div class="register-card">
 
             <h3 class="mb-4 text-center">Crear nueva cuenta</h3>
 
-
+            <!-- Mensajes de error y éxito -->
             <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
             <div th:if="${mensaje}" class="alert alert-success" th:text="${mensaje}"></div>
 
@@ -88,66 +88,82 @@
                         </div>
                     </div>
 
+                    <!-- Nombre -->
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nombre</label>
                         <input type="text" class="form-control" th:field="*{nombre}" id="nombre" placeholder="Tu nombre">
                         <div th:if="${errorNombre}" class="text-danger" th:text="${errorNombre}"></div>
                     </div>
 
-
+                    <!-- Apellido -->
                     <div class="col-md-6">
                         <label for="apellido" class="form-label">Apellido</label>
                         <input type="text" class="form-control" th:field="*{apellido}" id="apellido" placeholder="Tu apellido">
                         <div th:if="${errorApellido}" class="text-danger" th:text="${errorApellido}"></div>
                     </div>
 
-
+                    <!-- Email -->
                     <div class="col-12">
                         <label for="email" class="form-label">Email</label>
                         <input type="email" class="form-control" th:field="*{email}" id="email" placeholder="tu@ejemplo.com">
                         <div th:if="${errorEmail}" class="text-danger" th:text="${errorEmail}"></div>
                     </div>
 
-
+                    <!-- Contraseña -->
                     <div class="col-md-6">
-                        <label for="password" class="form-label">Contrasena</label>
+                        <label for="password" class="form-label">Contraseña</label>
                         <input type="password" class="form-control" th:field="*{password}" id="password" placeholder="Minimo 6 caracteres">
                         <div th:if="${errorPassword}" class="text-danger" th:text="${errorPassword}"></div>
                     </div>
 
-
+                    <!-- Repetir Contraseña -->
                     <div class="col-md-6">
-                        <label for="confirmPassword" class="form-label">Repetir contrasena</label>
-                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Repite tu contrasena">
+                        <label for="confirmPassword" class="form-label">Repetir contraseña</label>
+                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Repite tu contraseña">
                     </div>
 
-
+                    <!-- Teléfono -->
                     <div class="col-md-6">
-                        <label for="telefono" class="form-label">Telefono</label>
-                        <input type="text" class="form-control" th:field="*{telefono}" id="telefono" name="telefono" placeholder="telefono">
+                        <label for="telefono" class="form-label">Teléfono</label>
+
+                        <!-- Selector de código de país -->
+                        <select class="form-control" id="codigoPais" name="codigoPais">
+                            <option value="+54" data-length="10">+54 Argentina</option>
+                            <option value="+1" data-length="10">+1 USA</option>
+                            <option value="+55" data-length="11">+55 Brasil</option>
+                            <!-- Agregar más países aquí si es necesario -->
+                        </select>
+                        <!-- Campo de entrada para el número de teléfono -->
+                        <input type="text" class="form-control" th:field="*{telefono}" id="telefono" name="telefono" placeholder="Número de teléfono" maxlength="15" pattern="^\d{8,15}$" />
+                        <small id="telefonoHelp" class="form-text text-muted">El teléfono debe ser un número válido.</small>
                     </div>
 
+                    <!-- País -->
                     <div class="col-md-6">
                         <label for="pais" class="form-label">Pais</label>
                         <input type="text" class="form-control" th:field="*{pais}" id="pais" name="pais" placeholder="pais">
                     </div>
 
+                    <!-- Provincia -->
                     <div class="col-md-6">
                         <label for="provincia" class="form-label">Provincia</label>
                         <input type="text" class="form-control" th:field="*{provincia}" id="provincia" name="provincia" placeholder="provincia">
                     </div>
 
+                    <!-- Dirección -->
                     <div class="col-md-6">
                         <label for="direccion" class="form-label">Direccion</label>
                         <input type="text" class="form-control" th:field="*{direccion}" id="direccion" name="direccion" placeholder="direccion">
                     </div>
                 </div>
 
-            <div class="form-check mt-3">
-                <input class="form-check-input" type="checkbox" id="showPassword">
-                <label class="form-check-label" for="showPassword">Mostrar contrasenas</label>
-            </div>
+                <!-- Checkbox para mostrar las contraseñas -->
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="showPassword">
+                    <label class="form-check-label" for="showPassword">Mostrar contraseñas</label>
+                </div>
 
+                <!-- Botones de acción -->
                 <div class="mt-4 d-flex justify-content-between align-items-center">
                     <a th:href="@{/login}" class="text-muted">Ya tengo cuenta</a>
                     <button type="submit" class="btn btn-primary">Registrarme</button>
@@ -156,7 +172,9 @@
         </div>
     </main>
 
+
 <div th:replace="fragments/footer :: footer"></div>
+
 
 <script>
     // Mostrar/ocultar contrasenas
@@ -175,6 +193,36 @@
             document.getElementById("file-name").textContent = fileName;  // Mostrar el nombre del archivo en el span
         });
     </script>
+    <script>
+        function updatePlaceholder() {
+            // Obtener el valor del código de país seleccionado
+            const codigoPais = document.getElementById("codigoPais").value;
 
+            // Obtener el campo de teléfono y el mensaje de ayuda
+            const telefonoInput = document.getElementById("telefono");
+            const telefonoHelp = document.getElementById("telefonoHelp");
+
+            // Cambiar el placeholder y el mensaje de ayuda según el país seleccionado
+            if (codigoPais === "+54") {
+                telefonoInput.placeholder = "Ej: 1123456789";  // Placeholder para Argentina
+                telefonoInput.maxLength = 10;  // Limitar a 10 dígitos
+                telefonoHelp.textContent = "El teléfono en Argentina debe tener 10 dígitos.";
+            } else if (codigoPais === "+1") {
+                telefonoInput.placeholder = "Ej: 1234567890";  // Placeholder para USA
+                telefonoInput.maxLength = 10;  // Limitar a 10 dígitos
+                telefonoHelp.textContent = "El teléfono en USA debe tener 10 dígitos.";
+            } else if (codigoPais === "+55") {
+                telefonoInput.placeholder = "Ej: 11987654321";  // Placeholder para Brasil
+                telefonoInput.maxLength = 11;  // Limitar a 11 dígitos
+                telefonoHelp.textContent = "El teléfono en Brasil debe tener 11 dígitos.";
+            } else {
+                telefonoInput.placeholder = "Número de teléfono";  // Placeholder genérico
+                telefonoInput.maxLength = 15;  // Limitar a 15 dígitos (valor predeterminado)
+                telefonoHelp.textContent = "El teléfono debe ser un número válido.";
+            }
+        }
+        // Llamar a la función para inicializar el valor correcto al cargar la página
+        window.onload = updatePlaceholder;
+    </script>
 </body>
 </html>

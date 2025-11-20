@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,15 +58,47 @@ public class ControladorLogin {
 
     @PostMapping("/registrar")
     public String registrarUsuario(@ModelAttribute("usuario") Usuario usuario,
-            @RequestParam("confirmPassword") String confirmPassword,
-            @RequestParam("imagenArchivo") MultipartFile imagenArchivo, //para cargar imagen
-            Model model) {
+                                   @RequestParam("confirmPassword") String confirmPassword,
+                                   @RequestParam("imagenArchivo") MultipartFile imagenArchivo,
+                                   @RequestParam("codigoPais") String codigoPais,//para cargar imagen
+                                   Model model, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "nuevo-usuario";
+        }
+
+        String telefonoCompleto = codigoPais + usuario.getTelefono();
+        if (!usuario.isEmailvalido()){
+            model.addAttribute("errorEmail","El email debe contener .com");
+            return "nuevo-usuario";
+        }
+        if (codigoPais.equals("+54") && telefonoCompleto.length() != 13) { // +54 para Argentina (ej: +54 1123456789)
+            model.addAttribute("errorTelefono", "El teléfono en Argentina debe tener 10 dígitos.");
+            return "nuevo-usuario";
+        } else if (codigoPais.equals("+1") && telefonoCompleto.length() != 12) { // +1 para USA (ej: +1 1234567890)
+            model.addAttribute("errorTelefono", "El teléfono en USA debe tener 10 dígitos.");
+            return "nuevo-usuario";
+        } else if (codigoPais.equals("+55") && telefonoCompleto.length() != 13) { // +55 para Brasil (ej: +55 11987654321)
+            model.addAttribute("errorTelefono", "El teléfono en Brasil debe tener 11 dígitos.");
+            return "nuevo-usuario";
+        }
+        if (!telefonoCompleto.matches("^\\+\\d{1,3}\\d{8,15}$")) {
+            model.addAttribute("errorTelefono", "El teléfono debe tener un formato válido.");
+            return "nuevo-usuario";
+        }
+
+        if (usuario.getNombre() == null || usuario.getNombre().trim().isEmpty()) {
+            model.addAttribute("errorNombre", "El nombre es obligatorio.");
+        }
+        if (usuario.getApellido() == null || usuario.getApellido().trim().isEmpty()) {
+            model.addAttribute("errorApellido", "El apellido es obligatorio.");
+        }
+        if (!usuario.getPassword().equals(confirmPassword)) {
+            model.addAttribute("errorPassword", "Las contraseñas no coinciden.");
+            return "nuevo-usuario";
+        }
         try {
-            if (!usuario.getPassword().equals(confirmPassword)) {
-                model.addAttribute("error", "Las contraseñas no coinciden.");
-                return "nuevo-usuario";
-            }
-            
+
             if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
                 try {
                     String nombreArchivo = System.currentTimeMillis() + "_" + imagenArchivo.getOriginalFilename();
@@ -81,14 +114,12 @@ public class ControladorLogin {
                     return "nuevo-usuario";
                 }
             }
-
             servicioLogin.registrar(usuario);
-
             model.addAttribute("mensaje", "Usuario registrado con éxito.");
             return "redirect:/login";
 
         } catch (UsuarioExistente existente) {
-            model.addAttribute("error", existente.getMessage());
+            model.addAttribute("errorEmail", existente.getMessage());
             return "nuevo-usuario";
 
         } catch (IllegalArgumentException excepcion) {

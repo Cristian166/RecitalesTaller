@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.text.IsEqualIgnoringCase.equalToIgnoringCase;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
-import static org.hamcrest.Matchers.equalTo;
-
 public class ControladorLoginTest {
 
 	private ControladorLogin controladorLogin;
@@ -78,7 +77,8 @@ public class ControladorLoginTest {
 		Usuario usuarioMock = new Usuario();
 		usuarioMock.setEmail("test@correo.com");
 		usuarioMock.setPassword("123456");
-		
+		usuarioMock.setTelefono("1123456789");
+
 		MockMultipartFile imagenArchivo = new MockMultipartFile(
             "imagenArchivo", 
             "testimagen.jpg", 
@@ -87,12 +87,14 @@ public class ControladorLoginTest {
         );
 
 		when(servicioLoginMock.registrar(usuarioMock)).thenReturn(usuarioMock);
-		
 
-		Model model = new ExtendedModelMap(); // esto simula el Model de Spring
+		BindingResult bindingResult = mock(BindingResult.class);
+		when(bindingResult.hasErrors()).thenReturn(false);
+
+		Model model = new ExtendedModelMap();
 
 		// ejecucion
-		String vista = controladorLogin.registrarUsuario(usuarioMock, "123456", imagenArchivo, model);
+		String vista = controladorLogin.registrarUsuario(usuarioMock, "123456", imagenArchivo, "+54", model, bindingResult);
 
 		// validacion
 		assertThat(vista, equalToIgnoringCase("redirect:/login"));
@@ -102,31 +104,23 @@ public class ControladorLoginTest {
 
 	@Test
 	public void registrarUsuarioSiUsuarioExisteDeberiaVolverAlFormularioConError() throws UsuarioExistente {
-		
-		// preparación
 		Usuario usuarioMock = new Usuario();
 		usuarioMock.setEmail("test@correo.com");
 		usuarioMock.setPassword("123456");
-
-		// simulamos que el servicio lanza la excepción UsuarioExistente
-		doThrow(new UsuarioExistente("El usuario ya existe"))
+		usuarioMock.setTelefono("1123456789");
+	
+		doThrow(new UsuarioExistente("El usuario con este correo electrónico ya está registrado"))
 			.when(servicioLoginMock).registrar(usuarioMock);
 
-		MockMultipartFile imagenArchivo = new MockMultipartFile(
-            "imagenArchivo", 
-            "",  // nombre vacío
-            "image/jpeg", 
-            new byte[0]  // contenido vacío
-        );
+		BindingResult bindingResult = mock(BindingResult.class);
+    	when(bindingResult.hasErrors()).thenReturn(false);
+		
+		Model model = mock(Model.class);
 
-		Model model = new ExtendedModelMap();
+		String vista = controladorLogin.registrarUsuario(usuarioMock, "123456", null, "+54", model, bindingResult);
 
-		// ejecución
-		String vista = controladorLogin.registrarUsuario(usuarioMock,"123456", imagenArchivo, model);
-
-		// validación
-		assertThat(vista, equalToIgnoringCase("nuevo-usuario"));
-		assertThat(model.getAttribute("error").toString(), equalTo("El usuario ya existe"));
-
+		assertThat(vista, equalToIgnoringCase("nuevo-usuario")); // Debe devolver la vista de nuevo-usuario
+    	verify(model).addAttribute("errorEmail", "El usuario con este correo electrónico ya está registrado"); // Verifica que se agregue el mensaje de error
+    	verify(servicioLoginMock, times(1)).registrar(usuarioMock); // Verifica que se haya intentado registrar el usuario
 	}
 }

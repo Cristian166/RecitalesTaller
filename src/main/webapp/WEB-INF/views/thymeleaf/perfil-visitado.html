@@ -78,6 +78,11 @@
                 <strong>Dirección:</strong>
                 <p th:text="${usuarioVisitado.direccion}">Calle Falsa 123</p>
             </div>
+
+            <div class="col-12">
+                <strong>Usuario premium:</strong>
+                <span th:text="${usuarioVisitado.esPremium ? 'Sí' : 'No'}"></span>
+            </div>
         </div>
     </section>
 

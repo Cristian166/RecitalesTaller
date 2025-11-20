@@ -78,7 +78,7 @@
     background: rgba(255, 255, 255, 0.45);
     backdrop-filter: blur(5px);
     text-align: center;
-    border: 1px solid rgba(0,0,0,0.08);
+    border: 1px solid rgba(0, 0, 0, 0.08);
 }
 
 .badge-card:hover {
@@ -107,4 +107,119 @@
         width: 110px;
         height: 110px;
     }
+}
+
+/* ---------- TARJETA: fijar contenedor y evitar overflow horizontal ---------- */
+.badge-card {
+    position: relative;
+    overflow: hidden;
+    /* recorta cualquier cosa que intente salirse */
+    flex: 0 0 auto;
+    width: 220px;
+    height: 260px;
+    /* mismo alto que ya tenías */
+    perspective: 1000px;
+}
+
+/* ---------- INTERIOR que rota ---------- */
+.badge-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    transform-origin: center center;
+}
+
+/* Hover -> girar */
+.badge-card:hover .badge-inner {
+    transform: rotateY(180deg);
+}
+
+/* ---------- Frente y reverso: mantener backface invisibility ---------- */
+.badge-front,
+.badge-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+/* (ajusta la imagen del frente si hace falta) */
+.badge-front .badge-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Nombre de la insignia (frente) */
+.badge-front .badge-label {
+    margin-top: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-align: center;
+
+    width: 100%;
+    /* ocupar todo el ancho de la tarjeta */
+    max-width: 100%;
+    /* no permitir que se salga */
+    white-space: normal;
+    /* permite que haga salto de línea */
+    word-break: break-word;
+    /* rompe palabras larguísimas */
+    overflow-wrap: anywhere;
+    /* rompe si hay cosas como URLs largas */
+    box-sizing: border-box;
+    /* padding incluido en ancho */
+}
+
+.badge-back {
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* centrado vertical */
+    text-align: center;
+    padding: 12px;
+    box-sizing: border-box;
+
+    overflow-x: hidden;
+    /* nunca se salga horizontalmente */
+    overflow-y: auto;
+    /* scroll si es muy largo */
+}
+
+/* ---------- TEXTO del reverso: forzar ajuste dentro del ancho de la tarjeta ---------- */
+.badge-back span {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    line-height: 1.4;
+    white-space: normal;
+    /* permite salto de línea */
+    word-break: break-word;
+    /* rompe palabras largas */
+    overflow-wrap: anywhere;
+    /* rompe en cualquier punto si la palabra es larguísima (URLs, etc) */
+    hyphens: auto;
+    /* guionización si el navegador lo soporta */
+    text-align: center;
+    padding: 0 6px;
+    /* un pequeño padding interior para que no toque bordes */
+    color: #000000;
+    font-weight: 600;
+
 }

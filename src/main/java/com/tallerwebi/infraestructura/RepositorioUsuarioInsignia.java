@@ -8,6 +8,11 @@ import com.tallerwebi.dominio.entidades.UsuarioInsignia;
 public interface RepositorioUsuarioInsignia {
 
     boolean guardar(UsuarioInsignia usuarioInsignia);
+
     boolean existe(Long usuarioId, Long insigniaId);
+
     List<UsuarioInsignia> obtenerPorUsuario(Usuario usuario);
+
+    boolean usuarioTieneTodasLasInsigniasExcepto(Long usuarioId, Long insigniaFinalId);
+
 }

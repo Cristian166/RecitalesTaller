@@ -36,6 +36,8 @@ public class ControladorPerfil {
             return new ModelAndView("redirect:/login");
         }
 
+        servicioInsignia.asignarInsigniaFinalSiCorresponde(usuario);
+
         PreferenciaUsuario preferencias = servicioPerfil.obtenerPreferenciasPorUsuario(usuario);
         List<Insignia> insignias = servicioInsignia.obtenerInsigniasDeUsuario(usuario);
 

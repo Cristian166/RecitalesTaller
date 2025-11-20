@@ -52,4 +52,24 @@ public class RepositorioUsuarioInsigniaImpl implements RepositorioUsuarioInsigni
                 .list();
     }
 
+    @Override
+    public boolean usuarioTieneTodasLasInsigniasExcepto(Long usuarioId, Long insigniaFinalId) {
+
+        String hqlTotal = "SELECT COUNT(i) FROM Insignia i WHERE i.id <> :ultima";
+        Long totalNecesarias = (Long) sessionFactory.getCurrentSession()
+                .createQuery(hqlTotal)
+                .setParameter("ultima", insigniaFinalId)
+                .uniqueResult();
+
+        String hqlUsuario = "SELECT COUNT(ui) FROM UsuarioInsignia ui " +
+                "WHERE ui.usuario.id = :usuarioId AND ui.insignia.id <> :ultima";
+        Long totalUsuario = (Long) sessionFactory.getCurrentSession()
+                .createQuery(hqlUsuario)
+                .setParameter("usuarioId", usuarioId)
+                .setParameter("ultima", insigniaFinalId)
+                .uniqueResult();
+
+        return totalNecesarias.equals(totalUsuario);
+    }
+
 }

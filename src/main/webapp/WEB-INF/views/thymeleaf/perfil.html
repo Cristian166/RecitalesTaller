@@ -19,19 +19,27 @@
     <style>
         /* Botón Editar Perfil personalizado */
         .btn-edit-profile {
-            background-color: white;       /* Fondo blanco */
-            color: #0A2A43;                /* Color del texto (puedes cambiarlo) */
-            border-radius: 12px;           /* Bordes redondeados */
-            border: 1px solid #0A2A43;    /* Borde visible */
-            padding: 8px 20px;             /* Espaciado interno */
-            transition: background-color 0.3s, color 0.3s; /* Suaviza el hover */
+            background-color: white;
+            /* Fondo blanco */
+            color: #0A2A43;
+            /* Color del texto (puedes cambiarlo) */
+            border-radius: 12px;
+            /* Bordes redondeados */
+            border: 1px solid #0A2A43;
+            /* Borde visible */
+            padding: 8px 20px;
+            /* Espaciado interno */
+            transition: background-color 0.3s, color 0.3s;
+            /* Suaviza el hover */
             font-weight: 500;
         }
 
         /* Efecto hover */
         .btn-edit-profile:hover {
-            background-color: #0A2A43;   /* Fondo azul oscuro */
-            color: white;                /* Texto blanco */
+            background-color: #0A2A43;
+            /* Fondo azul oscuro */
+            color: white;
+            /* Texto blanco */
         }
     </style>
 
@@ -39,144 +47,149 @@
 
 <body class="bg-white">
 
-<div class="fondo-moderno"></div>
+    <div class="fondo-moderno"></div>
 
-<!-- ===== SIDEBAR + HEADER EXISTENTES ===== -->
-<div th:replace="fragments/header :: header"></div>
-<div th:replace="fragments/sidebar :: sidebar"></div>
+    <!-- ===== SIDEBAR + HEADER EXISTENTES ===== -->
+    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="fragments/sidebar :: sidebar"></div>
 
-<!-- ===== MAIN CONTENT ===== -->
-<main class="container py-5">
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="container py-5">
 
-    <!-- === FOTO + NOMBRE === -->
-    <div class="text-center mb-5">
-        <img th:src="@{'/uploads/' + ${usuario.imagen}}"
-             class="profile-avatar-lg"
-             alt="Foto de perfil">
+        <!-- === FOTO + NOMBRE === -->
+        <div class="text-center mb-5">
+            <img th:src="@{'/uploads/' + ${usuario.imagen}}" class="profile-avatar-lg" alt="Foto de perfil">
 
-        <h2 class="profile-title mt-3"
-            th:text="${nombre} + ' ' + ${apellido}">
-            Nombre Apellido
-        </h2>
+            <h2 class="profile-title mt-3" th:text="${nombre} + ' ' + ${apellido}">
+                Nombre Apellido
+            </h2>
 
-        <a th:href="@{/editar-perfil}" class="btn btn-edit-profile mt-2">
-            Editar Perfil
-        </a>
-    </div>
-
-    <!-- === INFORMACIÓN PERSONAL === -->
-    <section class="mb-5">
-        <h4 class="fw-bold mb-3">Información Personal</h4>
-
-        <div class="row g-3 section-box">
-            <div class="col-md-6">
-                <strong>Teléfono:</strong>
-                <p th:text="${telefono}">11 1234-5678</p>
-            </div>
-
-            <div class="col-md-6">
-                <strong>Email:</strong>
-                <p th:text="${email}">usuario@mail.com</p>
-            </div>
-
-            <div class="col-md-6">
-                <strong>País:</strong>
-                <p th:text="${pais}">Argentina</p>
-            </div>
-
-            <div class="col-md-6">
-                <strong>Provincia:</strong>
-                <p th:text="${provincia}">Buenos Aires</p>
-            </div>
-
-            <div class="col-12">
-                <strong>Dirección:</strong>
-                <p th:text="${direccion}">Calle Falsa 123</p>
-            </div>
-        </div>
-    </section>
-
-    <!-- === PREFERENCIAS MUSICALES === -->
-
-    <section class="mb-5">
-        <h4 class="fw-bold mb-4">Preferencias Musicales</h4>
-
-        <div class="row g-4">
-
-            <!-- Artistas Favoritos -->
-            <div class="col-md-3">
-                <h6 class="fw-semibold mb-2">Artistas Favoritos</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="chip" th:each="a : ${artistas}" th:text="${a}"></span>
-                </div>
-            </div>
-
-            <!-- Géneros -->
-            <div class="col-md-3">
-                <h6 class="fw-semibold mb-2">Géneros</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="chip" th:each="g : ${generos}" th:text="${g}"></span>
-                </div>
-            </div>
-
-            <!-- Época Musical -->
-            <div class="col-md-3">
-                <h6 class="fw-semibold mb-2">Época Musical</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="chip" th:each="e : ${epocas}" th:text="${e}"></span>
-                </div>
-            </div>
-
-            <!-- Región -->
-            <div class="col-md-3">
-                <h6 class="fw-semibold mb-2">Región</h6>
-                <div class="d-flex flex-wrap gap-2">
-                    <span class="chip" th:each="r : ${regiones}" th:text="${r}"></span>
-                </div>
-            </div>
-
+            <a th:href="@{/editar-perfil}" class="btn btn-edit-profile mt-2">
+                Editar Perfil
+            </a>
         </div>
 
-        <a th:href="@{/editar-preferencias}" class="btn btn-primary mt-4">
-            Editar
-        </a>
-    </section>
+        <!-- === INFORMACIÓN PERSONAL === -->
+        <section class="mb-5">
+            <h4 class="fw-bold mb-3">Información Personal</h4>
 
+            <div class="row g-3 section-box">
+                <div class="col-md-6">
+                    <strong>Teléfono:</strong>
+                    <p th:text="${telefono}">11 1234-5678</p>
+                </div>
 
-    <!-- === INSIGNIAS === -->
-    <section class="mb-5">
-        <h4 class="fw-bold mb-3">Insignias</h4>
+                <div class="col-md-6">
+                    <strong>Email:</strong>
+                    <p th:text="${email}">usuario@mail.com</p>
+                </div>
 
-        <div class="badges-scroll">
-            <div class="badge-card"
-                 th:each="insignia : ${insignias}">
-                <img class="badge-img"
-                     th:src="@{${insignia.imagen}}"
-                     alt="Insignia">
+                <div class="col-md-6">
+                    <strong>País:</strong>
+                    <p th:text="${pais}">Argentina</p>
+                </div>
 
-                <div class="badge-label"
-                     th:text="${insignia.nombre}">
-                    Nombre
+                <div class="col-md-6">
+                    <strong>Provincia:</strong>
+                    <p th:text="${provincia}">Buenos Aires</p>
+                </div>
+
+                <div class="col-12">
+                    <strong>Dirección:</strong>
+                    <p th:text="${direccion}">Calle Falsa 123</p>
                 </div>
             </div>
-        </div>
-    </section>
-</main>
+        </section>
 
-<!-- ===== FOOTER ===== -->
-<footer class="text-center py-3">
-    <p class="mb-0">&copy; 2025 Diario Digital de Recitales</p>
-</footer>
+        <!-- === PREFERENCIAS MUSICALES === -->
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    document.getElementById("menuToggle").addEventListener("click", () => {
-        document.getElementById("sidebarMenu").classList.add("active");
-    });
-    document.getElementById("menuCerrar").addEventListener("click", () => {
-        document.getElementById("sidebarMenu").classList.remove("active");
-    });
-</script>
+        <section class="mb-5">
+            <h4 class="fw-bold mb-4">Preferencias Musicales</h4>
+
+            <div class="row g-4">
+
+                <!-- Artistas Favoritos -->
+                <div class="col-md-3">
+                    <h6 class="fw-semibold mb-2">Artistas Favoritos</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="chip" th:each="a : ${artistas}" th:text="${a}"></span>
+                    </div>
+                </div>
+
+                <!-- Géneros -->
+                <div class="col-md-3">
+                    <h6 class="fw-semibold mb-2">Géneros</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="chip" th:each="g : ${generos}" th:text="${g}"></span>
+                    </div>
+                </div>
+
+                <!-- Época Musical -->
+                <div class="col-md-3">
+                    <h6 class="fw-semibold mb-2">Época Musical</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="chip" th:each="e : ${epocas}" th:text="${e}"></span>
+                    </div>
+                </div>
+
+                <!-- Región -->
+                <div class="col-md-3">
+                    <h6 class="fw-semibold mb-2">Región</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        <span class="chip" th:each="r : ${regiones}" th:text="${r}"></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <a th:href="@{/editar-preferencias}" class="btn btn-primary mt-4">
+                Editar
+            </a>
+        </section>
+
+
+        <!-- === INSIGNIAS === -->
+        <section class="mb-5">
+            <h4 class="fw-bold mb-3">Insignias</h4>
+
+            <div class="badges-scroll">
+                <div class="badge-card" th:each="insignia : ${insignias}">
+                    <div class="badge-inner">
+
+                        <!-- Frente -->
+                        <div class="badge-front">
+                            <img class="badge-img" th:src="@{${insignia.imagen}}" alt="Insignia">
+                            <div class="badge-label" th:text="${insignia.nombre}">Nombre</div>
+                        </div>
+
+                        <!-- Reverso -->
+                        <div class="badge-back">
+                            <span th:text="${insignia.descripcion}">Descripción de la insignia</span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <a th:href="@{/elegir-tipo-plan}" class="btn btn-edit-profile mt-2">Unirse a premium</a>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="text-center py-3">
+        <p class="mb-0">&copy; 2025 Diario Digital de Recitales</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById("menuToggle").addEventListener("click", () => {
+            document.getElementById("sidebarMenu").classList.add("active");
+        });
+        document.getElementById("menuCerrar").addEventListener("click", () => {
+            document.getElementById("sidebarMenu").classList.remove("active");
+        });
+    </script>
 
 </body>
+
 </html>

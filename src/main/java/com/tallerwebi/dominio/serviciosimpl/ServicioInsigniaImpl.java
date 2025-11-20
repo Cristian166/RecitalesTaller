@@ -14,6 +14,7 @@ import com.tallerwebi.dominio.entidades.Insignia;
 import com.tallerwebi.dominio.entidades.InsigniaPremium;
 import com.tallerwebi.dominio.entidades.Usuario;
 import com.tallerwebi.dominio.entidades.UsuarioInsignia;
+import com.tallerwebi.infraestructura.RepositorioInsignia;
 import com.tallerwebi.infraestructura.RepositorioUsuarioInsignia;
 
 @Service
@@ -21,12 +22,16 @@ public class ServicioInsigniaImpl implements ServicioInsignia {
 
     @Autowired
     private RepositorioUsuarioInsignia repositorioUsuarioInsignia;
+    @Autowired
+    private RepositorioInsignia repositorioInsignia;
 
     public ServicioInsigniaImpl() {
     }
 
-    public ServicioInsigniaImpl(RepositorioUsuarioInsignia repositorioUsuarioInsignia) {
+    public ServicioInsigniaImpl(RepositorioUsuarioInsignia repositorioUsuarioInsignia,
+            RepositorioInsignia repositorioInsignia) {
         this.repositorioUsuarioInsignia = repositorioUsuarioInsignia;
+        this.repositorioInsignia = repositorioInsignia;
     }
 
     @Override
@@ -46,6 +51,29 @@ public class ServicioInsigniaImpl implements ServicioInsignia {
 
     @Override
     @Transactional
+    public boolean asignarInsigniaFinalSiCorresponde(Usuario usuario) {
+
+        Long ID_INSIGNIA_FINAL = 9L;
+
+        if (repositorioUsuarioInsignia.existe(usuario.getId(), ID_INSIGNIA_FINAL)) {
+            return false;
+        }
+
+        boolean tieneTodasExcepto = repositorioUsuarioInsignia
+                .usuarioTieneTodasLasInsigniasExcepto(usuario.getId(), ID_INSIGNIA_FINAL);
+
+        if (!tieneTodasExcepto) {
+            return false;
+        }
+
+        Insignia insigniaFinal = repositorioInsignia.obtenerPorId(ID_INSIGNIA_FINAL);
+
+        return asignarInsignia(usuario, insigniaFinal);
+
+    }
+
+    @Override
+    @Transactional
     public List<Insignia> obtenerInsigniasDeUsuario(Usuario usuario) {
         List<Insignia> insigniasDelUsuario = new ArrayList<>();
         List<UsuarioInsignia> usuarioInsignias = repositorioUsuarioInsignia.obtenerPorUsuario(usuario);
@@ -56,4 +84,5 @@ public class ServicioInsigniaImpl implements ServicioInsignia {
         }
         return insigniasDelUsuario;
     }
+
 }

@@ -47,7 +47,7 @@ public class RepositorioUsuarioInsigniaTest {
         this.repositorioUsuarioInsignia = new RepositorioUsuarioInsigniaImpl(sessionfactory);
         this.repositorioUsuario = new RepositorioUsuarioImpl(sessionfactory);
         this.repositorioInsignia = new RepositorioInsigniaImpl(sessionfactory);
-        this.servicioInsignia = new ServicioInsigniaImpl(repositorioUsuarioInsignia);
+        this.servicioInsignia = new ServicioInsigniaImpl(repositorioUsuarioInsignia, repositorioInsignia);
     }
 
     @Test

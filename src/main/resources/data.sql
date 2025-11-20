@@ -1,7 +1,10 @@
 /*Usuario*/
 
-INSERT IGNORE INTO Usuario(id, email, password, rol, activo, cantidad_publicaciones, es_premium) 
-VALUES(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true, 0, false);
+INSERT IGNORE INTO Usuario(id, email, password, rol, activo, cantidad_publicaciones, es_premium, nombre, apellido) 
+VALUES
+(null, 'test@unlam.edu.ar', 'test', 'ADMIN', true, 0, false, 'testerdo', 'martinez'),
+(null, 'admin@admin.admin', 'soyadmin', 'ADMIN', true, 0, true, 'diego', 'maradona');
+
 
 /*Artistas*/
 INSERT IGNORE INTO Preferencia (nombre, tipo) VALUES
@@ -70,4 +73,5 @@ INSERT IGNORE INTO Insignia (DTYPE, nombre, descripcion, imagen, efectoVisual) V
 ('Insignia', 'Bienvenido', 'Iniciaste sesion', '/img/insignias/bienvenido.png', NULL),
 ('InsigniaPremium', 'Encuestador', 'Creaste una encuesta', '/img/insignias/encuestador.png', 'Azul'),
 ('InsigniaPremium', 'Creador de Comunidad', 'Creaste una comunidad', '/img/insignias/creador_comunidad_premium.png', 'Rojo'),
-('InsigniaPremium', 'Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png', 'Amarillo');
+('InsigniaPremium', 'Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png', 'Amarillo'),
+('InsigniaPremium', 'Coleccionista', 'Conseguiste todas las insignias!', '/img/insignias/coleccionista.png', 'Amarillo');

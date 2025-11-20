@@ -1,65 +1,110 @@
-.profile-img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
+/* ================================
+   PERFIL – ESTILOS MODERNOS
+   ================================ */
+
+/* Avatar */
+.profile-avatar-lg {
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     border: 3px solid #6c757d;
+    object-fit: cover;
 }
 
-/* ===== PREFERENCIAS ===== */
-.pref-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    text-align: center;
-    align-items: start; 
+/* Títulos */
+.profile-title {
+    color: #0A2A43;
+    font-weight: 700;
 }
 
-.pref-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin-bottom: 12px;
-    min-height: 100px; 
+/* Secciones */
+.section-box {
+    background: #0a2a4320;
+    padding: 25px;
+    border-radius: 18px;
+    border: 1px solid #33445555;
 }
 
-.square-box {
-    width: 64px;
-    height: 64px;
-    border: 2px solid #6c757d;
-    border-radius: 8px;
-    background: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Etiquetas de información */
+.section-box p {
+    margin-bottom: 6px;
 }
 
-.pref-label {
-    margin-top: 6px;
+/* Chips */
+.chip {
+    padding: 6px 14px;
+    background: #0A2A43;
+    border-radius: 20px;
     font-size: 14px;
+    border: 1px solid #6c757d;
+    color: white;
 }
 
-.pref-title {
+/* ================================
+   INSIGNIAS - SCROLL HORIZONTAL
+   ================================ */
+
+.badges-scroll {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    padding: 15px 5px;
+    scrollbar-width: thin;
+    scrollbar-color: #b0b0b0 transparent;
+    white-space: nowrap;
+}
+
+.badges-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.badges-scroll::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.badges-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Tarjeta de insignia grande */
+.badge-card {
+    position: relative;
+    overflow: hidden;
+    flex: 0 0 auto;
+    width: 220px;
+    padding: 15px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(5px);
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.08);
+}
+
+.badge-card:hover {
+    background: rgba(255, 255, 255, 0.6);
+    transform: translateY(-3px);
+}
+
+/* Imagen más grande */
+.badge-img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+/* Texto */
+.badge-label {
+    margin-top: 12px;
+    font-size: 1.2rem;
     font-weight: 600;
-    margin-bottom: 12px;
-    text-decoration: underline;
 }
 
-
-/* ===== INSIGNIAS ===== */
-.circle {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background-color: #dee2e6;
-    border: 2px solid #6c757d;
-}
-
-@media (max-width: 768px) {
-    .pref-grid { grid-template-columns: repeat(2, 1fr); }
-}
+/* Responsive */
 @media (max-width: 576px) {
-    .pref-grid { grid-template-columns: 1fr; }
+    .profile-avatar-lg {
+        width: 110px;
+        height: 110px;
+    }
 }
-

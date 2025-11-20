@@ -40,6 +40,7 @@
         </div>
         <section th:if="${entradas.size() > 0}" class="mb-5">
             <div class="section-header">
+                <h2 class="titulo-seccion"></h2>
                 <a th:href="@{/mis-entradas}" class="btn-view-more">Ver más</a>
             </div>
 
@@ -59,7 +60,9 @@
             <p>No sos integrante de ninguna comunidad.</p>
         </div>
         <section th:if="${comunidadesUnidas != null and comunidadesUnidas.size() > 0}" class="mb-5">
+
             <div class="section-header">
+                <h2 class="titulo-seccion"></h2>
                 <a th:href="@{/comunidades}" class="btn-view-more">Ver más</a>
             </div>
            <div class="scrolling-wrapper">

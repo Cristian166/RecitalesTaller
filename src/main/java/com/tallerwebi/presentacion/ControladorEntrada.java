@@ -111,6 +111,12 @@ public class ControladorEntrada {
     @GetMapping("/validar-entrada")
     public ModelAndView mostrarFormularioValidarEntrada(@RequestParam("id") Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        ModelAndView modelAndView2 = new ModelAndView("login");
+        if (usuario == null) {
+            return modelAndView2;
+        }
+
         ModelAndView modelAndView = new ModelAndView("validar-entrada");
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("entrada", servicioEntrada.buscarPorId(id));

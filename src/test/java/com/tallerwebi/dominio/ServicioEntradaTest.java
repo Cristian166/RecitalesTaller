@@ -3,7 +3,10 @@ package com.tallerwebi.dominio;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -188,6 +191,59 @@ public class ServicioEntradaTest {
 
         assertEquals(2, entradasDeUsuario.size());
         verify(repositorioEntradaMock).obtenerEntradasPorUsuario(usuario);
+    }
+
+    @Test
+    void debeEnviarNotificacionCadaTresEntradas() {
+
+        Usuario usuario = new Usuario();
+        usuario.setId(1L);
+        usuario.setEsPremium(true);
+
+        Entrada entrada = new Entrada();
+        entrada.setLugar("Luna Park");
+        entrada.setUsuario(usuario);
+
+        Entrada entrada2 = new Entrada(); 
+        entrada2.setUsuario(usuario); 
+        entrada2.setLugar("Luna Park");
+        
+        Entrada entrada3 = new Entrada(); 
+        entrada3.setUsuario(usuario); 
+        entrada3.setLugar("Luna Park");
+
+        when(repositorioEntradaMock.buscarPorId(10L)).thenReturn(entrada);
+        when(repositorioEntradaMock.obtenerEntradasValidadas()).thenReturn(List.of(entrada2, entrada3, entrada));
+
+        servicioEntrada.validarEntrada(10L, usuario, 5);
+
+        verify(servicioNotificacion, times(1)).agregarNotificacion(eq(usuario), any());
+    }
+
+     @Test
+    void noDebeEnviarNotificacionSiNoEsPremium() {
+        Usuario usuario = new Usuario();
+        usuario.setId(2L);
+        usuario.setEsPremium(false);
+
+        Entrada entrada = new Entrada();
+        entrada.setLugar("velez");
+        entrada.setUsuario(usuario);
+        Entrada entrada2= new Entrada();
+        entrada2.setLugar("velez");
+        entrada2.setUsuario(usuario);
+        Entrada entrada3 = new Entrada();
+        entrada3.setLugar("velez");
+        entrada3.setUsuario(usuario);
+
+        List<Entrada> validadas = List.of(entrada, entrada2, entrada3);
+
+        when(repositorioEntradaMock.buscarPorId(30L)).thenReturn(entrada);
+        when(repositorioEntradaMock.obtenerEntradasValidadas()).thenReturn(validadas);
+
+        servicioEntrada.validarEntrada(30L, usuario, 5);
+
+        verify(servicioNotificacion, never()).agregarNotificacion(any(), any());
     }
         
 }

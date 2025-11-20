@@ -112,9 +112,10 @@ public class ControladorEntrada {
     public ModelAndView mostrarFormularioValidarEntrada(@RequestParam("id") Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        ModelAndView modelAndView2 = new ModelAndView("login");
         if (usuario == null) {
-            return modelAndView2;
+            ModelAndView modelAndView1 = new ModelAndView("login");
+                modelAndView1.addObject("datosLogin", new DatosLogin()); // NECESARIO
+                return modelAndView1;
         }
 
         ModelAndView modelAndView = new ModelAndView("validar-entrada");

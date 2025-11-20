@@ -76,18 +76,19 @@ public class ServicioEntradaImpl implements ServicioEntrada {
 
         List<Entrada> entradasValidadas = repositorioEntrada.obtenerEntradasValidadas();
         Integer contadorAsistenciaALugar=0;
+
         for(Entrada entradaValidada : entradasValidadas){
-
             if (entradaValidada.getUsuario().getId().equals(usuario.getId())) {
-
-                if (entradaValidada.getLugar().equals(entradaEncontrada.getLugar())) {
+                if(entradaValidada.getUsuario().getEsPremium()==true){
+                    if (entradaValidada.getLugar().equals(entradaEncontrada.getLugar())) {
                     contadorAsistenciaALugar++;
+                    }
                 }
             }
         }
 
         // Si asistió más de 3 veces
-        if (contadorAsistenciaALugar % 3 == 0){
+        if (contadorAsistenciaALugar >= 3 && contadorAsistenciaALugar % 3 == 0){
             Notificacion notificacion = new Notificacion();
             notificacion.setNombreNotificacion("¡Nuevo codigo de descuento!");
             notificacion.setDescripcionNotificacion("Asististe " + contadorAsistenciaALugar +" veces a " + entradaEncontrada.getLugar()+" .Tu codigo de descuento es: " + codigoRandom()+ " podes ingresarlo en tu próxima compra en cualquier ticketera.");

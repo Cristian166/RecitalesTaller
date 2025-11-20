@@ -74,6 +74,8 @@ public class ControladorPerfil {
         }
 
         ModelMap model = new ModelMap();
+
+        model.addAttribute("usuario", usuario);
         model.addAttribute("generos", servicioPerfil.obtenerGeneros());
         model.addAttribute("artistas", servicioPerfil.obtenerArtistas());
         model.addAttribute("regiones", servicioPerfil.obtenerRegiones());

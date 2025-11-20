@@ -1,6 +1,5 @@
 package com.tallerwebi.presentacion;
 
-import com.tallerwebi.dominio.serviciosimpl.ServicioPerfilImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -177,16 +176,13 @@ public class ControladorPerfil {
     public String actualizarPerfil(@ModelAttribute("usuario") Usuario usuario,
                                    @RequestParam("imagenArchivo") MultipartFile imagenArchivo,
                                    HttpSession session) {
-        // Obtener el usuario de la sesión
         Usuario sessionUsuario = (Usuario) session.getAttribute("usuario");
 
         if (sessionUsuario != null) {
-            // Verificar que el ID del usuario no sea nulo
             if (sessionUsuario.getId() == null) {
                 throw new IllegalArgumentException("ID del usuario es requerido para la actualización.");
             }
 
-            // Actualiza los datos del usuario (sin la imagen)
             servicioPerfil.actualizarPerfil(sessionUsuario.getId(),
                     usuario.getNombre(),
                     usuario.getApellido(),
@@ -195,39 +191,31 @@ public class ControladorPerfil {
                     usuario.getDireccion(),
                     usuario.getPais(),
                     usuario.getProvincia(),
-                    usuario.getImagen());  // Llama al servicio de actualización
+                    usuario.getImagen());
 
-            // Si se ha enviado una nueva imagen, actualízala
             if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
                 try {
-                    // Generar un nombre único para el archivo
                     String nombreArchivo = System.currentTimeMillis() + "_" + imagenArchivo.getOriginalFilename();
                     Path ruta = Paths.get("uploads").resolve(nombreArchivo).toAbsolutePath();
 
-                    // Crea los directorios si no existen
                     Files.createDirectories(ruta.getParent());
 
-                    // Guarda el archivo en el servidor
                     Files.write(ruta, imagenArchivo.getBytes());
 
-                    // Actualiza el nombre del archivo en el objeto usuario
-                    usuario.setImagen(nombreArchivo);  // Asegúrate de actualizar el campo imagen en el objeto usuario
-                    servicioPerfil.actualizarImagenPerfil(usuario.getId(), nombreArchivo);  // Actualiza la imagen en la base de datos
+                    usuario.setImagen(nombreArchivo);
+                    servicioPerfil.actualizarImagenPerfil(usuario.getId(), nombreArchivo);
                 } catch (IOException e) {
                     e.printStackTrace();
-                    // Maneja el error de carga de imagen
                     session.setAttribute("error", "Error al guardar la imagen.");
-                    return "redirect:/perfil";  // Redirige de nuevo al perfil en caso de error
+                    return "redirect:/perfil";
                 }
             }
 
-            // Actualiza la sesión con los nuevos datos del usuario (incluida la imagen)
             session.setAttribute("usuario", usuario);
 
-            // Redirige al perfil con los datos actualizados
             return "redirect:/perfil";
         }
 
-        return "redirect:/login";  // Si el usuario no está logueado, redirige al login
+        return "redirect:/login";
     }
 }

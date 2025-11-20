@@ -37,8 +37,8 @@ public class ControladorPublicacion {
     // Crear una publicacion en una comunidad
     @PostMapping("/comunidad/{id}/publicar")
     public String publicarEnLaComunidad(@PathVariable Long id,
-            @ModelAttribute("nuevaPublicacion") Publicacion publicacion,
-            @RequestParam(value = "imagenArchivo", required = false) MultipartFile imagenArchivo) {
+                                        @ModelAttribute("nuevaPublicacion") Publicacion publicacion,
+                                        @RequestParam(value = "imagenArchivo", required = false) MultipartFile imagenArchivo) {
 
         Comunidad comunidad = servicioComunidad.obtenerComunidad(id);
         if (comunidad == null) {
@@ -56,6 +56,7 @@ public class ControladorPublicacion {
             System.out.println("Contenido de publicación vacío");
             return "redirect:/comunidad/" + id;
         }
+
         if (imagenArchivo != null && !imagenArchivo.isEmpty()) {
             try {
                 String nombreArchivo = System.currentTimeMillis() + "_" + imagenArchivo.getOriginalFilename();

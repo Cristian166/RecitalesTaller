@@ -3,7 +3,6 @@ package com.tallerwebi.infraestructura;
 import com.tallerwebi.dominio.entidades.Comunidad;
 import com.tallerwebi.dominio.entidades.Usuario;
 
-import java.util.List;
 import java.util.Set;
 
 public interface RepositorioComunidad {

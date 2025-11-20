@@ -137,10 +137,13 @@ public class ServicioPublicacionImpl implements ServicioPublicacion {
 
             dto.setDestacada(pub.getDestacada());
 
-            dto.setAutorImagen(pub.getAutorPublicacion() != null ? pub.getAutorPublicacion().getImagen() : null);
-
-            dto.setAutorId(pub.getAutorPublicacion().getId());
-
+            if(pub.getAutorPublicacion() != null){
+                String autorImagen = pub.getAutorPublicacion().getImagen();
+                dto.setAutorImagen(autorImagen);
+                dto.setAutorId(pub.getAutorPublicacion().getId());
+            }else {
+                dto.setAutorImagen(null);
+            }
             listaDTO.add(dto);
         }
 

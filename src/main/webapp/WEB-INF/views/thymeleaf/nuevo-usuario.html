@@ -124,25 +124,22 @@
 
                     <div class="col-md-6">
                         <label for="telefono" class="form-label">Telefono</label>
-                        <input type="telefono" class="form-control" id="telefono" name="telefono" placeholder="telefono">
+                        <input type="text" class="form-control" th:field="*{telefono}" id="telefono" name="telefono" placeholder="telefono">
                     </div>
-
 
                     <div class="col-md-6">
                         <label for="pais" class="form-label">Pais</label>
-                        <input type="pais" class="form-control" id="pais" name="pais" placeholder="pais">
+                        <input type="text" class="form-control" th:field="*{pais}" id="pais" name="pais" placeholder="pais">
                     </div>
-
 
                     <div class="col-md-6">
                         <label for="provincia" class="form-label">Provincia</label>
-                        <input type="provincia" class="form-control" id="provincia" name="provincia" placeholder="provincia">
+                        <input type="text" class="form-control" th:field="*{provincia}" id="provincia" name="provincia" placeholder="provincia">
                     </div>
-
 
                     <div class="col-md-6">
                         <label for="direccion" class="form-label">Direccion</label>
-                        <input type="direccion" class="form-control" id="direccion" name="direccion" placeholder="direccion">
+                        <input type="text" class="form-control" th:field="*{direccion}" id="direccion" name="direccion" placeholder="direccion">
                     </div>
                 </div>
 
@@ -152,7 +149,7 @@
             </div>
 
                 <div class="mt-4 d-flex justify-content-between align-items-center">
-                    <a href="/spring/login" class="text-muted">Ya tengo cuenta</a>
+                    <a th:href="@{/login}" class="text-muted">Ya tengo cuenta</a>
                     <button type="submit" class="btn btn-primary">Registrarme</button>
                 </div>
             </form>

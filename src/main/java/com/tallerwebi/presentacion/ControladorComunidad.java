@@ -188,7 +188,6 @@ public class ControladorComunidad {
 
             comunidad.setUsuarioCreador(usuario);
             comunidad.getUsuarios().add(usuario);
-
             servicioComunidad.crearComunidad(comunidad, usuario);
             return "redirect:/comunidades";
         }

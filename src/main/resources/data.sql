@@ -71,3 +71,4 @@ INSERT IGNORE INTO Insignia (DTYPE, nombre, descripcion, imagen, efectoVisual) V
 ('InsigniaPremium', 'Encuestador', 'Creaste una encuesta', '/img/insignias/encuestador.png', 'Azul'),
 ('InsigniaPremium', 'Creador de Comunidad', 'Creaste una comunidad', '/img/insignias/creador_comunidad_premium.png', 'Rojo'),
 ('InsigniaPremium', 'Suscriptor Premium', 'Compraste el plan premium', '/img/insignias/suscriptor_premium.png', 'Amarillo');
+('InsigniaPremium', 'Coleccionista', 'Conseguiste todas las insignias!', '/img/insignias/coleccionista.png', 'Amarillo');

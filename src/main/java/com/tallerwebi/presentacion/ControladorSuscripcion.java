@@ -94,6 +94,10 @@ public class ControladorSuscripcion {
             return "redirect:/login";
         }
 
+        if (collectionId == null || status == null || paymentId == null) {
+            return "redirect:/home";
+        }
+
         // Datos del pago para la vista
         model.addAttribute("collectionId", collectionId);
         model.addAttribute("status", status);
